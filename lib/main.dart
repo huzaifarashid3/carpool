@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,8 +23,11 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color.fromARGB(190, 3, 255, 142),
           centerTitle: true,
         ),
-        body: ListView(
-          children: <Widget>[Card(), Card()],
+        body: ListView.builder(
+          itemCount: 3,
+          itemBuilder: (BuildContext context, int index) {
+            return Card();
+          },
         ),
       ),
     );
@@ -43,10 +45,6 @@ class Card extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: ListTile(
         minVerticalPadding: 50,
-        visualDensity: VisualDensity(
-          horizontal: 4,
-          vertical: 2,
-        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
