@@ -25,40 +25,43 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
         body: ListView(
-          children: <Widget>[Cart(), Cart()],
+          children: <Widget>[Card(), Card()],
         ),
       ),
     );
   }
 }
 
-class Cart extends StatelessWidget {
-  const Cart({
+class Card extends StatelessWidget {
+  const Card({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      minVerticalPadding: 50,
-      visualDensity: VisualDensity(
-        horizontal: 4,
-        vertical: 2,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50.0),
-      ),
-      leading: Icon(Icons.directions_car),
-      title: Text('Corolla'),
-      subtitle: Text(
-        'Leaves Fast: 9:30am\nCar: Corolla\nSeats: 3',
-        style: TextStyle(
-          fontSize: 13.0,
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: ListTile(
+        minVerticalPadding: 50,
+        visualDensity: VisualDensity(
+          horizontal: 4,
+          vertical: 2,
         ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        leading: Icon(Icons.directions_car),
+        title: Text('Corolla'),
+        subtitle: Text(
+          'Leaves Fast: 9:30am\nCar: Corolla\nSeats: 3',
+          style: TextStyle(
+            fontSize: 13.0,
+          ),
+        ),
+        trailing: Icon(Icons.more_vert),
+        tileColor: const Color.fromARGB(255, 219, 178,
+            117), // Add this line to change the background color to orange
       ),
-      trailing: Icon(Icons.more_vert),
-      tileColor: const Color.fromARGB(255, 219, 178,
-          117), // Add this line to change the background color to orange
     );
   }
 }
