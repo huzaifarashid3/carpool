@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:carpool/bug_report.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,12 +14,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 59, 255, 154)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 59, 255, 154)),
       ),
-      home: MyScaffold(),
+      home: const MyScaffold(),
       routes: {
-        bug_report.route_name: (_) => bug_report(),
+        BugReport.routeName: (_) => const BugReport(),
       },
     );
   }
@@ -45,7 +43,7 @@ class _MyScaffoldState extends State<MyScaffold> {
           message: 'Filter',
           child: IconButton(
             onPressed: () {},
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
           ),
         ),
         title: Text(
@@ -72,21 +70,21 @@ class _MyScaffoldState extends State<MyScaffold> {
                     noOfRides++;
                   });
                 },
-                child: Icon(Icons.add)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.home)),
+                child: const Icon(Icons.add)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.home)),
             Tooltip(
               message: 'Report a bug',
               child: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(bug_report.route_name);
+                    Navigator.of(context).pushNamed(BugReport.routeName);
                   },
-                  icon: Icon(Icons.bug_report)),
+                  icon: const Icon(Icons.bug_report)),
             ),
             Tooltip(
                 message: 'Profile',
                 child: IconButton(
                   onPressed: () {},
-                  icon: CircleAvatar(
+                  icon: const CircleAvatar(
                     radius: 16,
                     backgroundImage: AssetImage('assets/images/img2.jpeg'),
                   ),
@@ -131,15 +129,15 @@ class Card extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       //isThreeLine: true,
-      visualDensity: VisualDensity(horizontal: 4, vertical: 03),
-      contentPadding: EdgeInsets.all(10),
-      leading: Icon(Icons.directions_car),
-      title: Text('Nizamullah Khan'), //Username here
-      titleTextStyle: TextStyle(
+      visualDensity: const VisualDensity(horizontal: 4, vertical: 03),
+      contentPadding: const EdgeInsets.all(10),
+      leading: const Icon(Icons.directions_car),
+      title: const Text('Nizamullah Khan'), //Username here
+      titleTextStyle: const TextStyle(
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black87),
       subtitle: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text('Time: 9:00 am'),
@@ -150,12 +148,12 @@ class Card extends StatelessWidget {
             children: [
               Container(
                 //container holding ride color codes
-                margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Color.fromARGB(64, 141, 137, 132),
+                  color: const Color.fromARGB(64, 141, 137, 132),
                 ),
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: Row(
                   children: [
                     Tooltip(
@@ -164,9 +162,9 @@ class Card extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          color: Color.fromARGB(255, 9, 140, 150),
+                          color: const Color.fromARGB(255, 9, 140, 150),
                         ),
-                        margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                         width: 15,
                         height: 15,
                       ),
@@ -177,9 +175,9 @@ class Card extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          color: Color.fromARGB(255, 9, 140, 150),
+                          color: const Color.fromARGB(255, 9, 140, 150),
                         ),
-                        margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                         width: 15,
                         height: 15,
                       ),
@@ -190,9 +188,9 @@ class Card extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          color: Color.fromARGB(255, 254, 38, 171),
+                          color: const Color.fromARGB(255, 254, 38, 171),
                         ),
-                        margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                         width: 15,
                         height: 15,
                       ),
@@ -203,9 +201,9 @@ class Card extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          color: Color.fromARGB(255, 126, 120, 127),
+                          color: const Color.fromARGB(255, 126, 120, 127),
                         ),
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         width: 15,
                         height: 15,
                       ),
@@ -217,7 +215,7 @@ class Card extends StatelessWidget {
           )
         ],
       ), //Ride details
-      trailing: Column(
+      trailing: const Column(
         children: [
           //Text('Corolla 2020'),
           Icon(Icons.apartment),
@@ -235,7 +233,7 @@ class Card extends StatelessWidget {
 
       onTap: () {
         // Logic when tile is clicked
-        print('Tile clicked');
+        debugPrint('Tile clicked');
       },
     );
   }

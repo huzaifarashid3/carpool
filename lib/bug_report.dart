@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-class bug_report extends StatelessWidget {
-  static const route_name = 'bug_report';
-  const bug_report({super.key});
+class BugReport extends StatelessWidget {
+  static const routeName = 'bug_report';
+  const BugReport({super.key});
 
   @override
   Widget build(BuildContext context) {
