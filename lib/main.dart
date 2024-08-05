@@ -73,6 +73,7 @@ class _MyScaffoldState extends State<MyScaffold> {
             margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
 
             child: ListTile(
+              //isThreeLine: true,
               visualDensity: VisualDensity(horizontal: 4, vertical: 03),
               contentPadding: EdgeInsets.all(10),
               leading: Icon(Icons.directions_car),
@@ -81,9 +82,101 @@ class _MyScaffoldState extends State<MyScaffold> {
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87),
-              subtitle: Text('Leaves Fast: 9:00 am'), //Ride details
-              trailing:
-                  Text('Seats: 3\nCorolla 2020'), //Seats available , Car model
+              subtitle: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Time: 9:00 am'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        //container holding ride color codes
+                        margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color.fromARGB(64, 141, 137, 132),
+                        ),
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Row(
+                          children: [
+                            Tooltip(
+                              waitDuration: Duration.zero,
+                              message: 'Male Seat Booked !',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  color: Color.fromARGB(255, 9, 140, 150),
+                                ),
+                                margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                width: 15,
+                                height: 15,
+                              ),
+                            ),
+                            Tooltip(
+                              waitDuration: Duration.zero,
+                              message: 'Male Seat Booked !',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  color: Color.fromARGB(255, 9, 140, 150),
+                                ),
+                                margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                width: 15,
+                                height: 15,
+                              ),
+                            ),
+                            Tooltip(
+                              waitDuration: Duration.zero,
+                              message: 'Female Seat Booked !',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  color: Color.fromARGB(255, 254, 38, 171),
+                                ),
+                                margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                width: 15,
+                                height: 15,
+                              ),
+                            ),
+                            Tooltip(
+                              waitDuration: Duration.zero,
+                              message: 'Vacant Seat',
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  color: Color.fromARGB(255, 126, 120, 127),
+                                ),
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                width: 15,
+                                height: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ), //Ride details
+              trailing: Column(
+                children: [
+                  //Text('Corolla 2020'),
+                  Icon(Icons.apartment),
+                  Tooltip(
+                    message: 'Going Fast',
+                    waitDuration: Duration.zero,
+                    child: Icon(
+                      Icons.arrow_upward,
+                      weight: 3,
+                      color: Color.fromARGB(255, 74, 181, 21),
+                    ),
+                  )
+                ],
+              ), //Seats available , Car model
 
               onTap: () {
                 // Logic when tile is clicked
