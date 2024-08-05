@@ -14,6 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 59, 255, 154)),
+      ),
       home: MyScaffold(),
       routes: {
         bug_report.route_name: (_) => bug_report(),
@@ -30,18 +35,16 @@ class MyScaffold extends StatefulWidget {
 }
 
 class _MyScaffoldState extends State<MyScaffold> {
-  @override
   int noOfRides = 1;
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Tooltip(
           message: 'Filter',
           child: IconButton(
-            onPressed: () {
-              // Show filter options for time and location
-              // Implement your logic here
-            },
+            onPressed: () {},
             icon: Icon(Icons.filter_list),
           ),
         ),
@@ -50,14 +53,14 @@ class _MyScaffoldState extends State<MyScaffold> {
           style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              color: Colors.black87),
+              color: theme.colorScheme.onPrimary),
         ),
-        backgroundColor: Color.fromARGB(190, 3, 255, 142),
+        backgroundColor: theme.colorScheme.primary,
         centerTitle: true,
       ),
       body: Cards(noOfRides: noOfRides),
       bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(190, 3, 255, 142),
+        color: theme.colorScheme.primary,
         height: 70,
         surfaceTintColor: Colors.red,
         child: Row(
@@ -106,15 +109,16 @@ class Cards extends StatelessWidget {
     return ListView.builder(
       itemCount: noOfRides, //total no of rides it needs to add onscreen
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          decoration: BoxDecoration(
-            //color: Color.fromARGB(206, 194, 194, 194),
-            color: Color.fromARGB(255, 255, 174, 24),
-            borderRadius: BorderRadius.circular(15),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).colorScheme.secondaryContainer,
+            ),
+            child: const Card(),
           ),
-          //padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: const Card(),
         );
       },
     );
@@ -223,7 +227,7 @@ class Card extends StatelessWidget {
             child: Icon(
               Icons.arrow_upward,
               weight: 3,
-              color: Color.fromARGB(255, 74, 181, 21),
+              color: Colors.green,
             ),
           )
         ],
@@ -233,7 +237,6 @@ class Card extends StatelessWidget {
         // Logic when tile is clicked
         print('Tile clicked');
       },
-      splashColor: Color.fromARGB(255, 255, 204, 0),
     );
   }
 }
