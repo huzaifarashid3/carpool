@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "338122014130",
+    "project_id": "fast-carpool-app",
+    "storage_bucket": "fast-carpool-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338122014130:android:46f9d68e68d64f2c73b8ab",
+        "android_client_info": {
+          "package_name": "com.example.carpool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDslp7AGLztWElP3at7l4GpGf4WCt37f4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
