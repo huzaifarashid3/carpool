@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:carpool/bug_report.dart';
+import 'package:carpool/login.dart';
+import 'package:carpool/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
       home: MyScaffold(),
       routes: {
         bug_report.route_name: (_) => bug_report(),
+        signup.route_name: (_) => signup(),
+        login.route_name: (_) => login(),
       },
     );
   }
@@ -70,7 +74,11 @@ class _MyScaffoldState extends State<MyScaffold> {
                   });
                 },
                 child: Icon(Icons.add)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.home)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(signup.route_name);
+                },
+                icon: Icon(Icons.home)),
             Tooltip(
               message: 'Report a bug',
               child: IconButton(
