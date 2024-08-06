@@ -230,7 +230,7 @@ class Card extends StatelessWidget {
       ), //Ride details
       trailing: Column(
         children: [
-          //Text('Corolla 2020'),
+          //Text('Corolla 2020'),//////
           Icon(Icons.apartment),
           Tooltip(
             message: 'Going Fast',
