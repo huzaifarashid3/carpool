@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
       home: MyScaffold(),
       routes: {
         bug_report.route_name: (_) => bug_report(),
-        signup.route_name: (_) => signup(),
-        login.route_name: (_) => login(),
+        //signup.route_name: (_) => signup(),
+        //login.route_name: (_) => login(),
       },
     );
   }
@@ -42,8 +42,25 @@ class MyScaffold extends StatefulWidget {
 class _MyScaffoldState extends State<MyScaffold> {
   @override
   int noOfRides = 1;
-  @override
+  int page_index = 0;
+
   Widget build(BuildContext context) {
+    Widget page = Cards(noOfRides: noOfRides);
+    switch (page_index) {
+      case 0:
+        page = Cards(noOfRides: noOfRides);
+        break;
+      case 1:
+        page = login();
+        break;
+      case 2:
+        page = signup();
+        break;
+      case 3:
+        page = bug_report();
+        break;
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: Tooltip(
@@ -66,7 +83,7 @@ class _MyScaffoldState extends State<MyScaffold> {
         backgroundColor: Color.fromARGB(190, 3, 255, 142),
         centerTitle: true,
       ),
-      body: Cards(noOfRides: noOfRides),
+      body: page,
       bottomNavigationBar: BottomAppBar(
         color: Color.fromARGB(190, 3, 255, 142),
         height: 70,
@@ -76,28 +93,32 @@ class _MyScaffoldState extends State<MyScaffold> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    noOfRides++;
-                  });
+                  // setState(() {
+                  //   noOfRides++;
+                  // });
                 },
                 child: Icon(Icons.add)),
             IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(signup.route_name);
+                  // Navigator.of(context).pushNamed(signup.route_name);
+                  page_index = 2;
                 },
                 icon: Icon(Icons.home)),
             Tooltip(
               message: 'Report a bug',
               child: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(bug_report.route_name);
+                    // Navigator.of(context).pushNamed(bug_report.route_name);
+                    page_index = 3;
                   },
                   icon: Icon(Icons.bug_report)),
             ),
             Tooltip(
                 message: 'Profile',
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    page_index = 1;
+                  },
                   icon: CircleAvatar(
                     radius: 16,
                     backgroundImage: AssetImage('assets/images/img2.jpeg'),
@@ -201,7 +222,7 @@ class Card extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          color: Color.fromARGB(255, 9, 140, 150),
+                          color: Color.fromARGB(255, 254, 38, 171),
                         ),
                         margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
                         width: 15,
