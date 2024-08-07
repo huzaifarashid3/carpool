@@ -2,6 +2,8 @@
 
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/login.dart';
+import 'package:carpool/post_ride.dart';
+import 'package:carpool/profile.dart';
 import 'package:carpool/ride.dart';
 import 'package:carpool/signup.dart';
 //import 'package:carpool/user.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
         bug_report.route_name: (_) => bug_report(),
         signup.route_name: (_) => signup(),
         login.route_name: (_) => login(),
+        profile.route_name: (_) => profile(),
       },
     );
   }
@@ -55,6 +58,116 @@ class _MyScaffoldState extends State<MyScaffold> {
             onPressed: () {
               // Show filter options for time and location
               // Implement your logic here
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Filter Options'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Text('Time: '),
+                            SizedBox(width: 10),
+                            InkWell(
+                              onTap: () {
+                                // Show time picker
+                                showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ).then((selectedTime) {
+                                  if (selectedTime != null) {
+                                    // Implement your logic when time is selected
+                                    // You can use selectedTime.hour and selectedTime.minute
+                                  }
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  'Select Time',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Location',
+                          ),
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText: 'Vehicle Type',
+                          ),
+                          value: 'car',
+                          items: [
+                            DropdownMenuItem(
+                              value: 'car',
+                              child: Text('Car'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'bike',
+                              child: Text('Bike'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            // Implement your logic when vehicle type is changed
+                          },
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText: 'Going Fast or Leaving Fast',
+                          ),
+                          value: 'going_fast',
+                          items: [
+                            DropdownMenuItem(
+                              value: 'going_fast',
+                              child: Text('Going Fast'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'leaving_fast',
+                              child: Text('Leaving Fast'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            // Implement your logic when going fast or leaving fast is changed
+                          },
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          // Implement your filter logic here
+
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Apply'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel'),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             icon: Icon(Icons.filter_list),
           ),
@@ -79,11 +192,11 @@ class _MyScaffoldState extends State<MyScaffold> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    noOfRides++;
-                    //user(name: '1', phone: '1').getData();
-                    ride(name: 's').fetchRides();
-                  });
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return post_ride(); // Post a ride Pop Up
+                      });
                 },
                 child: Icon(Icons.add)),
             IconButton(
@@ -102,7 +215,9 @@ class _MyScaffoldState extends State<MyScaffold> {
             Tooltip(
                 message: 'Profile',
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(profile.route_name);
+                  },
                   icon: CircleAvatar(
                     radius: 16,
                     backgroundImage: AssetImage('assets/images/img2.jpeg'),
@@ -131,6 +246,10 @@ class Cards extends StatelessWidget {
     return snapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
+  }
+
+  List<Map<String, dynamic>> filterRides(List<Map<String, dynamic>> rides) {
+    return rides.where((ride) => ride['going_fast'] == true).toList();
   }
 
   @override
