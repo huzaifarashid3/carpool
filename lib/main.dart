@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/login.dart';
+import 'package:carpool/ride.dart';
 import 'package:carpool/signup.dart';
+//import 'package:carpool/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -78,6 +81,8 @@ class _MyScaffoldState extends State<MyScaffold> {
                 onPressed: () {
                   setState(() {
                     noOfRides++;
+                    //user(name: '1', phone: '1').getData();
+                    ride(name: 's').fetchRides();
                   });
                 },
                 child: Icon(Icons.add)),
@@ -112,40 +117,88 @@ class _MyScaffoldState extends State<MyScaffold> {
 
 class Cards extends StatelessWidget {
   final int noOfRides;
+
   const Cards({
     super.key,
     required this.noOfRides,
   });
+
+  // Function to fetch Rides
+  Future<List<Map<String, dynamic>>> fetchRides() async {
+    CollectionReference ridesCollection =
+        FirebaseFirestore.instance.collection('Rides');
+    QuerySnapshot snapshot = await ridesCollection.get();
+    return snapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: noOfRides, //total no of rides it needs to add onscreen
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          decoration: BoxDecoration(
-            //color: Color.fromARGB(206, 194, 194, 194),
-            color: Color.fromARGB(255, 255, 174, 24),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          //padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: const Card(),
-        );
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: fetchRides(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No rides available'));
+        } else {
+          List<Map<String, dynamic>> rides = snapshot.data!;
+          return ListView.builder(
+            itemCount: rides.length,
+            itemBuilder: (BuildContext context, int index) {
+              Map<String, dynamic> ride = rides[index];
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 255, 174, 24),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Card(
+                  name: ride['name'],
+                  owner_name: ride['owner_name'],
+                  time: ride['departure'],
+                  //seats: ride['seats'],
+                  going_fast: ride['going_fast'],
+                  type: ride['type'],
+                  // name: ride['name'],
+                  // time: ride['time'],
+                ),
+              );
+            },
+          );
+        }
       },
     );
   }
 }
 
 class Card extends StatelessWidget {
-  const Card({super.key, seats});
+  final String time, name, owner_name, type;
+  //final int seats;
+  final bool going_fast;
+
+  const Card({
+    super.key,
+    //required this.seats,
+    required this.name,
+    required this.owner_name,
+    required this.time,
+    required this.going_fast,
+    required this.type,
+  });
   @override
   Widget build(BuildContext context) {
     return ListTile(
       //isThreeLine: true,
-      visualDensity: VisualDensity(horizontal: 4, vertical: 03),
+      visualDensity: VisualDensity(horizontal: 4, vertical: 3),
       contentPadding: EdgeInsets.all(10),
-      leading: Icon(Icons.directions_car),
-      title: Text('Nizamullah Khan'), //Username here
+      leading: type == 'car'
+          ? Icon(Icons.directions_car)
+          : Icon(Icons.motorcycle_rounded),
+      title: Text(owner_name), //Username here
       titleTextStyle: TextStyle(
           fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black87),
       subtitle: Column(
@@ -153,7 +206,8 @@ class Card extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('Time: 9:00 am'),
+              Text('Time:'),
+              Text(time),
             ],
           ),
           Row(
@@ -236,11 +290,11 @@ class Card extends StatelessWidget {
             message: 'Going Fast',
             waitDuration: Duration.zero,
             child: Icon(
-              Icons.arrow_upward,
+              going_fast ? Icons.arrow_upward : Icons.arrow_downward,
               weight: 3,
-              color: Color.fromARGB(255, 74, 181, 21),
+              color: going_fast ? Color.fromARGB(255, 74, 181, 21) : Colors.red,
             ),
-          )
+          ),
         ],
       ), //Seats available , Car model
 

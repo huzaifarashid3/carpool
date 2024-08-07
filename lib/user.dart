@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class user {
   int? id;
@@ -38,6 +39,28 @@ class user {
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
+
+  Future<void> getData() async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('Vehicle');
+
+    QuerySnapshot snapshot = await users.get();
+
+    if (snapshot.docs.isEmpty) {
+      print("No documents found");
+      return;
+    }
+
+    for (QueryDocumentSnapshot doc in snapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print("Document ID: ${doc.id}");
+      print("Full Name: ${data['name']}");
+      print("Phone Number: ${data['number']}");
+      print("------");
+    }
+  }
+
+  Future<void> makeTile() async {}
 
   // toJson() {
   //   return {
