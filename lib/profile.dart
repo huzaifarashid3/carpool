@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class profile extends StatelessWidget {
   static const route_name = 'profile';
+
+  const profile({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,30 +28,30 @@ class profile extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Offer a Ride'),
-                    content: Column(
+                    content: const Column(
                       children: [
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Name',
                           ),
                         ),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Phone',
                           ),
                         ),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Departure Time',
                           ),
                         ),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Capacity',
                           ),
                         ),
                         TextField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Arriving Fast',
                           ),
                         ),

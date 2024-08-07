@@ -1,8 +1,13 @@
-// ignore_for_file: prefer_const_constructors, constant_identifier_names, camel_case_types
+// ignore_for_file: prefer_const_constructors, constant_identifier_names, camel_case_types, non_constant_identifier_names
 
-import 'package:carpool/user.dart';
+import 'dart:io';
+
+// import 'package:carpool/user.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/login.dart';
+import 'package:image_picker/image_picker.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class signup extends StatelessWidget {
   static const route_name = 'signup';
@@ -10,9 +15,46 @@ class signup extends StatelessWidget {
   final TextEditingController _number_controller = TextEditingController();
   // final TextEditingController _password_controller = TextEditingController();
   // final TextEditingController __controller = TextEditingController();
+  late File _image;
 
   signup({super.key});
+
+  // void getImageFile() {
+  //   ImageHelper().showPhotoBottomDialog(
+  //     context,
+  //     Platform.isIOS,
+  //     (file) {
+  //       setState(() {
+  //         print("File=${file.toString()}");
+  //         this.file = file;
+  //       });
+  //     },
+  //     fileFormat: FileFormat.image, //by default is image
+  //   );
+  // }
+
+  Future pick_image_from_gallery() async {
+    final picked_image =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (picked_image != null) {
+      final image = File(picked_image.path);
+      setState() {
+        _image = image;
+      }
+
+    }
+  }
+
   //const signup({super.key});
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      _image = File(pickedImage.path);
+      // Do something with the image file
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +106,33 @@ class signup extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   color: Colors.white,
-              //   margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
-              //   width: 300,
-              //   child: TextFormField(
-              //     decoration: const InputDecoration(
-              //       hintText: 'Password',
-              //       border: OutlineInputBorder(),
-              //     ),
-              //   ),
-              // ),
+              Container(
+                color: Colors.white,
+                margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
+                width: 300,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
+                width: 300,
+                child: ElevatedButton(
+                  onPressed: () {
+                    pick_image_from_gallery();
+                  },
+                  child: const Text('Upload Image'),
+                ),
+              ),
+
+              // ...
+
+              // ...
+
               // Container(
               //   color: Colors.white,
               //   margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
@@ -91,16 +149,7 @@ class signup extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Implement your logic here
-                    print(_name_controller.text);
-                    user(
-                            name: _name_controller.text.toString(),
-                            phone: _number_controller.text.toString())
-                        .verifyPhone();
-                    user(
-                            name: _name_controller.text.toString(),
-                            phone: _number_controller.text.toString())
-                        .addUser(_name_controller.text.toString(),
-                            _number_controller.text.toString());
+                    _pickImage();
                   },
                   child: const Text('Signup'),
                 ),
