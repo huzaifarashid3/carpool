@@ -5,7 +5,6 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class RidesPage extends StatelessWidget {
   const RidesPage({super.key});
-
   final name = 'Huzaifa Rashid';
 
   void _showModalBottomSheet(BuildContext context) {
@@ -102,13 +101,7 @@ class RidesPage extends StatelessWidget {
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
           },
-          child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) => Container(
-              margin: EdgeInsets.all(8),
-              child: DetailsCard(card: {'name': name}),
-            ),
-          ),
+          child: RidesPage(),
         ),
       ),
       floatingActionButton: Padding(
@@ -145,6 +138,28 @@ class RidesPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DetailsCards extends StatefulWidget {
+  const DetailsCards({super.key});
+
+  @override
+  State<DetailsCards> createState() => _DetailsCardsState();
+}
+
+class _DetailsCardsState extends State<DetailsCards> {
+  final name = 'Huzaifa Rashid';
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 2,
+      itemBuilder: (context, index) => Container(
+        margin: EdgeInsets.all(8),
+        child: DetailsCard(card: {'name': name}),
       ),
     );
   }
