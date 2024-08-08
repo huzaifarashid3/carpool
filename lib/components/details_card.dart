@@ -12,7 +12,8 @@ class DetailsCard extends StatelessWidget {
     final blue = Colors.blue,
         red = Colors.red,
         purple = Colors.deepPurple[200],
-        orange = Colors.orange;
+        orange = Colors.orange,
+        yellow = Color.fromARGB(221, 210, 194, 54);
     const TextStyle style = TextStyle(
       fontSize: 20,
       decoration: TextDecoration.none,
@@ -28,10 +29,9 @@ class DetailsCard extends StatelessWidget {
             SlidableAction(
               // An action can be bigger than the others.
               onPressed: (context) {},
-              backgroundColor: Color(0xFF7BC043),
+              backgroundColor: yellow,
               foregroundColor: Colors.white,
-              icon: Icons.archive,
-              label: 'Archive',
+              label: 'BOOK',
             ),
           ],
         ),
@@ -68,7 +68,7 @@ class DetailsCard extends StatelessWidget {
             SizedBox(width: 5),
             Container(
               height: 102,
-              color: purple,
+              color: Colors.grey[800],
               child: SizedBox(
                 width: 65,
                 child: VehicleCard(),
@@ -198,6 +198,7 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String vehicle = 'CIVIC';
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -207,8 +208,8 @@ class VehicleCard extends StatelessWidget {
         ),
         SizedBox(height: 4),
         Text(
-          "CIVIC",
-          style: TextStyle(fontSize: 12),
+          vehicle,
+          style: TextStyle(fontSize: 12, color: Colors.white),
         ),
       ],
     );
