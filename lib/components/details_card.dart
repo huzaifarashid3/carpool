@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class DetailsCard extends StatelessWidget {
   const DetailsCard({super.key, required this.card});
@@ -17,56 +17,64 @@ class DetailsCard extends StatelessWidget {
       fontSize: 20,
       decoration: TextDecoration.none,
     );
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: SizedBox(
-        // height: 100,
-        // card has variable height so we use SizedBox for padding and margin
-        child: Card(
-          // color: theme.colorScheme.primary,
-          clipBehavior: Clip.antiAlias,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    RouteCard(),
-                    SizedBox(height: 10),
-                    SeatCard(),
-                    SizedBox(height: 10),
-                    InfoCard(),
-                    SizedBox(height: 10),
-                  ],
-                ),
+    return Material(
+      borderRadius: BorderRadius.circular(10),
+      clipBehavior: Clip.antiAlias,
+      elevation: 2,
+      child: Slidable(
+        endActionPane: ActionPane(
+          motion: ScrollMotion(),
+          children: [
+            SlidableAction(
+              // An action can be bigger than the others.
+              onPressed: (context) {},
+              backgroundColor: Color(0xFF7BC043),
+              foregroundColor: Colors.white,
+              icon: Icons.archive,
+              label: 'Archive',
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  RouteCard(),
+                  SizedBox(height: 10),
+                  SeatCard(),
+                  SizedBox(height: 10),
+                  InfoCard(),
+                  SizedBox(height: 10),
+                ],
               ),
-              Container(
-                margin: EdgeInsets.all(5),
-                padding: EdgeInsets.all(3),
-                height: 90,
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SizedBox(
-                  width: 50,
-                  child: TimeCard(),
-                ),
+            ),
+            Container(
+              margin: EdgeInsets.all(5),
+              padding: EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[800],
               ),
-              SizedBox(width: 5),
-              Container(
-                height: 100,
-                color: purple,
-                child: SizedBox(
-                  width: 65,
-                  child: VehicleCard(),
-                ),
-              ), //
-            ],
-          ),
+              height: 90,
+              child: SizedBox(
+                width: 50,
+                child: TimeCard(),
+              ),
+            ),
+            SizedBox(width: 5),
+            Container(
+              height: 102,
+              color: purple,
+              child: SizedBox(
+                width: 65,
+                child: VehicleCard(),
+              ),
+            ), //
+          ],
         ),
       ),
     );

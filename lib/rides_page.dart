@@ -8,11 +8,15 @@ class RidesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      // backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: ListView.builder(
           itemCount: 2,
-          itemBuilder: (context, index) => DetailsCard(card: {'name': name}),
+          itemBuilder: (context, index) => Container(
+            margin: EdgeInsets.all(8),
+            child: DetailsCard(card: {'name': name}),
+          ),
         ),
       ),
     );
