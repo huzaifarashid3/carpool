@@ -34,7 +34,7 @@ class DetailsCard extends StatelessWidget {
                   children: [
                     SizedBox(height: 10),
                     RouteCard(),
-                    SizedBox(height: 10),
+                    SizedBox(height: 15),
                     SeatCard(),
                     SizedBox(height: 10),
                     InfoCard(),
@@ -45,7 +45,7 @@ class DetailsCard extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(5),
                 padding: EdgeInsets.all(3),
-                height: 80,
+                height: 90,
                 decoration: BoxDecoration(
                   color: Colors.grey[800],
                   borderRadius: BorderRadius.circular(10),
@@ -57,7 +57,7 @@ class DetailsCard extends StatelessWidget {
               ),
               SizedBox(width: 5),
               Container(
-                height: 90,
+                height: 100,
                 color: purple,
                 child: SizedBox(
                   width: 65,
@@ -77,23 +77,24 @@ class RouteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const int n = 5;
     return Row(
       children: [
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < n; i++)
           Row(
             children: [
               Container(
                   height: 20,
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     color: Colors.red[300],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(child: Text(" loc "))),
-              if (i < 2)
+              if (i < n - 1)
                 Container(
                   height: 2,
-                  width: 20,
+                  width: 15,
                   color: Colors.grey[600],
                 ),
             ],
