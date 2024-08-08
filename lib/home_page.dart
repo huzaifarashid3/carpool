@@ -1,5 +1,7 @@
 import 'package:carpool/bug_report.dart';
+import 'package:carpool/dialouges/create_route.dart';
 import 'package:carpool/dialouges/post_ride.dart';
+import 'package:carpool/login.dart';
 import 'package:carpool/main.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/signup.dart';
@@ -10,16 +12,18 @@ class home_page extends StatefulWidget {
   const home_page({super.key});
 
   @override
-  State<home_page> createState() => _MyScaffoldState();
+  State<home_page> createState() => _home_pageState();
 }
 
-class _MyScaffoldState extends State<home_page> {
+class _home_pageState extends State<home_page> {
+  static String? userLoginID = login.userLoginID;
   @override
   int noOfRides = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(190, 3, 255, 142),
         leading: Tooltip(
           message: 'Filter',
           child: IconButton(
@@ -30,14 +34,14 @@ class _MyScaffoldState extends State<home_page> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Filter Options'),
+                    title: const Text('Filter Options'),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           children: [
-                            Text('Time: '),
-                            SizedBox(width: 10),
+                            const Text('Time: '),
+                            const SizedBox(width: 10),
                             InkWell(
                               onTap: () {
                                 // Show time picker
@@ -52,7 +56,7 @@ class _MyScaffoldState extends State<home_page> {
                                 });
                               },
                               child: Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   vertical: 10,
                                   horizontal: 20,
                                 ),
@@ -62,7 +66,7 @@ class _MyScaffoldState extends State<home_page> {
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: Text(
+                                child: const Text(
                                   'Select Time',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -72,17 +76,17 @@ class _MyScaffoldState extends State<home_page> {
                             ),
                           ],
                         ),
-                        TextField(
+                        const TextField(
                           decoration: InputDecoration(
                             labelText: 'Location',
                           ),
                         ),
                         DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Vehicle Type',
                           ),
                           value: 'car',
-                          items: [
+                          items: const [
                             DropdownMenuItem(
                               value: 'car',
                               child: Text('Car'),
@@ -97,11 +101,11 @@ class _MyScaffoldState extends State<home_page> {
                           },
                         ),
                         DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Going Fast or Leaving Fast',
                           ),
                           value: 'going_fast',
-                          items: [
+                          items: const [
                             DropdownMenuItem(
                               value: 'going_fast',
                               child: Text('Going Fast'),
@@ -124,35 +128,34 @@ class _MyScaffoldState extends State<home_page> {
 
                           Navigator.of(context).pop();
                         },
-                        child: Text('Apply'),
+                        child: const Text('Apply'),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                     ],
                   );
                 },
               );
             },
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Fast Carpool',
           style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
               color: Colors.black87),
         ),
-        backgroundColor: Color.fromARGB(190, 3, 255, 142),
         centerTitle: true,
       ),
       body: Cards(noOfRides: noOfRides),
       bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(190, 3, 255, 142),
+        color: const Color.fromARGB(190, 3, 255, 142),
         height: 70,
         surfaceTintColor: Colors.red,
         child: Row(
@@ -160,25 +163,27 @@ class _MyScaffoldState extends State<home_page> {
           children: [
             ElevatedButton(
                 onPressed: () {
+                  //POST A R
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return post_ride(); // Post a ride Pop uP
                       });
                 },
-                child: Icon(Icons.add)),
+                child: const Icon(Icons.add)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(signup.route_name);
                 },
-                icon: Icon(Icons.home)),
+                icon: const Icon(Icons.home)),
             Tooltip(
               message: 'Report a bug',
               child: IconButton(
                   onPressed: () {
+                    print('Report a bug ID: ${userLoginID}');
                     Navigator.of(context).pushNamed(bug_report.route_name);
                   },
-                  icon: Icon(Icons.bug_report)),
+                  icon: const Icon(Icons.bug_report)),
             ),
             Tooltip(
                 message: 'Profile',
@@ -186,7 +191,7 @@ class _MyScaffoldState extends State<home_page> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(profile.route_name);
                   },
-                  icon: CircleAvatar(
+                  icon: const CircleAvatar(
                     radius: 16,
                     backgroundImage: AssetImage('assets/images/img2.jpeg'),
                   ),

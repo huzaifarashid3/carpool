@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'package:carpool/bug_report.dart';
+import 'package:carpool/dialouges/create_route.dart';
 import 'package:carpool/home_page.dart';
 import 'package:carpool/login.dart';
-import 'package:carpool/dialouges/post_ride.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/list_tile.dart';
 import 'package:carpool/signup.dart';
@@ -12,8 +12,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:carpool/home_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +37,7 @@ class MyApp extends StatelessWidget {
         login.route_name: (_) => login(),
         profile.route_name: (_) => profile(),
         home_page.route_name: (_) => home_page(),
+        create_route.route_name: (_) => create_route(),
       },
     );
   }

@@ -1,39 +1,29 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carpool/home_page.dart';
-import 'package:carpool/main.dart';
+import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class login extends StatefulWidget {
+class login extends StatelessWidget {
   // ignore: constant_identifier_names
-
+  static String? userLoginID;
   static const route_name = 'login';
-  login({super.key});
+  login({Key? key});
 
-  @override
-  State<login> createState() => _loginState();
-}
-
-class _loginState extends State<login> {
   TextEditingController phoneController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadNumber();
-  }
+  // Remove the initState method
 
-  Future<void> _loadNumber() async {
+  Future<void> _loadNumber(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
 
-    String? local_number = prefs.getString('number') ?? '';
-    String? local_password = prefs.getString('password') ?? '';
-    if (await checkCredentials(local_number, local_password)) {
+    String? localNumber = prefs.getString('number') ?? '';
+    String? localPassword = prefs.getString('password') ?? '';
+    if (await checkCredentials(localNumber, localPassword)) {
       Navigator.pushNamed(context, home_page.route_name);
     }
   }
@@ -101,9 +91,9 @@ class _loginState extends State<login> {
 
   void verifyLogin(BuildContext context) async {
     if (phoneController.text.isEmpty) {
-      print('Phone number is empty');
+      //dialouge for phone number is empty
     } else if (passwordController.text.isEmpty) {
-      print('Password is empty');
+      //dialouge for pass is empty
     } else {
       try {
         bool isLoggedIn = await checkCredentials(
@@ -112,15 +102,8 @@ class _loginState extends State<login> {
         );
         if (isLoggedIn) {
           Navigator.pushNamed(context, home_page.route_name);
-          DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-              .collection('User')
-              .doc(phoneController.text)
-              .get();
-          if (userSnapshot != null) {
-            String documentId = userSnapshot.id;
-            print('Document ID: $documentId');
-          }
         } else {
+          //dialouge to be created
           print('Invalid phone number or password');
         }
       } catch (e) {
@@ -131,13 +114,16 @@ class _loginState extends State<login> {
 
   Future<bool> checkCredentials(String phoneNumber, String password) async {
     try {
-      // Get all the user documents from Firestore
-      var userDocs = await FirebaseFirestore.instance.collection('User').get();
+      CollectionReference users = FirebaseFirestore.instance.collection('User');
+      QuerySnapshot snapshot = await users.get();
 
       // Check if any user document matches the phone number and password
-      for (var userDoc in userDocs.docs) {
-        if (userDoc['number'] == phoneNumber &&
-            userDoc['password'] == password) {
+      for (QueryDocumentSnapshot doc in snapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        if (data['number'] == phoneNumber && data['password'] == password) {
+          print("yoyo login Document ID: ${doc.id}");
+          userLoginID = doc.id;
+          print('UserLoginID: ${userLoginID}');
           return true;
         }
       }

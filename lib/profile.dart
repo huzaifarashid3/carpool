@@ -1,3 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:ffi';
+
+import 'package:carpool/dialouges/create_route.dart';
 import 'package:flutter/material.dart';
 
 class profile extends StatelessWidget {
@@ -10,98 +15,35 @@ class profile extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: ListView(
+      body: Column(
         children: [
           ListTile(
-            title: const Text(
-              'Offer a Ride',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title:
+                Text('Create route templates', style: TextStyle(fontSize: 20)),
+            tileColor: Color.fromARGB(255, 223, 222, 222),
+            textColor: const Color.fromARGB(255, 0, 0, 0),
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(15)
+            // ),
             onTap: () {
-              // Handle 'Offer a Ride' option
-              print('hello');
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Offer a Ride'),
-                    content: const Column(
-                      children: [
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                          ),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Phone',
-                          ),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Departure Time',
-                          ),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Capacity',
-                          ),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Arriving Fast',
-                          ),
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Offer Ride'),
-                      ),
-                    ],
-                  );
-                },
-              );
+              Navigator.of(context).pushNamed(create_route.route_name);
             },
           ),
           ListTile(
-            title: const Text(
-              'Edit Profile Info',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title:
+                Text('Create route templates', style: TextStyle(fontSize: 20)),
+            tileColor: Color.fromARGB(255, 223, 222, 222),
+            textColor: Color.fromARGB(255, 0, 0, 0),
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(15)
+            // ),
             onTap: () {
-              // Handle 'Edit Profile Info' option
-            },
-          ),
-          ListTile(
-            title: const Text(
-              'Add Your Vehicle Route',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () {
-              // Handle 'Add Your Vehicle Route' option
+              //print('hello');
             },
           ),
         ],
       ),
+      // backgroundColor:Color.fromARGB(255, 161, 160, 160),
     );
   }
 }
