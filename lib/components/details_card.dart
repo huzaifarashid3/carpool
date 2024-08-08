@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class DetailsCard extends StatelessWidget {
   const DetailsCard({super.key, required this.card});
@@ -34,7 +35,7 @@ class DetailsCard extends StatelessWidget {
                   children: [
                     SizedBox(height: 10),
                     RouteCard(),
-                    SizedBox(height: 15),
+                    SizedBox(height: 10),
                     SeatCard(),
                     SizedBox(height: 10),
                     InfoCard(),
@@ -136,12 +137,30 @@ class SeatCard extends StatelessWidget {
 
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key});
+  final String name = 'Huzaifa Rashid';
+  final String contact = '1234567890';
 
   @override
   Widget build(BuildContext context) {
-    return const Row(children: [
-      Text("huzz | "),
-      Text("1234"),
+    final TextStyle style = TextStyle(fontSize: 12);
+    return Row(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(name, style: style),
+      ),
+      SizedBox(width: 10),
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(contact, style: style),
+      ),
     ]);
   }
 }
