@@ -3,15 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gradient_animation_text/flutter_gradient_animation_text.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-class RidesPage extends StatefulWidget {
+class RidesPage extends StatelessWidget {
   const RidesPage({super.key});
 
-  @override
-  State<RidesPage> createState() => _RidesPageState();
-}
-
-class _RidesPageState extends State<RidesPage> {
   final name = 'Huzaifa Rashid';
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) => Container(
+        height: 400,
+        color: Colors.grey[200],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +76,41 @@ class _RidesPageState extends State<RidesPage> {
               child: DetailsCard(card: {'name': name}),
             ),
           ),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(30, 0, 8, 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: FloatingActionButton(
+                backgroundColor: Colors.grey[800],
+                onPressed: () {
+                  _showModalBottomSheet(context);
+                },
+                child: Text(
+                  'ADD RIDE',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 3,
+                    wordSpacing: 6,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            FloatingActionButton(
+              backgroundColor: Colors.grey[800],
+              onPressed: () {},
+              child: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
