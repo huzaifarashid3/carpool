@@ -10,7 +10,7 @@ class DetailsCard extends StatelessWidget {
 
     final blue = Colors.blue,
         red = Colors.red,
-        purple = Colors.purple[100],
+        purple = Colors.deepPurple[200],
         orange = Colors.orange;
     const TextStyle style = TextStyle(
       fontSize: 20,
@@ -19,19 +19,22 @@ class DetailsCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: SizedBox(
-        height: 90,
+        // height: 100,
         child: Card(
           // color: theme.colorScheme.primary,
           clipBehavior: Clip.antiAlias,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(margin: EdgeInsets.all(5), child: RouteCard()),
+                    RouteCard(),
+                    SizedBox(height: 5),
                     SeatCard(),
+                    SizedBox(height: 5),
                     InfoCard(),
                   ],
                 ),
@@ -39,6 +42,7 @@ class DetailsCard extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(5),
                 padding: EdgeInsets.all(3),
+                height: 80,
                 decoration: BoxDecoration(
                   color: Colors.grey[800],
                   borderRadius: BorderRadius.circular(10),
@@ -50,6 +54,7 @@ class DetailsCard extends StatelessWidget {
               ),
               SizedBox(width: 5),
               Container(
+                height: 90,
                 color: purple,
                 child: SizedBox(
                   width: 65,
@@ -78,7 +83,7 @@ class RouteCard extends StatelessWidget {
                   height: 20,
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   decoration: BoxDecoration(
-                    color: Colors.red[200],
+                    color: Colors.red[300],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(child: Text(" loc "))),
