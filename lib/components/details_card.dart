@@ -20,6 +20,7 @@ class DetailsCard extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: SizedBox(
         // height: 100,
+        // card has variable height so we use SizedBox for padding and margin
         child: Card(
           // color: theme.colorScheme.primary,
           clipBehavior: Clip.antiAlias,
@@ -31,11 +32,13 @@ class DetailsCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 10),
                     RouteCard(),
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     SeatCard(),
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     InfoCard(),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -107,7 +110,24 @@ class SeatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (int i = 0; i < 3; i++) Text(" x "),
+        for (int i = 0; i < 3; i++)
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 5),
+            ],
+          ),
       ],
     );
   }
