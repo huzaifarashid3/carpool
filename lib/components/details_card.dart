@@ -48,27 +48,28 @@ class DetailsCard extends StatelessWidget {
                   SizedBox(height: 10),
                   SeatCard(),
                   SizedBox(height: 10),
-                  InfoCard(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InfoCard(),
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey[800],
+                        ),
+                        child: TimeCard(),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 10),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(5),
-              padding: EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[800],
-              ),
-              height: 90,
-              child: SizedBox(
-                width: 50,
-                child: TimeCard(),
-              ),
-            ),
             SizedBox(width: 5),
             Container(
-              height: 102,
+              height: 120,
               color: Colors.grey[800],
               child: SizedBox(
                 width: 65,
@@ -83,33 +84,35 @@ class DetailsCard extends StatelessWidget {
 }
 
 class RouteCard extends StatelessWidget {
-  const RouteCard({super.key});
-
+  RouteCard({super.key});
+  final List loc = ["FAST", "NORTH", "GULSHAN", "NAGAN", "HOME"];
   @override
   Widget build(BuildContext context) {
-    const int n = 5;
-    return Row(
-      children: [
-        for (int i = 0; i < n; i++)
-          Row(
-            children: [
-              Container(
-                  height: 20,
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.red[300],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(child: Text(" loc "))),
-              if (i < n - 1)
-                Container(
-                  height: 2,
-                  width: 15,
-                  color: Colors.grey[600],
+    int n = loc.length;
+    return SizedBox(
+      height: 20,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: n,
+        itemBuilder: (context, i) => Row(
+          children: [
+            Container(
+                height: 20,
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: Colors.red[300],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-            ],
-          ),
-      ],
+                child: Center(child: Text(" ${loc[i]} "))),
+            if (i < n - 1)
+              Container(
+                height: 2,
+                width: 15,
+                color: Colors.grey[600],
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -179,16 +182,11 @@ class TimeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text("12\n30", style: TextStyle(color: Colors.white, fontSize: 16)),
-        SizedBox(height: 1),
-        Text("today",
-            style: TextStyle(
-              color: Colors.grey[300],
-              fontSize: 12,
-            )),
+        Text("12:30 AM", style: TextStyle(color: Colors.white, fontSize: 16)),
       ],
     );
   }
