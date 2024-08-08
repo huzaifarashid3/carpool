@@ -1,7 +1,9 @@
+import 'package:carpool/cards_state.dart';
 import 'package:carpool/components/details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_animation_text/flutter_gradient_animation_text.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:provider/provider.dart';
 
 class RidesPage extends StatelessWidget {
   const RidesPage({super.key});
@@ -46,7 +48,9 @@ class RidesPage extends StatelessWidget {
                 itemCount: 5,
                 itemBuilder: (context, index) => Container(
                   margin: EdgeInsets.all(8),
-                  child: DetailsCard(card: {'name': name}),
+                  child: DetailsCard(
+                    cardIndex: index,
+                  ),
                 ),
               ),
             ),
@@ -58,8 +62,8 @@ class RidesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('hi');
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.surface,
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Row(
@@ -101,7 +105,7 @@ class RidesPage extends StatelessWidget {
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
           },
-          child: RidesPage(),
+          child: DetailsCards(),
         ),
       ),
       floatingActionButton: Padding(
@@ -143,14 +147,9 @@ class RidesPage extends StatelessWidget {
   }
 }
 
-class DetailsCards extends StatefulWidget {
+class DetailsCards extends StatelessWidget {
   const DetailsCards({super.key});
 
-  @override
-  State<DetailsCards> createState() => _DetailsCardsState();
-}
-
-class _DetailsCardsState extends State<DetailsCards> {
   final name = 'Huzaifa Rashid';
 
   @override
@@ -159,7 +158,9 @@ class _DetailsCardsState extends State<DetailsCards> {
       itemCount: 2,
       itemBuilder: (context, index) => Container(
         margin: EdgeInsets.all(8),
-        child: DetailsCard(card: {'name': name}),
+        child: DetailsCard(
+          cardIndex: index,
+        ),
       ),
     );
   }

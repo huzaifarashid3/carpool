@@ -1,28 +1,26 @@
+import 'package:carpool/cards_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class DetailsCard extends StatefulWidget {
-  const DetailsCard({super.key, required this.card});
-
-  final Map<String, dynamic> card;
+  final int cardIndex;
+  const DetailsCard({
+    super.key,
+    required this.cardIndex,
+  });
 
   @override
   State<DetailsCard> createState() => _DetailsCardState();
 }
 
 class _DetailsCardState extends State<DetailsCard> {
-  bool _booked = false;
-  void _book() {
-    setState(() {
-      _booked = !_booked;
-      print('Booked: $_booked');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // ← Add this.
+    var cardsState = context.watch<CardsState>();
+    bool _booked = cardsState.cards[widget.cardIndex]['booked'] as bool;
 
     final blue = Colors.blue,
         red = Colors.red,
@@ -45,7 +43,7 @@ class _DetailsCardState extends State<DetailsCard> {
             SlidableAction(
               // An action can be bigger than the others.
               onPressed: (context) {
-                _book();
+                context.read<CardsState>().book(widget.cardIndex);
               },
               backgroundColor: yellow,
               foregroundColor: Colors.white,
