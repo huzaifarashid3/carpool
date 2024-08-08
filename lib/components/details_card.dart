@@ -20,6 +20,7 @@ class DetailsCard extends StatelessWidget {
     );
     return Material(
       borderRadius: BorderRadius.circular(10),
+      color: Colors.grey[100],
       clipBehavior: Clip.antiAlias,
       elevation: 2,
       child: Slidable(
