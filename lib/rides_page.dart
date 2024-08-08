@@ -8,9 +8,10 @@ class RidesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: ListView.builder(
-          itemCount: 1,
+          itemCount: 2,
           itemBuilder: (context, index) => DetailsCard(card: {'name': name}),
         ),
       ),
