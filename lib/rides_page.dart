@@ -11,15 +11,48 @@ class RidesPage extends StatelessWidget {
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
       ),
-      builder: (BuildContext context) => Container(
+      builder: (BuildContext context) => SizedBox(
         height: 400,
-        color: Colors.grey[200],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('ADD RIDE',
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 116, 116, 116),
+                        fontSize: 20,
+                      )),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) => Container(
+                  margin: EdgeInsets.all(8),
+                  child: DetailsCard(card: {'name': name}),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
