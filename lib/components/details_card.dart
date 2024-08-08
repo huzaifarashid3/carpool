@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class DetailsCard extends StatelessWidget {
+class DetailsCard extends StatefulWidget {
   const DetailsCard({super.key, required this.card});
 
   final Map<String, dynamic> card;
+
+  @override
+  State<DetailsCard> createState() => _DetailsCardState();
+}
+
+class _DetailsCardState extends State<DetailsCard> {
+  bool _booked = false;
+  void _book() {
+    setState(() {
+      _booked = !_booked;
+      print('Booked: $_booked');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // ← Add this.
@@ -20,7 +35,7 @@ class DetailsCard extends StatelessWidget {
     );
     return Material(
       borderRadius: BorderRadius.circular(10),
-      color: Colors.grey[100],
+      color: _booked ? Color.fromARGB(255, 231, 227, 197) : Colors.grey[200],
       clipBehavior: Clip.antiAlias,
       elevation: 2,
       child: Slidable(
@@ -29,7 +44,9 @@ class DetailsCard extends StatelessWidget {
           children: [
             SlidableAction(
               // An action can be bigger than the others.
-              onPressed: (context) {},
+              onPressed: (context) {
+                _book();
+              },
               backgroundColor: yellow,
               foregroundColor: Colors.white,
               label: 'BOOK',
@@ -134,7 +151,9 @@ class SeatCard extends StatelessWidget {
                   height: 20,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Colors.grey[500],
+                      color: i < 2
+                          ? Color.fromARGB(255, 220, 136, 10)
+                          : Colors.grey[500],
                     ),
                   ),
                 ),
@@ -162,7 +181,7 @@ class InfoCard extends StatelessWidget {
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(name, style: style),
+        child: Text(name.toUpperCase(), style: style),
       ),
       SizedBox(width: 10),
       Container(
@@ -182,12 +201,13 @@ class TimeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text("12:30 AM", style: TextStyle(color: Colors.white, fontSize: 16)),
-      ],
+    return Text(
+      "12:30 AM",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 17,
+        fontFamily: GoogleFonts.bebasNeue().fontFamily,
+      ),
     );
   }
 }
@@ -198,11 +218,11 @@ class VehicleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String vehicle = 'CIVIC';
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "🚗",
+          "🏍️",
           style: TextStyle(fontSize: 24),
         ),
         SizedBox(height: 4),
