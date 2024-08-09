@@ -9,60 +9,8 @@ class RidesPage extends StatelessWidget {
   const RidesPage({super.key});
   final name = 'Huzaifa Rashid';
 
-  void _showModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      builder: (BuildContext context) => SizedBox(
-        height: 400,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('ADD RIDE',
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 116, 116, 116),
-                        fontSize: 20,
-                      )),
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.all(8),
-                  child: DetailsCard(
-                    cardIndex: index,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('hi');
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -114,22 +62,7 @@ class RidesPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: FloatingActionButton(
-                backgroundColor: Colors.grey[800],
-                onPressed: () {
-                  _showModalBottomSheet(context);
-                },
-                child: Text(
-                  'ADD RIDE',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 3,
-                    wordSpacing: 6,
-                  ),
-                ),
-              ),
+              child: DriverBar(),
             ),
             SizedBox(width: 10),
             FloatingActionButton(
@@ -162,6 +95,83 @@ class DetailsCards extends StatelessWidget {
           cardIndex: index,
         ),
       ),
+    );
+  }
+}
+
+class DriverBar extends StatefulWidget {
+  const DriverBar({super.key});
+
+  @override
+  State<DriverBar> createState() => _DriverBarState();
+}
+
+class _DriverBarState extends State<DriverBar> {
+  bool rideStarted = false;
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) => SizedBox(
+        height: 400,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('ADD RIDE',
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 116, 116, 116),
+                        fontSize: 20,
+                      )),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        rideStarted = !rideStarted;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  rideStarted = !rideStarted;
+                  Navigator.pop(context);
+                });
+              },
+              child: Text("add"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: Colors.grey[800],
+      onPressed: () {
+        _showModalBottomSheet(context);
+      },
+      child: rideStarted
+          ? SeatCard()
+          : Text('ADD RIDE',
+              style: TextStyle(color: Colors.white, letterSpacing: 2)),
     );
   }
 }
