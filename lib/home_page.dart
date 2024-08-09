@@ -17,6 +17,7 @@ class home_page extends StatefulWidget {
 
 class _home_pageState extends State<home_page> {
   static String? userLoginID = login.userLoginID;
+
   @override
   int noOfRides = 1;
   @override

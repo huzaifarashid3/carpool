@@ -1,6 +1,9 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:carpool/dialouges/add_route_stop.dart';
+import 'package:carpool/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class create_route extends StatefulWidget {
@@ -42,7 +45,42 @@ class _create_routeState extends State<create_route> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Create Routes'),
+          title: Row(
+            children: [
+              Text('Create Routes'),
+              SizedBox(
+                width: 70,
+              ),
+              ElevatedButton(
+                //
+                // SAVE CHANGES BUTTON
+                onPressed: () {
+                  print(login.userLoginID);
+                  print('data retrieved');
+
+                  update_route_name(1, route1name);
+                  update_route_name(2, route2name);
+                  update_route_name(3, route3name);
+                  update_route_name(4, route4name);
+
+                  update_route_stops(1, route1_stops);
+                  update_route_stops(2, route2_stops);
+                  update_route_stops(3, route3_stops);
+                  update_route_stops(4, route4_stops);
+                },
+                child: Text(
+                  'Save Changes',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ButtonStyle(
+                  padding:
+                      WidgetStateProperty.all(EdgeInsets.fromLTRB(8, 6, 8, 6)),
+                  backgroundColor: WidgetStateProperty.all(
+                      const Color.fromARGB(190, 3, 255, 142)),
+                ),
+              )
+            ],
+          ),
           backgroundColor: const Color.fromARGB(190, 3, 255, 142),
         ),
         body: ListView(
@@ -83,11 +121,42 @@ class _create_routeState extends State<create_route> {
                           TextButton(
                               onPressed: () {
                                 showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return edit_route_name_dialog(
-                                          1); // Add A STOP
-                                    });
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Update Name'),
+                                      content: TextField(
+                                        onChanged: (value) {
+                                          // Update the name variable
+                                          setState(() {
+                                            route1name = value;
+                                          });
+                                        },
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            // Update the name in the database
+                                            FirebaseFirestore.instance
+                                                .collection('User')
+                                                .doc(login.userLoginID)
+                                                .update({
+                                              'route1name': route1name
+                                            }).then((value) {
+                                              print(
+                                                  'Name updated successfully');
+                                              Navigator.pop(context);
+                                            }).catchError((error) {
+                                              print(
+                                                  'Failed to update name: $error');
+                                            });
+                                          },
+                                          child: Text('Save'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Text('Edit Route Name')),
                         ],
@@ -141,6 +210,8 @@ class _create_routeState extends State<create_route> {
                               if (route1count >= 1) {
                                 route1count--;
                                 route1_stops.removeLast();
+                                // print('REMOVING STOPS');
+                                // print(route1_stops);
                               }
                             });
                           },
@@ -491,6 +562,8 @@ class _create_routeState extends State<create_route> {
                     case 1:
                       route1_stops.add(add_a_stop_controller.text);
                       route1count = route1_stops.length;
+                      print('PRINTING STOPS');
+                      print(route1_stops);
                       Navigator.of(context).pop();
                       return;
                     case 2:
@@ -571,5 +644,105 @@ class _create_routeState extends State<create_route> {
         ],
       ),
     );
+  }
+
+  void update_route_stops(int routenumber, List<String> newstops) {
+    switch (routenumber) {
+      case 1:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route1stops': newstops}).then((_) {
+          print('Stops updated successfully');
+        }).catchError((error) {
+          print('Error updating stops: $error');
+        });
+        break;
+
+      case 2:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route2stops': newstops}).then((_) {
+          print('Stops updated successfully');
+        }).catchError((error) {
+          print('Error updating stops: $error');
+        });
+        break;
+
+      case 3:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route3stops': newstops}).then((_) {
+          print('Stops updated successfully');
+        }).catchError((error) {
+          print('Error updating stops: $error');
+        });
+        break;
+
+      case 4:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route4stops': newstops}).then((_) {
+          print('Stops updated successfully');
+        }).catchError((error) {
+          print('Error updating stops: $error');
+        });
+
+        break;
+      default:
+    }
+  }
+
+  void update_route_name(int routenumber, String newname) {
+    switch (routenumber) {
+      case 1:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route1name': newname}).then((_) {
+          print('Name updated successfully');
+        }).catchError((error) {
+          print('Error updating name: $error');
+        });
+        break;
+
+      case 2:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route2name': newname}).then((_) {
+          print('Name updated successfully');
+        }).catchError((error) {
+          print('Error updating name: $error');
+        });
+        break;
+
+      case 3:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route3name': newname}).then((_) {
+          print('Name updated successfully');
+        }).catchError((error) {
+          print('Error updating name: $error');
+        });
+        break;
+
+      case 4:
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(login.userLoginID)
+            .update({'route4name': newname}).then((_) {
+          print('Name updated successfully');
+        }).catchError((error) {
+          print('Error updating name: $error');
+        });
+
+        break;
+      default:
+    }
   }
 }
