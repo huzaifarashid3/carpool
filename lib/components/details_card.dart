@@ -2,9 +2,10 @@ import 'package:carpool/Models/ride_state.dart';
 import 'package:carpool/components/info_card.dart';
 import 'package:carpool/components/route_card.dart';
 import 'package:carpool/components/seat_card.dart';
+import 'package:carpool/components/time_card.dart';
+import 'package:carpool/components/vehicle_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class DetailsCard extends StatelessWidget {
@@ -16,31 +17,31 @@ class DetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // ← Add this.
     var rideState = context.read<RideState>();
-    final booked = rideState.rides[rideIndex].booked;
-    final name = rideState.rides[rideIndex].name;
-    final contact = rideState.rides[rideIndex].contact;
+    final bool booked = rideState.rides[rideIndex].booked;
+    final String name = rideState.rides[rideIndex].name;
+    final String contact = rideState.rides[rideIndex].contact;
+    final List<String> route = rideState.rides[rideIndex].route;
+    final int capacity = rideState.rides[rideIndex].capacity;
+    final int occupied = rideState.rides[rideIndex].occupied;
+    final String vehicleType = rideState.rides[rideIndex].vehicleType;
+    final String vehicleName = rideState.rides[rideIndex].vehicleName;
+    final String departureTime = rideState.rides[rideIndex].departureTime;
+    const Color yellow = Color.fromARGB(221, 210, 194, 54);
+    const Color red = Color.fromARGB(221, 210, 54, 54);
 
-    final blue = Colors.blue,
-        red = Colors.red,
-        purple = Colors.deepPurple[200],
-        orange = Colors.orange,
-        yellow = Color.fromARGB(221, 210, 194, 54);
-    const TextStyle style = TextStyle(
-      fontSize: 20,
-      decoration: TextDecoration.none,
-    );
     return SizedBox(
-      height: 123,
+      height: 118,
       child: Material(
         borderRadius: BorderRadius.circular(10),
-        color: booked ? Color.fromARGB(255, 231, 227, 197) : Colors.grey[200],
+        color: booked
+            ? const Color.fromARGB(255, 231, 227, 197)
+            : const Color.fromARGB(255, 238, 238, 238),
         clipBehavior: Clip.antiAlias,
         elevation: 2,
         child: Slidable(
           endActionPane: ActionPane(
-            motion: ScrollMotion(),
+            motion: const ScrollMotion(),
             children: [
               if (booked)
                 SlidableAction(
@@ -65,87 +66,33 @@ class DetailsCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10),
-                    RouteCard(),
-                    SizedBox(height: 15),
-                    SeatCard(),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 10),
+                    RouteCard(route: route),
+                    const SizedBox(height: 15),
+                    SeatCard(occupied: occupied, capacity: capacity),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InfoCard(name: name, contact: contact),
-                        Container(
-                          margin: EdgeInsets.all(5),
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey[800],
-                          ),
-                          child: TimeCard(),
-                        ),
+                        TimeCard(time: departureTime),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
-              SizedBox(width: 5),
-              Container(
-                color: Colors.grey[800],
-                child: SizedBox(
-                  width: 65,
-                  child: VehicleCard(),
-                ),
-              ), //
+              const SizedBox(width: 7),
+              VehicleCard(vehicleType: vehicleType, vehicleName: vehicleName),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class TimeCard extends StatelessWidget {
-  const TimeCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "12:30 AM",
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 17,
-        fontFamily: GoogleFonts.bebasNeue().fontFamily,
-        fontWeight: FontWeight.w100,
-      ),
-    );
-  }
-}
-
-class VehicleCard extends StatelessWidget {
-  const VehicleCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const String vehicle = 'CIVIC';
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "🏍️",
-          style: TextStyle(fontSize: 24, color: Colors.grey[300]),
-        ),
-        SizedBox(height: 4),
-        Text(
-          vehicle,
-          style: TextStyle(fontSize: 12, color: Colors.white),
-        ),
-      ],
     );
   }
 }

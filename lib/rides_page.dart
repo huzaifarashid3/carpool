@@ -15,17 +15,17 @@ class RidesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               'R I D E S',
-              style: TextStyle(color: const Color.fromARGB(255, 116, 116, 116)),
+              style: TextStyle(color: Color.fromARGB(255, 116, 116, 116)),
             ),
             GradientAnimationText(
               text: Text('SWIPE TO BOOK',
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 116, 116, 116),
+                    color: Color.fromARGB(255, 116, 116, 116),
                     letterSpacing: 4,
                   )),
               reverse: true,
@@ -54,7 +54,7 @@ class RidesPage extends StatelessWidget {
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
           },
-          child: DetailsCards(),
+          child: const DetailsCards(),
         ),
       ),
       floatingActionButton: Padding(
@@ -62,14 +62,14 @@ class RidesPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
+            const Expanded(
               child: DriverBar(),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             FloatingActionButton(
               backgroundColor: Colors.grey[800],
               onPressed: () {},
-              child: Icon(
+              child: const Icon(
                 Icons.search,
                 color: Colors.white,
               ),
@@ -93,10 +93,10 @@ class DetailsCards extends StatelessWidget {
     return ListView.builder(
       itemCount: cards.length + 1,
       itemBuilder: (context, index) => Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: index < cards.length
             ? DetailsCard(rideIndex: cards[index])
-            : SizedBox(height: 100),
+            : const SizedBox(height: 100),
       ),
     );
   }
@@ -116,7 +116,7 @@ class _DriverBarState extends State<DriverBar> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -132,13 +132,13 @@ class _DriverBarState extends State<DriverBar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('ADD RIDE',
+                  const Text('ADD RIDE',
                       style: TextStyle(
                         color: const Color.fromARGB(255, 116, 116, 116),
                         fontSize: 20,
                       )),
                   IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () {
                       setState(() {
                         rideStarted = !rideStarted;
@@ -156,7 +156,7 @@ class _DriverBarState extends State<DriverBar> {
                   Navigator.pop(context);
                 });
               },
-              child: Text("add"),
+              child: const Text("add"),
             )
           ],
         ),
@@ -172,8 +172,11 @@ class _DriverBarState extends State<DriverBar> {
         _showModalBottomSheet(context);
       },
       child: rideStarted
-          ? SeatCard()
-          : Text('ADD RIDE',
+          ? const SeatCard(
+              occupied: 3,
+              capacity: 3,
+            )
+          : const Text('ADD RIDE',
               style: TextStyle(color: Colors.white, letterSpacing: 2)),
     );
   }

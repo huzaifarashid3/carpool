@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
 
 class SeatCard extends StatelessWidget {
-  const SeatCard({super.key});
+  final int occupied, capacity;
+  const SeatCard({super.key, required this.occupied, required this.capacity});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (int i = 0; i < 3; i++)
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: SizedBox(
+    return SizedBox(
+      height: 20,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: capacity,
+        itemBuilder: (context, index) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: ColoredBox(
+                color: index < occupied
+                    ? const Color.fromARGB(255, 220, 136, 10)
+                    : const Color.fromARGB(255, 158, 158, 158),
+                child: const SizedBox(
                   width: 20,
                   height: 20,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: i < 2
-                          ? Color.fromARGB(255, 220, 136, 10)
-                          : Colors.grey[500],
-                    ),
-                  ),
                 ),
               ),
-              SizedBox(width: 5),
-            ],
-          ),
-      ],
+            ),
+            const SizedBox(
+              height: 5,
+              width: 5,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,16 +1,20 @@
-import 'package:carpool/Models/card_model.dart';
+import 'package:carpool/Models/ride_model.dart';
 import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   List<Ride> rides = List.generate(
     5,
     (i) => Ride(
-        name: 'Huzaifa Rashid',
-        booked: i < 2,
-        contact: '03001234567',
-        capacity: 4,
-        route: ['Lahore', 'Islamabad'],
-        vehicle: Vehicle(name: 'Toyota Corolla', type: 'Car')),
+      name: 'Huzaifa Rashid',
+      booked: i < 2,
+      contact: '03001234567',
+      capacity: 4,
+      occupied: 2,
+      route: ['Lahore', 'Islamabad'],
+      vehicleName: 'Toyota Corolla',
+      vehicleType: 'CAR',
+      departureTime: '12:00 PM',
+    ),
   );
 
   void book(int index) async {

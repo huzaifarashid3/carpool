@@ -11,25 +11,33 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle style = TextStyle(fontSize: 12, color: Colors.white);
-    return Row(children: [
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        decoration: BoxDecoration(
-          color: Colors.grey[700],
-          borderRadius: BorderRadius.circular(10),
+    const TextStyle style = TextStyle(fontSize: 12, color: Colors.white);
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey[700],
+          ),
+          height: 20,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+            child: Text(name, style: style),
+          ),
         ),
-        child: Text(name, style: style),
-      ),
-      SizedBox(width: 10),
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        decoration: BoxDecoration(
-          color: Colors.grey[700],
-          borderRadius: BorderRadius.circular(10),
+        const SizedBox(width: 10),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey[700],
+          ),
+          height: 20,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+            child: Text(contact, style: style),
+          ),
         ),
-        child: Text(contact, style: style),
-      ),
-    ]);
+      ],
+    );
   }
 }
