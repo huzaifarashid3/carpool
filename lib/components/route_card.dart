@@ -21,15 +21,18 @@ class RouteCard extends StatelessWidget {
                   height: 20,
                   padding: EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
-                    color: Colors.red[300],
+                    color: const Color.fromARGB(255, 229, 115, 115),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: AnimatedText(loc: loc[i])),
               if (i < n - 1)
-                Container(
+                SizedBox(
                   height: 2,
                   width: 15,
-                  color: Colors.grey[600],
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 117, 117, 117)),
+                  ),
                 ),
             ],
           ),
@@ -53,7 +56,7 @@ class AnimatedText extends StatefulWidget {
 
 class _AnimatedTextState extends State<AnimatedText> {
   bool condensed = true;
-  static const int n = 6;
+  static const int n = 8;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
