@@ -1,4 +1,4 @@
-import 'package:carpool/cards_state.dart';
+import 'package:carpool/Models/ride_state.dart';
 import 'package:carpool/components/details_card.dart';
 import 'package:carpool/components/seat_card.dart';
 import 'package:flutter/material.dart';
@@ -84,21 +84,18 @@ class RidesPage extends StatelessWidget {
 class DetailsCards extends StatelessWidget {
   const DetailsCards({super.key});
 
-  final name = 'Huzaifa Rashid';
-
   @override
   Widget build(BuildContext context) {
-    var cardsState = context.watch<CardsState>();
-    final unbookedCards = cardsState.unbookedCards;
-    final bookedCards = cardsState.bookedCards;
+    RideState cardsState = context.watch<RideState>();
+    final unbookedCards = cardsState.unbookedRides;
+    final bookedCards = cardsState.bookedRides;
     final cards = [...bookedCards, ...unbookedCards];
-
     return ListView.builder(
       itemCount: cards.length + 1,
       itemBuilder: (context, index) => Container(
         margin: EdgeInsets.all(8),
         child: index < cards.length
-            ? DetailsCard(cardIndex: cards[index][1])
+            ? DetailsCard(rideIndex: cards[index])
             : SizedBox(height: 100),
       ),
     );

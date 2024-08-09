@@ -1,4 +1,4 @@
-import 'package:carpool/cards_state.dart';
+import 'package:carpool/Models/ride_state.dart';
 import 'package:carpool/components/info_card.dart';
 import 'package:carpool/components/route_card.dart';
 import 'package:carpool/components/seat_card.dart';
@@ -7,25 +7,20 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class DetailsCard extends StatefulWidget {
-  final int cardIndex;
+class DetailsCard extends StatelessWidget {
+  final int rideIndex;
   const DetailsCard({
     super.key,
-    required this.cardIndex,
+    required this.rideIndex,
   });
 
   @override
-  State<DetailsCard> createState() => _DetailsCardState();
-}
-
-class _DetailsCardState extends State<DetailsCard> {
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // ← Add this.
-    var cardsState = context.read<CardsState>();
-    final booked = cardsState.cards[widget.cardIndex].booked;
-    final name = cardsState.cards[widget.cardIndex].name;
-    final contact = cardsState.cards[widget.cardIndex].contact;
+    var rideState = context.read<RideState>();
+    final booked = rideState.rides[rideIndex].booked;
+    final name = rideState.rides[rideIndex].name;
+    final contact = rideState.rides[rideIndex].contact;
 
     final blue = Colors.blue,
         red = Colors.red,
@@ -50,7 +45,7 @@ class _DetailsCardState extends State<DetailsCard> {
               if (booked)
                 SlidableAction(
                   onPressed: (context) {
-                    cardsState.unbook(widget.cardIndex);
+                    rideState.unbook(rideIndex);
                   },
                   backgroundColor: red,
                   foregroundColor: Colors.white,
@@ -60,7 +55,7 @@ class _DetailsCardState extends State<DetailsCard> {
                 SlidableAction(
                   // An action can be bigger than the others.
                   onPressed: (context) {
-                    cardsState.book(widget.cardIndex);
+                    rideState.book(rideIndex);
                   },
                   backgroundColor: yellow,
                   foregroundColor: Colors.white,
