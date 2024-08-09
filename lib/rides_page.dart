@@ -87,13 +87,18 @@ class DetailsCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CardsState cardsState = context.watch<CardsState>();
+    final bookedCards = cardsState.bookedCards;
+    final unbookedCards = cardsState.unbookedCards;
+    final cards = [...bookedCards, ...unbookedCards];
+
     return ListView.builder(
-      itemCount: 2,
+      itemCount: cards.length + 1,
       itemBuilder: (context, index) => Container(
         margin: EdgeInsets.all(8),
-        child: DetailsCard(
-          cardIndex: index,
-        ),
+        child: index < cards.length
+            ? DetailsCard(cardIndex: index)
+            : SizedBox(height: 100),
       ),
     );
   }

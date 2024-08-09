@@ -21,7 +21,7 @@ class _DetailsCardState extends State<DetailsCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // ← Add this.
     var cardsState = context.watch<CardsState>();
-    bool _booked = cardsState.cards[widget.cardIndex]['booked'] as bool;
+    bool _booked = cardsState.cards[widget.cardIndex].booked;
 
     final blue = Colors.blue,
         red = Colors.red,
@@ -41,15 +41,25 @@ class _DetailsCardState extends State<DetailsCard> {
         endActionPane: ActionPane(
           motion: ScrollMotion(),
           children: [
-            SlidableAction(
-              // An action can be bigger than the others.
-              onPressed: (context) {
-                context.read<CardsState>().book(widget.cardIndex);
-              },
-              backgroundColor: yellow,
-              foregroundColor: Colors.white,
-              label: 'BOOK',
-            ),
+            if (_booked)
+              SlidableAction(
+                onPressed: (context) {
+                  context.read<CardsState>().unbook(widget.cardIndex);
+                },
+                backgroundColor: red,
+                foregroundColor: Colors.white,
+                label: 'UNBOOK',
+              )
+            else
+              SlidableAction(
+                // An action can be bigger than the others.
+                onPressed: (context) {
+                  context.read<CardsState>().book(widget.cardIndex);
+                },
+                backgroundColor: yellow,
+                foregroundColor: Colors.white,
+                label: 'BOOK',
+              ),
           ],
         ),
         child: Row(
