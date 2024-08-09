@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import, prefer_const_literals_to_create_immutables, sort_child_properties_last, constant_identifier_names
 
 import 'package:carpool/dialouges/add_route_stop.dart';
 import 'package:carpool/login.dart';
@@ -18,31 +18,32 @@ class _create_routeState extends State<create_route> {
   TextEditingController route_name_controller = TextEditingController();
   void manage_routes(int number, String value) {}
 
-  static String route1name = 'Gulshan wala',
-      route2name = 'Karsaz wala rasta ',
-      route3name = 'Johar wala',
-      route4name = 'Airport wala';
-  static List<String> route1_stops = [
-    'Gulshan wala',
-    'Gulberg',
-    'Model Town',
-    'DHA',
-    'Johar Town'
-  ];
-  List<String> route2_stops = ['Kda', 'Nagan', 'Nipa', 'Millenium', 'Fast'];
-  List<String> route3_stops = ['Johar', 'Fast'];
-  List<String> route4_stops = [
-    'Fast',
-    'Malir',
-    'Airport',
-  ];
+  static String route1name = '',
+      route2name = '',
+      route3name = '',
+      route4name = '';
+  static List<String> route1_stops = [];
+  List<String> route2_stops = [];
+  List<String> route3_stops = [];
+  List<String> route4_stops = [];
   late int route1count = route1_stops.length;
   late int route2count = route2_stops.length;
   late int route3count = route3_stops.length;
   late int route4count = route4_stops.length;
 
   @override
+  void initState() {
+    super.initState();
+    read_route_names();
+    read_route_stops();
+    set_item_counts();
+    print('initializing');
+    print(route1_stops);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // read_route_names();
     return Scaffold(
         appBar: AppBar(
           title: Row(
@@ -51,34 +52,6 @@ class _create_routeState extends State<create_route> {
               SizedBox(
                 width: 70,
               ),
-              ElevatedButton(
-                //
-                // SAVE CHANGES BUTTON
-                onPressed: () {
-                  print(login.userLoginID);
-                  print('data retrieved');
-
-                  update_route_name(1, route1name);
-                  update_route_name(2, route2name);
-                  update_route_name(3, route3name);
-                  update_route_name(4, route4name);
-
-                  update_route_stops(1, route1_stops);
-                  update_route_stops(2, route2_stops);
-                  update_route_stops(3, route3_stops);
-                  update_route_stops(4, route4_stops);
-                },
-                child: Text(
-                  'Save Changes',
-                  style: TextStyle(color: Colors.black),
-                ),
-                style: ButtonStyle(
-                  padding:
-                      WidgetStateProperty.all(EdgeInsets.fromLTRB(8, 6, 8, 6)),
-                  backgroundColor: WidgetStateProperty.all(
-                      const Color.fromARGB(190, 3, 255, 142)),
-                ),
-              )
             ],
           ),
           backgroundColor: const Color.fromARGB(190, 3, 255, 142),
@@ -121,52 +94,23 @@ class _create_routeState extends State<create_route> {
                           TextButton(
                               onPressed: () {
                                 showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Update Name'),
-                                      content: TextField(
-                                        onChanged: (value) {
-                                          // Update the name variable
-                                          setState(() {
-                                            route1name = value;
-                                          });
-                                        },
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            // Update the name in the database
-                                            FirebaseFirestore.instance
-                                                .collection('User')
-                                                .doc(login.userLoginID)
-                                                .update({
-                                              'route1name': route1name
-                                            }).then((value) {
-                                              print(
-                                                  'Name updated successfully');
-                                              Navigator.pop(context);
-                                            }).catchError((error) {
-                                              print(
-                                                  'Failed to update name: $error');
-                                            });
-                                          },
-                                          child: Text('Save'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return edit_route_name_dialog(
+                                          1); // Add A STOP
+                                    });
                               },
                               child: Text('Edit Route Name')),
                         ],
                       ),
                     ],
                   ),
+
+                  // ROUTE STOPS
                   SizedBox(
                     height: 50,
                     child: ListView.builder(
-                        itemCount: route1count,
+                        itemCount: route1_stops.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Row(
@@ -186,11 +130,14 @@ class _create_routeState extends State<create_route> {
 
                                 //backgroundColor: Colors.blue,
                               ),
-                              Icon(Icons.arrow_right_alt)
+                              index == route1_stops.length - 1
+                                  ? Container()
+                                  : Icon(Icons.arrow_right_alt)
                             ],
                           );
                         }),
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -207,11 +154,9 @@ class _create_routeState extends State<create_route> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              if (route1count >= 1) {
-                                route1count--;
+                              if (route1_stops.isNotEmpty) {
                                 route1_stops.removeLast();
-                                // print('REMOVING STOPS');
-                                // print(route1_stops);
+                                update_route_stops(1, route1_stops);
                               }
                             });
                           },
@@ -269,10 +214,12 @@ class _create_routeState extends State<create_route> {
                       ),
                     ],
                   ),
+
+                  // ROUTE STOPS
                   SizedBox(
                     height: 50,
                     child: ListView.builder(
-                        itemCount: route2count,
+                        itemCount: route2_stops.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Row(
@@ -292,7 +239,9 @@ class _create_routeState extends State<create_route> {
 
                                 //backgroundColor: Colors.blue,
                               ),
-                              Icon(Icons.arrow_right_alt)
+                              index == route2_stops.length - 1
+                                  ? Container()
+                                  : Icon(Icons.arrow_right_alt)
                             ],
                           );
                         }),
@@ -313,9 +262,10 @@ class _create_routeState extends State<create_route> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              if (route2count >= 1) {
+                              if (route2_stops.isNotEmpty) {
                                 route2count--;
                                 route2_stops.removeLast();
+                                update_route_stops(2, route2_stops);
                               }
                             });
                           },
@@ -376,7 +326,7 @@ class _create_routeState extends State<create_route> {
                   SizedBox(
                     height: 50,
                     child: ListView.builder(
-                        itemCount: route3count,
+                        itemCount: route3_stops.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Row(
@@ -396,7 +346,9 @@ class _create_routeState extends State<create_route> {
 
                                 //backgroundColor: Colors.blue,
                               ),
-                              Icon(Icons.arrow_right_alt)
+                              index == route3_stops.length - 1
+                                  ? Container()
+                                  : Icon(Icons.arrow_right_alt)
                             ],
                           );
                         }),
@@ -417,9 +369,9 @@ class _create_routeState extends State<create_route> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              if (route3count >= 1) {
-                                route3count--;
+                              if (route3_stops.isNotEmpty) {
                                 route3_stops.removeLast();
+                                update_route_stops(3, route3_stops);
                               }
                             });
                           },
@@ -480,7 +432,7 @@ class _create_routeState extends State<create_route> {
                   SizedBox(
                     height: 50,
                     child: ListView.builder(
-                        itemCount: route4count,
+                        itemCount: route4_stops.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Row(
@@ -500,7 +452,9 @@ class _create_routeState extends State<create_route> {
 
                                 //backgroundColor: Colors.blue,
                               ),
-                              Icon(Icons.arrow_right_alt)
+                              index == route4_stops.length - 1
+                                  ? Container()
+                                  : Icon(Icons.arrow_right_alt)
                             ],
                           );
                         }),
@@ -521,9 +475,9 @@ class _create_routeState extends State<create_route> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              if (route4count >= 1) {
-                                route4count--;
+                              if (route4_stops.isNotEmpty) {
                                 route4_stops.removeLast();
+                                update_route_stops(4, route4_stops);
                               }
                             });
                           },
@@ -536,6 +490,40 @@ class _create_routeState extends State<create_route> {
             ),
           ],
         ));
+  }
+
+  void remove_route_stop(int number) {
+    switch (number) {
+      case 1:
+        if (route1_stops.isNotEmpty) {
+          route1_stops.removeLast();
+          update_route_stops(1, route1_stops);
+        }
+        Navigator.of(context).pop();
+        return;
+      case 2:
+        if (route2_stops.isNotEmpty) {
+          route2_stops.removeLast();
+          update_route_stops(2, route2_stops);
+        }
+        Navigator.of(context).pop();
+        return;
+      case 3:
+        if (route3_stops.isNotEmpty) {
+          route3_stops.removeLast();
+          update_route_stops(3, route3_stops);
+        }
+        Navigator.of(context).pop();
+        return;
+      case 4:
+        if (route4_stops.isNotEmpty) {
+          route4_stops.removeLast();
+          update_route_stops(4, route4_stops);
+        }
+
+        return;
+      default:
+    }
   }
 
   Widget add_route_stop(int number) {
@@ -561,24 +549,22 @@ class _create_routeState extends State<create_route> {
                   switch (number) {
                     case 1:
                       route1_stops.add(add_a_stop_controller.text);
-                      route1count = route1_stops.length;
-                      print('PRINTING STOPS');
-                      print(route1_stops);
+                      update_route_stops(1, route1_stops);
                       Navigator.of(context).pop();
                       return;
                     case 2:
                       route2_stops.add(add_a_stop_controller.text);
-                      route2count = route2_stops.length;
+                      update_route_stops(2, route2_stops);
                       Navigator.of(context).pop();
                       return;
                     case 3:
                       route3_stops.add(add_a_stop_controller.text);
-                      route3count = route3_stops.length;
+                      update_route_stops(3, route3_stops);
                       Navigator.of(context).pop();
                       return;
                     case 4:
                       route4_stops.add(add_a_stop_controller.text);
-                      route4count = route4_stops.length;
+                      update_route_stops(4, route4_stops);
                       Navigator.of(context).pop();
                       return;
 
@@ -638,6 +624,7 @@ class _create_routeState extends State<create_route> {
                   }
                 }
               });
+              update_route_name(number, route_name_controller.text);
             },
             child: const Text('Set Route Name'),
           ),
@@ -744,5 +731,71 @@ class _create_routeState extends State<create_route> {
         break;
       default:
     }
+  }
+
+  void read_route_names() {
+    FirebaseFirestore.instance
+        .collection('User')
+        .doc(login.userLoginID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          route1name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route1name'];
+          route2name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route2name'];
+          route3name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route3name'];
+          route4name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route4name'];
+        });
+        print('Route names Read successfully');
+        print(route1name);
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error reading route names: $error');
+    });
+  }
+
+  void read_route_stops() {
+    FirebaseFirestore.instance
+        .collection('User')
+        .doc(login.userLoginID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          route1_stops = List<String>.from(
+              (documentSnapshot.data() as Map<String, dynamic>)['route1stops']);
+          route2_stops = List<String>.from(
+              (documentSnapshot.data() as Map<String, dynamic>)['route2stops']);
+          route3_stops = List<String>.from(
+              (documentSnapshot.data() as Map<String, dynamic>)['route3stops']);
+          route4_stops = List<String>.from(
+              (documentSnapshot.data() as Map<String, dynamic>)['route4stops']);
+        });
+        print('Route stops Read successfully');
+        print(route1_stops);
+        print(route2_stops);
+        print(route3_stops);
+        print(route4_stops);
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error reading route stops: $error');
+    });
+  }
+
+  void set_item_counts() {
+    setState(() {
+      route1count = route1_stops.length;
+      route2count = route2_stops.length;
+      route3count = route3_stops.length;
+      route4count = route4_stops.length;
+    });
   }
 }

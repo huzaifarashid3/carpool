@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'package:carpool/bug_report.dart';
-import 'package:carpool/dialouges/create_route.dart';
+import 'package:carpool/create_route.dart';
 import 'package:carpool/home_page.dart';
 import 'package:carpool/login.dart';
 import 'package:carpool/profile.dart';

@@ -1,5 +1,5 @@
 import 'package:carpool/bug_report.dart';
-import 'package:carpool/dialouges/create_route.dart';
+import 'package:carpool/create_route.dart';
 import 'package:carpool/dialouges/post_ride.dart';
 import 'package:carpool/login.dart';
 import 'package:carpool/main.dart';
@@ -23,6 +23,7 @@ class _home_pageState extends State<home_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 2, 57, 50),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(190, 3, 255, 142),
         leading: Tooltip(

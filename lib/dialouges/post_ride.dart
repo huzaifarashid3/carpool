@@ -1,5 +1,6 @@
 // ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, camel_case_types, non_constant_identifier_names
 
+import 'package:carpool/create_route.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
@@ -31,7 +32,10 @@ class _post_rideState extends State<post_ride> {
                 const Text('Don\'t have a Route?'),
                 const SizedBox(width: 15),
                 ElevatedButton(
-                    onPressed: () {}, child: const Text('Create Now !')),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(create_route.route_name);
+                    },
+                    child: const Text('Create Now !')),
               ],
             ),
             Row(

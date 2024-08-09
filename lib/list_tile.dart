@@ -62,9 +62,9 @@ class list_tile extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            SizedBox(
-              //Routes on cards
 
+            //Routes on cards
+            SizedBox(
               height: 30,
               child: ListView.builder(
                   itemCount: route2_stops.length,
@@ -92,6 +92,7 @@ class list_tile extends StatelessWidget {
                     );
                   }),
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
