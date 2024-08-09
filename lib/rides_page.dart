@@ -1,5 +1,6 @@
 import 'package:carpool/cards_state.dart';
 import 'package:carpool/components/details_card.dart';
+import 'package:carpool/components/seat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_animation_text/flutter_gradient_animation_text.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -87,9 +88,9 @@ class DetailsCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CardsState cardsState = context.watch<CardsState>();
-    final bookedCards = cardsState.bookedCards;
+    var cardsState = context.watch<CardsState>();
     final unbookedCards = cardsState.unbookedCards;
+    final bookedCards = cardsState.bookedCards;
     final cards = [...bookedCards, ...unbookedCards];
 
     return ListView.builder(
@@ -97,7 +98,7 @@ class DetailsCards extends StatelessWidget {
       itemBuilder: (context, index) => Container(
         margin: EdgeInsets.all(8),
         child: index < cards.length
-            ? DetailsCard(cardIndex: index)
+            ? DetailsCard(cardIndex: cards[index][1])
             : SizedBox(height: 100),
       ),
     );

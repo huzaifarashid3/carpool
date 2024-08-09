@@ -52,7 +52,7 @@ class CardsState extends ChangeNotifier {
     5,
     (i) => Card(
         name: 'Huzaifa Rashid',
-        booked: i < 3,
+        booked: i < 2,
         contact: '03001234567',
         capacity: 4,
         route: ['Lahore', 'Islamabad'],
@@ -69,12 +69,24 @@ class CardsState extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Card> get bookedCards {
-    return cards.where((card) => card.booked).toList();
+  List get bookedCards {
+    List bCards = [];
+    for (int i = 0; i < cards.length; i++) {
+      if (cards[i].booked) {
+        bCards.add([cards[i], i]);
+      }
+    }
+    return bCards;
   }
 
-  List<Card> get unbookedCards {
-    return cards.where((card) => !card.booked).toList();
+  List get unbookedCards {
+    List uCards = [];
+    for (int i = 0; i < cards.length; i++) {
+      if (!cards[i].booked) {
+        uCards.add([cards[i], i]);
+      }
+    }
+    return uCards;
   }
 
   // void addCard(String name) {}
