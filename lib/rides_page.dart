@@ -14,11 +14,11 @@ class RidesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: CustomScrollView(
-        slivers: [
-          TopBar(name: name, contact: contact),
-          const RideCards(),
-        ],
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [TopBar(name: name, contact: contact)];
+        },
+        body: const RideCards(),
       ),
       floatingActionButton: const BottomBar(),
     );
@@ -57,12 +57,23 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: Colors.grey[800],
-      onPressed: () {},
+      onPressed: () {
+        context.read<RideState>().refresh();
+      },
       child: const Icon(
         Icons.search,
         color: Colors.white,
       ),
     );
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 
@@ -75,7 +86,7 @@ class RideCards extends StatelessWidget {
     final unbookedCards = cardsState.unbookedRides;
     final bookedCards = cardsState.bookedRides;
     final cards = [...bookedCards, ...unbookedCards];
-    return SliverList.builder(
+    return ListView.builder(
       itemCount: cards.length + 1,
       itemBuilder: (context, index) => Container(
         margin: const EdgeInsets.all(8),
@@ -87,9 +98,9 @@ class RideCards extends StatelessWidget {
                   child: SizedBox(
                     height: 300,
                     child: Text(
-                      cards.length > 5
-                          ? "OUT OF RIDES"
-                          : cards.length == 0
+                      cards.length > 8
+                          ? "NO MORE RIDES"
+                          : cards.isEmpty
                               ? "NO RIDES"
                               : "",
                       style: const TextStyle(
