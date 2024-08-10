@@ -1,6 +1,7 @@
 // ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, camel_case_types, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'package:carpool/create_route.dart';
+import 'package:carpool/home_page.dart';
 import 'package:carpool/list_tile.dart';
 import 'package:carpool/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -236,8 +237,11 @@ class _post_rideState extends State<post_ride> {
                 ElevatedButton(
                   onPressed: () {
                     addRide();
+                    home_page.posted = true;
+                    super.setState(() {
+                      home_page.posted = true;
+                    });
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(create_route.route_name);
                   },
                   child: const Text('Post Now !'),
                   style: ButtonStyle(

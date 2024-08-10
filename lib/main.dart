@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'dart:math';
+
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/create_route.dart';
 import 'package:carpool/home_page.dart';
 import 'package:carpool/login.dart';
 import 'package:carpool/profile.dart';
-import 'package:carpool/list_tile.dart';
+import 'package:carpool/list_tile.dart' as lt;
 import 'package:carpool/signup.dart';
 //import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -67,6 +69,10 @@ class Cards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return call_future_builder();
+  }
+
+  Widget call_future_builder() {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fetchRides(),
       builder: (context, snapshot) {
@@ -82,7 +88,7 @@ class Cards extends StatelessWidget {
             itemCount: rides.length,
             itemBuilder: (BuildContext context, int index) {
               Map<String, dynamic> ride = rides[index];
-              return list_tile(
+              return lt.list_tile(
                 name: ride['name'],
                 owner_name: ride['owner_name'],
                 time: ride['departure'],

@@ -6,9 +6,11 @@ import 'package:carpool/main.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class home_page extends StatefulWidget {
   static const route_name = 'home_page';
+  static bool posted = false;
   const home_page({super.key});
 
   @override
@@ -166,11 +168,20 @@ class _home_pageState extends State<home_page> {
             ElevatedButton(
                 onPressed: () {
                   //POST A R
+                  home_page.posted = false;
                   showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return post_ride(); // Post a ride Pop uP
-                      });
+                    context: context,
+                    builder: (BuildContext context) {
+                      return post_ride(); // Post a ride Pop uP
+                    },
+                  );
+                  if (home_page.posted = true) {
+                    // main.call_listview_builder();
+                    home_page.posted = false;
+                  }
+                  // setState(() {
+                  //   noOfRides++;
+                  // });
                 },
                 child: const Icon(Icons.add)),
             IconButton(
@@ -203,4 +214,8 @@ class _home_pageState extends State<home_page> {
       ),
     );
   }
+
+  // Future<void> showPostRideDialog(BuildContext context) async {
+  //   await
+  // }
 }

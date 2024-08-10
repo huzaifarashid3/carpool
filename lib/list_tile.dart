@@ -65,10 +65,11 @@ class list_tile extends StatelessWidget {
             contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             title: Row(
               children: [
-                Text(owner_name),
-                const SizedBox(
-                  width: 190,
-                ),
+                // OWNER NAME CONTAINER
+                Container(width: 300, child: Text(owner_name)),
+                // const SizedBox(
+                //   width: 190,
+                // ),
                 type == 'car' && going_fast == true
                     ? Row(
                         children: [
@@ -222,7 +223,7 @@ class list_tile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                        margin: EdgeInsets.fromLTRB(185, 10, 0, 0),
+                        margin: EdgeInsets.fromLTRB(184, 10, 0, 0),
                         child: Text(
                           time,
                           style: TextStyle(color: Colors.white),
@@ -261,7 +262,6 @@ class list_tile extends StatelessWidget {
               // You can use add_a_stop_controller.text
               // create_route.route1_stops.add(add_a_stop_controller.text);
               // create_route.rout
-              print('hllooo');
             },
             icon: Icons.collections,
             label: 'Book Seat',
@@ -280,35 +280,30 @@ class list_tile extends StatelessWidget {
             contentPadding: const EdgeInsets.all(10),
             title: Row(
               children: [
-                Text(owner_name),
+                //OWNERR NAME CONTAINER
+                Container(width: 300, child: Text(owner_name)),
                 type == 'bike' && going_fast == true
-                    ? Container(
-                        margin: EdgeInsets.fromLTRB(198, 0, 0, 0),
-                        child: Row(
-                          children: [
-                            Transform(
-                              transform: Matrix4.rotationY(3.14),
-                              child: const Text(
+                    ? Row(
+                        children: [
+                          Transform(
+                            transform: Matrix4.rotationY(3.14),
+                            child: const Text(
+                              '🏍️',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          const Icon(Icons.apartment)
+                        ],
+                      )
+                    : type == 'bike' && going_fast == false
+                        ? const Row(
+                            children: [
+                              Text(
                                 '🏍️',
                                 style: TextStyle(fontSize: 20),
                               ),
-                            ),
-                            const Icon(Icons.apartment)
-                          ],
-                        ),
-                      )
-                    : type == 'bike' && going_fast == false
-                        ? Container(
-                            margin: EdgeInsets.fromLTRB(285, 0, 0, 0),
-                            child: const Row(
-                              children: [
-                                Text(
-                                  '🏍️',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                Icon(Icons.apartment)
-                              ],
-                            ),
+                              Icon(Icons.apartment)
+                            ],
                           )
                         : Text('error'),
               ],
