@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-class DetailsCard extends StatelessWidget {
+class RideCard extends StatelessWidget {
   final int rideIndex;
-  const DetailsCard({
+  const RideCard({
     super.key,
     required this.rideIndex,
   });
@@ -54,6 +54,19 @@ class DetailsCard extends StatelessWidget {
                   foregroundColor: Colors.white,
                   label: 'BOOK',
                 ),
+            ],
+          ),
+          startActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) {
+                  rideState.unbook(rideIndex);
+                },
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                icon: Icons.call,
+              )
             ],
           ),
           child: Row(
