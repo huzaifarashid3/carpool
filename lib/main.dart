@@ -82,53 +82,18 @@ class Cards extends StatelessWidget {
             itemCount: rides.length,
             itemBuilder: (BuildContext context, int index) {
               Map<String, dynamic> ride = rides[index];
-              return Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 174, 24),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Card(
-                  name: ride['name'],
-                  owner_name: ride['owner_name'],
-                  time: ride['departure'],
-                  //seats: ride['seats'],
-                  going_fast: ride['going_fast'],
-                  type: ride['type'],
-                  // name: ride['name'],
-                  // time: ride['time'],
-                ),
+              return list_tile(
+                name: ride['name'],
+                owner_name: ride['owner_name'],
+                time: ride['departure'],
+                going_fast: ride['going_fast'],
+                type: ride['type'],
+                capacity: ride['capacity'],
               );
             },
           );
         }
       },
-    );
-  }
-}
-
-class Card extends StatelessWidget {
-  final String time, name, owner_name, type;
-  //final int seats;
-  final bool going_fast;
-
-  const Card({
-    super.key,
-    //required this.seats,
-    required this.name,
-    required this.owner_name,
-    required this.time,
-    required this.going_fast,
-    required this.type,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return list_tile(
-      name: name,
-      time: time,
-      owner_name: owner_name,
-      type: type,
-      going_fast: going_fast,
     );
   }
 }

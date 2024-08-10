@@ -36,9 +36,6 @@ class _create_routeState extends State<create_route> {
     super.initState();
     read_route_names();
     read_route_stops();
-    set_item_counts();
-    print('initializing');
-    print(route1_stops);
   }
 
   @override

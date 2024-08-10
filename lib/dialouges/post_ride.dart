@@ -1,6 +1,9 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, camel_case_types, non_constant_identifier_names
+// ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, camel_case_types, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'package:carpool/create_route.dart';
+import 'package:carpool/list_tile.dart';
+import 'package:carpool/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
@@ -12,9 +15,35 @@ class post_ride extends StatefulWidget {
 }
 
 class _post_rideState extends State<post_ride> {
-  String dropdown_text = 'Choose a Route';
+  String route_dropdown_text = 'Choose a Route';
+  String departure_type_dropdown_text = 'Choose Departure Type';
+  String capacity_dropdown_text = 'Seats Available';
+  String vehicle_type_dropdown_text = 'Vehicle Type:';
   String time_text = 'Choose Departure Time';
+  String user_name = '';
+  String time_input = '';
+  String departure_type_input = '';
   String after_time_selection_text = '';
+
+  static String route1name = '';
+  static String route2name = '';
+  static String route3name = '';
+  static String route4name = '';
+
+  late String selected_route = '';
+  static String selected_time = '';
+  static String selected_vehicle_type = '';
+  static String selected_departure_type = '';
+  static late int selected_capacity;
+
+  static late List route_stops;
+  @override
+  void initState() {
+    super.initState();
+    read_route_names();
+    get_user_name();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -22,9 +51,10 @@ class _post_rideState extends State<post_ride> {
       icon: const Icon(Icons.directions_car),
       shadowColor: Colors.black,
       content: Container(
-        height: 180,
+        height: 500,
         width: 400,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               //mainAxisAlignment: MainAxisAlignment.start,
@@ -47,24 +77,30 @@ class _post_rideState extends State<post_ride> {
                   height: 80,
                 ),
                 DropdownButton(
-                  hint: Text(dropdown_text),
+                  hint: Text(route_dropdown_text),
                   items: [
-                    const DropdownMenuItem(
-                      child: Text('Template 1'),
-                      value: 'Template 1',
+                    DropdownMenuItem(
+                      child: Text(route1name),
+                      value: route1name,
                     ),
-                    const DropdownMenuItem(
-                      child: Text('Gulshan wala '),
-                      value: 'Gulshan wala',
+                    DropdownMenuItem(
+                      child: Text(route2name),
+                      value: route2name,
                     ),
-                    const DropdownMenuItem(
-                      child: Text('Karsaz wala rasta'),
-                      value: 'Karsaz wala rasta',
-                    )
+                    DropdownMenuItem(
+                      child: Text(route3name),
+                      value: route3name,
+                    ),
+                    DropdownMenuItem(
+                      child: Text(route4name),
+                      value: route4name,
+                    ),
                   ],
                   onChanged: (String? newValue) {
                     setState(() {
-                      dropdown_text = newValue!;
+                      route_dropdown_text = 'Route: ' + newValue!;
+                      selected_route = newValue;
+                      read_route_stops();
                     });
                   },
                 ),
@@ -87,10 +123,103 @@ class _post_rideState extends State<post_ride> {
                       setState(() {
                         time_text = selectedTime.format(context);
                         after_time_selection_text = 'Departure Time:';
+                        selected_time = selectedTime.format(context);
                       });
                     }
                   },
                   child: Text(time_text),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Text('Choose a template'),
+                const SizedBox(
+                  width: 8,
+                  height: 80,
+                ),
+                DropdownButton(
+                  hint: Text(departure_type_dropdown_text),
+                  items: [
+                    const DropdownMenuItem(
+                      child: Text('Going Fast'),
+                      value: 'Going Fast',
+                    ),
+                    const DropdownMenuItem(
+                      child: Text('Leaving Fast'),
+                      value: 'Leaving Fast',
+                    ),
+                  ],
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      departure_type_dropdown_text = newValue!;
+                    });
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 8,
+                  height: 80,
+                ),
+                DropdownButton(
+                  hint: Text(vehicle_type_dropdown_text),
+                  items: [
+                    const DropdownMenuItem(
+                      child: Text('Car'),
+                      value: 'car',
+                    ),
+                    const DropdownMenuItem(
+                      child: Text('Bike'),
+                      value: 'bike',
+                    ),
+                  ],
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      vehicle_type_dropdown_text = 'Vehicle Type: ' + newValue!;
+                      selected_vehicle_type = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 8,
+                  height: 80,
+                ),
+                DropdownButton(
+                  hint: Text(capacity_dropdown_text),
+                  items: [
+                    const DropdownMenuItem(
+                      child: Text('1'),
+                      value: '1',
+                    ),
+                    const DropdownMenuItem(
+                      child: Text('2'),
+                      value: '2',
+                    ),
+                    const DropdownMenuItem(
+                      child: Text('3'),
+                      value: '3',
+                    ),
+                    const DropdownMenuItem(
+                      child: Text('4'),
+                      value: '4',
+                    ),
+                  ],
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      capacity_dropdown_text = 'Seats Available: ' + newValue!;
+                      selected_capacity = int.parse(newValue);
+                    });
+                  },
                 ),
               ],
             ),
@@ -106,7 +235,9 @@ class _post_rideState extends State<post_ride> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
+                    addRide();
                     Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(create_route.route_name);
                   },
                   child: const Text('Post Now !'),
                   style: ButtonStyle(
@@ -135,5 +266,97 @@ class _post_rideState extends State<post_ride> {
         ),
       ],
     );
+  }
+
+  void read_route_names() {
+    FirebaseFirestore.instance
+        .collection('User')
+        .doc(login.userLoginID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          route1name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route1name'];
+          route2name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route2name'];
+          route3name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route3name'];
+          route4name =
+              (documentSnapshot.data() as Map<String, dynamic>)['route4name'];
+        });
+        print('Route names Read successfully');
+        print(route1name);
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error reading route names: $error');
+    });
+  }
+
+  Future<void> addRide() {
+    CollectionReference users = FirebaseFirestore.instance.collection('Rides');
+
+    return users
+        .add({
+          'capacity': selected_capacity,
+          'departure': selected_time,
+          'going_fast': selected_departure_type == 'Going Fast' ? true : false,
+          'name': 'ALto',
+          'owner_name': user_name,
+          'type': selected_vehicle_type,
+          'route': route_stops,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future<String> get_user_name() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('User')
+        .doc(login.userLoginID)
+        .get();
+    if (documentSnapshot.exists) {
+      setState(() {
+        user_name = (documentSnapshot.data() as Map<String, dynamic>)['name'];
+        print('USERNAMEEEEEE IS: $user_name');
+      });
+    } else {
+      print('User Name Not Found');
+    }
+    return user_name;
+  }
+
+  void read_route_stops() {
+    FirebaseFirestore.instance
+        .collection('User')
+        .doc(login.userLoginID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          if (selected_route == route1name) {
+            route_stops = (documentSnapshot.data()
+                as Map<String, dynamic>)['route1stops'];
+          } else if (selected_route == route2name) {
+            route_stops = (documentSnapshot.data()
+                as Map<String, dynamic>)['route2stops'];
+          } else if (selected_route == route3name) {
+            route_stops = (documentSnapshot.data()
+                as Map<String, dynamic>)['route3stops'];
+          } else if (selected_route == route4name) {
+            route_stops = (documentSnapshot.data()
+                as Map<String, dynamic>)['route4stops'];
+          }
+        });
+        print('Route stops Read successfully');
+        print(route_stops);
+      } else {
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      print('Error reading route stops: $error');
+    });
   }
 }
