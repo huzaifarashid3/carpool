@@ -56,7 +56,7 @@ class AnimatedText extends StatefulWidget {
 
 class _AnimatedTextState extends State<AnimatedText> {
   bool condensed = true;
-  static const int n = 6;
+  static const int n = 7;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -67,7 +67,8 @@ class _AnimatedTextState extends State<AnimatedText> {
         duration: const Duration(milliseconds: 100),
         child: Center(
             child: Text(
-                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} ")),
+                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} " +
+                    (condensed && n < widget.loc.length ? ".. " : ""))),
       ),
     );
   }

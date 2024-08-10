@@ -18,15 +18,7 @@ class DetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var rideState = context.read<RideState>();
-    final bool booked = rideState.rides[rideIndex].booked;
-    final String name = rideState.rides[rideIndex].name;
-    final String contact = rideState.rides[rideIndex].contact;
-    final List<String> route = rideState.rides[rideIndex].route;
-    final int capacity = rideState.rides[rideIndex].capacity;
-    final int occupied = rideState.rides[rideIndex].occupied;
-    final String vehicleType = rideState.rides[rideIndex].vehicleType;
-    final String vehicleName = rideState.rides[rideIndex].vehicleName;
-    final String departureTime = rideState.rides[rideIndex].departureTime;
+    final ride = rideState.rides[rideIndex];
     const Color yellow = Color.fromARGB(221, 210, 194, 54);
     const Color red = Color.fromARGB(221, 210, 54, 54);
 
@@ -34,7 +26,7 @@ class DetailsCard extends StatelessWidget {
       height: 118,
       child: Material(
         borderRadius: BorderRadius.circular(10),
-        color: booked
+        color: ride.booked
             ? const Color.fromARGB(255, 231, 227, 197)
             : const Color.fromARGB(255, 238, 238, 238),
         clipBehavior: Clip.antiAlias,
@@ -43,7 +35,7 @@ class DetailsCard extends StatelessWidget {
           endActionPane: ActionPane(
             motion: const ScrollMotion(),
             children: [
-              if (booked)
+              if (ride.booked)
                 SlidableAction(
                   onPressed: (context) {
                     rideState.unbook(rideIndex);
@@ -72,15 +64,15 @@ class DetailsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
-                    RouteCard(route: route),
+                    RouteCard(route: ride.route),
                     const SizedBox(height: 15),
-                    SeatCard(occupied: occupied, capacity: capacity),
+                    SeatCard(occupied: ride.occupied, capacity: ride.capacity),
                     const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InfoCard(name: name, contact: contact),
-                        TimeCard(time: departureTime),
+                        InfoCard(name: ride.name, contact: ride.contact),
+                        TimeCard(time: ride.departureTime),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -88,7 +80,8 @@ class DetailsCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 7),
-              VehicleCard(vehicleType: vehicleType, vehicleName: vehicleName),
+              VehicleCard(
+                  vehicleType: ride.vehicleType, vehicleName: ride.vehicleName),
             ],
           ),
         ),

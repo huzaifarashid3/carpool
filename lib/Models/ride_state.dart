@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   List<Ride> rides = List.generate(
-    5,
+    10,
     (i) => Ride(
       name: 'Huzaifa Rashid',
       booked: i < 2,
       contact: '03001234567',
       capacity: 4,
       occupied: 2,
-      route: ['Lahore', 'Islamabad'],
+      route: [
+        'Lahore',
+        'Islamabad',
+        'Karachi',
+        "Quetta",
+        "Nathiagali",
+        "Murree"
+      ],
       vehicleName: 'Toyota Corolla',
       vehicleType: 'CAR',
       departureTime: '12:00 PM',
