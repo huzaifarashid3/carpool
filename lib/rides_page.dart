@@ -48,21 +48,44 @@ class BottomBar extends StatelessWidget {
   }
 }
 
-class SearchButton extends StatelessWidget {
+class SearchButton extends StatefulWidget {
   const SearchButton({
     super.key,
   });
 
   @override
+  State<SearchButton> createState() => _SearchButtonState();
+}
+
+class _SearchButtonState extends State<SearchButton> {
+  late Color bgColor;
+  late Color icnColor;
+  late bool toggled;
+
+  @override
+  void initState() {
+    super.initState();
+    bgColor = const Color.fromARGB(255, 66, 66, 66);
+    icnColor = Colors.white;
+    toggled = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: Colors.grey[800],
+      backgroundColor: bgColor,
       onPressed: () {
-        context.read<RideState>().refresh();
+        setState(() {
+          toggled = !toggled;
+          bgColor = toggled
+              ? const Color.fromARGB(255, 255, 255, 255)
+              : const Color.fromARGB(255, 66, 66, 66);
+          icnColor = toggled ? Colors.black : Colors.white;
+        });
       },
-      child: const Icon(
+      child: Icon(
         Icons.search,
-        color: Colors.white,
+        color: icnColor,
       ),
     );
   }
