@@ -1,13 +1,17 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, non_constant_identifier_names, constant_identifier_names
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, non_constant_identifier_names, constant_identifier_names, deprecated_member_use
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class list_tile extends StatelessWidget {
   final String time, name, owner_name, type;
   final int capacity;
   final bool going_fast;
   final List route;
+  final String rider_id;
+  final String rider_number;
   list_tile(
       {Key? key,
       required this.time,
@@ -16,7 +20,9 @@ class list_tile extends StatelessWidget {
       required this.type,
       required this.going_fast,
       required this.capacity,
-      required this.route});
+      required this.route,
+      required this.rider_id,
+      required this.rider_number});
 
   static const Color tile_colour1 = Color.fromARGB(255, 145, 255, 2);
   static const Color tile_colour2 = Color.fromARGB(255, 255, 213, 2);
@@ -25,16 +31,17 @@ class list_tile extends StatelessWidget {
   //
   @override
   Widget build(BuildContext context) {
-    List<String> route2_stops = ['Kda', 'North', 'Nipa', 'Millenium', 'Fast'];
+    //List<String> route2_stops = ['Kda', 'North', 'Nipa', 'Millenium', 'Fast'];
     if (type == 'car') {
       return Slidable(
         startActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              // Implement your logic here
-              // You can use add_a_stop_controller.text
-              // create_route.route1_stops.add(add_a_stop_controller.text);
-              // create_route.rout
+              print('Car rider id and number is $rider_id and $rider_number');
+
+              String message =
+                  "Hello, I saw your post on Fast Carpool App. Can you book a seat for me ? "; // Replace with your message
+              openWhatsApp(rider_number, message);
             },
             icon: Icons.call,
             label: 'Call',
@@ -62,8 +69,14 @@ class list_tile extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: ListTile(
             //isThreeLine: true,
+
             visualDensity: const VisualDensity(horizontal: 4, vertical: 3),
             contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            onTap: () {
+              // Logic when tile is clicked
+              print('RIDER ID::: ');
+              print('Rider ID: $rider_id');
+            },
             title: Row(
               children: [
                 // OWNER NAME CONTAINER
@@ -233,11 +246,6 @@ class list_tile extends StatelessWidget {
                 ),
               ],
             ), //Ride details
-
-            onTap: () {
-              // Logic when tile is clicked
-              print('Tile clicked');
-            },
           ),
         ),
       );
@@ -246,10 +254,12 @@ class list_tile extends StatelessWidget {
         startActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              // Implement your logic here
-              // You can use add_a_stop_controller.text
-              // create_route.route1_stops.add(add_a_stop_controller.text);
-              // create_route.rout
+              print('Rider ID: $rider_id');
+              print('Rider number: $rider_number');
+
+              String message =
+                  "Hello, I saw your post on Fast Carpool App. Can you book a seat for me ? "; // Replace with your message
+              openWhatsApp(rider_number, message);
             },
             icon: Icons.call,
             label: 'Call',
@@ -324,7 +334,7 @@ class list_tile extends StatelessWidget {
                   //Routes on cards
                   height: 30,
                   child: ListView.builder(
-                      itemCount: route2_stops.length,
+                      itemCount: route.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Row(
@@ -338,13 +348,13 @@ class list_tile extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Text(
-                                route2_stops[index],
+                                route[index],
                                 style: TextStyle(color: Colors.white),
                               ),
 
                               //backgroundColor: Colors.blue,
                             ),
-                            index == route2_stops.length - 1
+                            index == route.length - 1
                                 ? Container()
                                 : Icon(Icons.arrow_right_alt)
                           ],
@@ -401,8 +411,7 @@ class list_tile extends StatelessWidget {
             ), //Ride details
 
             onTap: () {
-              // Logic when tile is clicked
-              print('Tile clicked');
+              // tile clicked
             },
             splashColor: Color.fromARGB(255, 0, 255, 123),
           ),
@@ -410,6 +419,17 @@ class list_tile extends StatelessWidget {
       );
     } else {
       return Container();
+    }
+  }
+
+  void openWhatsApp(String phoneNumber, String message) async {
+    final whatsappUrl =
+        "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}";
+
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
     }
   }
 }

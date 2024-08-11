@@ -97,6 +97,8 @@ class Cards extends StatelessWidget {
                 type: ride['type'],
                 capacity: ride['capacity'],
                 route: ride['route'],
+                rider_id: ride['owner_id'],
+                rider_number: ride['owner_number'],
               );
             },
           );

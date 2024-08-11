@@ -47,224 +47,229 @@ class _post_rideState extends State<post_ride> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Post a Ride !'),
-      icon: const Icon(Icons.directions_car),
-      shadowColor: Colors.black,
-      content: Container(
-        height: 500,
-        width: 400,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              //mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Text('Don\'t have a Route?'),
-                const SizedBox(width: 15),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(create_route.route_name);
-                    },
-                    child: const Text('Create Now !')),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Text('Choose a template'),
-                const SizedBox(
-                  width: 8,
-                  height: 80,
-                ),
-                DropdownButton(
-                  hint: Text(route_dropdown_text),
-                  items: [
-                    DropdownMenuItem(
-                      child: Text(route1name),
-                      value: route1name,
-                    ),
-                    DropdownMenuItem(
-                      child: Text(route2name),
-                      value: route2name,
-                    ),
-                    DropdownMenuItem(
-                      child: Text(route3name),
-                      value: route3name,
-                    ),
-                    DropdownMenuItem(
-                      child: Text(route4name),
-                      value: route4name,
-                    ),
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      route_dropdown_text = 'Route: ' + newValue!;
-                      selected_route = newValue;
-                      read_route_stops();
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(after_time_selection_text),
-                const SizedBox(
-                  width: 10,
-                ),
-                TextButton(
-                  onPressed: () async {
-                    TimeOfDay? selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
+    return SingleChildScrollView(
+      child: AlertDialog(
+        title: const Text('Post a Ride !'),
+        icon: const Icon(Icons.directions_car),
+        shadowColor: Colors.black,
+        content: Container(
+          height: 500,
+          width: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text('Don\'t have a Route?'),
+                  const SizedBox(width: 15),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(create_route.route_name);
+                      },
+                      child: const Text('Create Now !')),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Text('Choose a template'),
+                  const SizedBox(
+                    width: 8,
+                    height: 80,
+                  ),
+                  DropdownButton(
+                    hint: Text(route_dropdown_text),
+                    items: [
+                      DropdownMenuItem(
+                        child: Text(route1name),
+                        value: route1name,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(route2name),
+                        value: route2name,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(route3name),
+                        value: route3name,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(route4name),
+                        value: route4name,
+                      ),
+                    ],
+                    onChanged: (String? newValue) {
                       setState(() {
-                        time_text = selectedTime.format(context);
-                        after_time_selection_text = 'Departure Time:';
-                        selected_time = selectedTime.format(context);
+                        route_dropdown_text = 'Route: ' + newValue!;
+                        selected_route = newValue;
+                        read_route_stops();
                       });
-                    }
-                  },
-                  child: Text(time_text),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Text('Choose a template'),
-                const SizedBox(
-                  width: 8,
-                  height: 80,
-                ),
-                DropdownButton(
-                  hint: Text(departure_type_dropdown_text),
-                  items: [
-                    const DropdownMenuItem(
-                      child: Text('Going Fast'),
-                      value: 'Going Fast',
-                    ),
-                    const DropdownMenuItem(
-                      child: Text('Leaving Fast'),
-                      value: 'Leaving Fast',
-                    ),
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      departure_type_dropdown_text = newValue!;
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 8,
-                  height: 80,
-                ),
-                DropdownButton(
-                  hint: Text(vehicle_type_dropdown_text),
-                  items: [
-                    const DropdownMenuItem(
-                      child: Text('Car'),
-                      value: 'car',
-                    ),
-                    const DropdownMenuItem(
-                      child: Text('Bike'),
-                      value: 'bike',
-                    ),
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      vehicle_type_dropdown_text = 'Vehicle Type: ' + newValue!;
-                      selected_vehicle_type = newValue;
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 8,
-                  height: 80,
-                ),
-                DropdownButton(
-                  hint: Text(capacity_dropdown_text),
-                  items: [
-                    const DropdownMenuItem(
-                      child: Text('1'),
-                      value: '1',
-                    ),
-                    const DropdownMenuItem(
-                      child: Text('2'),
-                      value: '2',
-                    ),
-                    const DropdownMenuItem(
-                      child: Text('3'),
-                      value: '3',
-                    ),
-                    const DropdownMenuItem(
-                      child: Text('4'),
-                      value: '4',
-                    ),
-                  ],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      capacity_dropdown_text = 'Seats Available: ' + newValue!;
-                      selected_capacity = int.parse(newValue);
-                    });
-                  },
-                ),
-              ],
-            ),
-          ],
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(after_time_selection_text),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      TimeOfDay? selectedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (selectedTime != null) {
+                        setState(() {
+                          time_text = selectedTime.format(context);
+                          after_time_selection_text = 'Departure Time:';
+                          selected_time = selectedTime.format(context);
+                        });
+                      }
+                    },
+                    child: Text(time_text),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Text('Choose a template'),
+                  const SizedBox(
+                    width: 8,
+                    height: 80,
+                  ),
+                  DropdownButton(
+                    hint: Text(departure_type_dropdown_text),
+                    items: [
+                      const DropdownMenuItem(
+                        child: Text('Going Fast'),
+                        value: 'Going Fast',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Leaving Fast'),
+                        value: 'Leaving Fast',
+                      ),
+                    ],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        departure_type_dropdown_text = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 8,
+                    height: 80,
+                  ),
+                  DropdownButton(
+                    hint: Text(vehicle_type_dropdown_text),
+                    items: [
+                      const DropdownMenuItem(
+                        child: Text('Car'),
+                        value: 'car',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Bike'),
+                        value: 'bike',
+                      ),
+                    ],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        vehicle_type_dropdown_text =
+                            'Vehicle Type: ' + newValue!;
+                        selected_vehicle_type = newValue;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 8,
+                    height: 80,
+                  ),
+                  DropdownButton(
+                    hint: Text(capacity_dropdown_text),
+                    items: [
+                      const DropdownMenuItem(
+                        child: Text('1'),
+                        value: '1',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('2'),
+                        value: '2',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('3'),
+                        value: '3',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('4'),
+                        value: '4',
+                      ),
+                    ],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        capacity_dropdown_text =
+                            'Seats Available: ' + newValue!;
+                        selected_capacity = int.parse(newValue);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      addRide();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Post Now !'),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color?>(Colors.green),
+                      foregroundColor:
+                          WidgetStateProperty.all<Color?>(Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color?>(Colors.red),
+                      foregroundColor:
+                          WidgetStateProperty.all<Color?>(Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    addRide();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Post Now !'),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all<Color?>(Colors.green),
-                    foregroundColor:
-                        WidgetStateProperty.all<Color?>(Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all<Color?>(Colors.red),
-                    foregroundColor:
-                        WidgetStateProperty.all<Color?>(Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -307,6 +312,8 @@ class _post_rideState extends State<post_ride> {
           'owner_name': user_name,
           'type': selected_vehicle_type,
           'route': route_stops,
+          'owner_id': login.userLoginID,
+          'owner_number': login.userNumber,
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));

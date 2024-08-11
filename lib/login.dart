@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatelessWidget {
   // ignore: constant_identifier_names
-  static String? userLoginID;
+  static String? userLoginID, userNumber;
   static const route_name = 'login';
   login({Key? key});
 
@@ -123,7 +123,10 @@ class login extends StatelessWidget {
         if (data['number'] == phoneNumber && data['password'] == password) {
           print("yoyo login Document ID: ${doc.id}");
           userLoginID = doc.id;
+          userNumber = data['number'];
+
           print('UserLoginID: ${userLoginID}');
+          print('Number : ${userNumber}');
           return true;
         }
       }
