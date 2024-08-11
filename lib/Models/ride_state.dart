@@ -59,7 +59,6 @@ class RideState extends ChangeNotifier {
   }
 
   Future<void> fetchCards() async {
-    await Future.delayed(const Duration(seconds: 3));
-    notifyListeners();
+    await Future.delayed(const Duration(seconds: 2));
   }
 }

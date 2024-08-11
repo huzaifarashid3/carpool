@@ -13,7 +13,7 @@ class RideCards extends StatefulWidget {
 }
 
 class _RideCardsState extends State<RideCards> {
-  var fetchedCards;
+  late Future<void> fetchedCards;
   @override
   void initState() {
     super.initState();
