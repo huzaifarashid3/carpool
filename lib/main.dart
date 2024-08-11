@@ -14,17 +14,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => RideState(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Carpool',
-        theme: ThemeData(
-          fontFamily: GoogleFonts.poppins().fontFamily,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
-          useMaterial3: true,
-        ),
-        home: const RidesPage(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Carpool',
+      theme: ThemeData(
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+        useMaterial3: true,
+      ),
+      home: ChangeNotifierProvider(
+        create: (context) => RideState(),
+        child: const RidesPage(),
       ),
     );
   }
