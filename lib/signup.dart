@@ -3,6 +3,7 @@
 import 'dart:io';
 
 // import 'package:carpool/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/login.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,7 @@ class signup extends StatelessWidget {
   static const route_name = 'signup';
   final TextEditingController _name_controller = TextEditingController();
   final TextEditingController _number_controller = TextEditingController();
+  final TextEditingController _password_controller = TextEditingController();
   // final TextEditingController _password_controller = TextEditingController();
   // final TextEditingController __controller = TextEditingController();
   late File _image;
@@ -41,7 +43,6 @@ class signup extends StatelessWidget {
       setState() {
         _image = image;
       }
-
     }
   }
 
@@ -111,6 +112,7 @@ class signup extends StatelessWidget {
                 margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
                 width: 300,
                 child: TextFormField(
+                  controller: _password_controller,
                   decoration: const InputDecoration(
                     hintText: 'Password',
                     border: OutlineInputBorder(),
@@ -149,7 +151,11 @@ class signup extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Implement your logic here
-                    _pickImage();
+                    // _pickImage();
+                    // print(
+                    //     'Name: ${_name_controller.text} , Number: ${_number_controller.text}, Password: ${_password_controller.text}');
+                    addUser(_name_controller.text, _number_controller.text,
+                        _password_controller.text);
                   },
                   child: const Text('Signup'),
                 ),
@@ -168,5 +174,19 @@ class signup extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> addUser(name, phone, password) {
+    // Call the user's CollectionReference to add a new user
+    CollectionReference users = FirebaseFirestore.instance.collection('User');
+
+    return users
+        .add({
+          'name': name, // John Doe
+          'number': phone, // Stokes and Sons
+          'password': password,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 }

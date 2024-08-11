@@ -547,21 +547,25 @@ class _create_routeState extends State<create_route> {
                     case 1:
                       route1_stops.add(add_a_stop_controller.text);
                       update_route_stops(1, route1_stops);
+                      add_a_stop_controller.text = '';
                       Navigator.of(context).pop();
                       return;
                     case 2:
                       route2_stops.add(add_a_stop_controller.text);
                       update_route_stops(2, route2_stops);
+                      add_a_stop_controller.text = '';
                       Navigator.of(context).pop();
                       return;
                     case 3:
                       route3_stops.add(add_a_stop_controller.text);
                       update_route_stops(3, route3_stops);
+                      add_a_stop_controller.text = '';
                       Navigator.of(context).pop();
                       return;
                     case 4:
                       route4_stops.add(add_a_stop_controller.text);
                       update_route_stops(4, route4_stops);
+                      add_a_stop_controller.text = '';
                       Navigator.of(context).pop();
                       return;
 
