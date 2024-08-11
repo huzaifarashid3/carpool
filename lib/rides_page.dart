@@ -12,13 +12,29 @@ class RidesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController controller = ScrollController();
+    Future.delayed(const Duration(seconds: 10), () {
+      controller.animateTo(
+        controller.position.minScrollExtent,
+        duration: const Duration(seconds: 2),
+        curve: Curves.easeIn,
+      );
+    });
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [TopBar(name: name, contact: contact)];
-        },
-        body: const RideCards(),
+      // body: NestedScrollView(
+      //   headerSliverBuilder: (context, innerBoxIsScrolled) {
+      //     return [TopBar(name: name, contact: contact)];
+      //   },
+      //   body: const RideCards(),
+      // ),
+      // floatingActionButton: const BottomBar(),
+      body: CustomScrollView(
+        controller: controller,
+        slivers: [
+          TopBar(name: name, contact: contact),
+          const RideCards(),
+        ],
       ),
       floatingActionButton: const BottomBar(),
     );
@@ -109,33 +125,49 @@ class RideCards extends StatelessWidget {
     final unbookedCards = cardsState.unbookedRides;
     final bookedCards = cardsState.bookedRides;
     final cards = [...bookedCards, ...unbookedCards];
-    return ListView.builder(
-      itemCount: cards.length + 1,
-      itemBuilder: (context, index) => Container(
-        margin: const EdgeInsets.all(8),
-        child: index < cards.length
-            ? RideCard(rideIndex: cards[index])
-            : Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: SizedBox(
-                    height: 300,
-                    child: Text(
-                      cards.length > 8
-                          ? "NO MORE RIDES"
-                          : cards.isEmpty
-                              ? "NO RIDES"
-                              : "",
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 134, 134, 134),
-                        fontSize: 20,
-                        letterSpacing: 2,
+    return FutureBuilder(
+      future: Future.delayed(const Duration(seconds: 10)),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SliverList.builder(
+            itemCount: 1,
+            itemBuilder: (context, index) => const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+        return SliverList.builder(
+          itemCount: cards.length + 1,
+          itemBuilder: (context, index) => Container(
+            margin: const EdgeInsets.all(8),
+            child: index < cards.length
+                ? RideCard(rideIndex: cards[index])
+                : Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: 300,
+                        child: Text(
+                          cards.length > 8
+                              ? "NO MORE RIDES"
+                              : cards.isEmpty
+                                  ? "NO RIDES"
+                                  : "",
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 134, 134, 134),
+                            fontSize: 20,
+                            letterSpacing: 2,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

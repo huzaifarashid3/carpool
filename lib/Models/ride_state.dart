@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   List<Ride> rides = List.generate(
-    10,
+    20,
     (i) => Ride(
       name: 'Huzaifa Rashid',
       booked: i < 2,

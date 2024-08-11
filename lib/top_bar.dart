@@ -14,6 +14,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      pinned: true,
       expandedHeight: 200,
       flexibleSpace: FlexibleSpaceBar(
         background: UserCard(name: name, contact: contact),
