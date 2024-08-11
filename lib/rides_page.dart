@@ -1,9 +1,9 @@
-import 'package:carpool/Models/ride_state.dart';
-import 'package:carpool/components/ride_card.dart';
 import 'package:carpool/driver_bar.dart';
+import 'package:carpool/ride_cards.dart';
 import 'package:carpool/top_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+ScrollController controller = ScrollController();
 
 class RidesPage extends StatelessWidget {
   const RidesPage({super.key});
@@ -12,16 +12,17 @@ class RidesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController controller = ScrollController();
-    Future.delayed(const Duration(seconds: 10), () {
-      controller.animateTo(
-        controller.position.minScrollExtent,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeIn,
-      );
-    });
+    // Future.delayed(const Duration(seconds: 10), () {
+    //   controller.animateTo(
+    //     controller.position.minScrollExtent,
+    //     duration: const Duration(seconds: 2),
+    //     curve: Curves.easeIn,
+    //   );
+    // });
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      // this ways allows for any type of scrollable widget to be in body
+      // but i am unable to scroll to top of the page
       // body: NestedScrollView(
       //   headerSliverBuilder: (context, innerBoxIsScrolled) {
       //     return [TopBar(name: name, contact: contact)];
@@ -97,6 +98,12 @@ class _SearchButtonState extends State<SearchButton> {
               ? const Color.fromARGB(255, 255, 255, 255)
               : const Color.fromARGB(255, 66, 66, 66);
           icnColor = toggled ? Colors.black : Colors.white;
+
+          controller.animateTo(
+            controller.position.minScrollExtent,
+            duration: const Duration(seconds: 2),
+            curve: Curves.easeIn,
+          );
         });
       },
       child: Icon(
@@ -113,61 +120,5 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
-  }
-}
-
-class RideCards extends StatelessWidget {
-  const RideCards({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    RideState cardsState = context.watch<RideState>();
-    final unbookedCards = cardsState.unbookedRides;
-    final bookedCards = cardsState.bookedRides;
-    final cards = [...bookedCards, ...unbookedCards];
-    return FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 10)),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SliverList.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) => const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        }
-        return SliverList.builder(
-          itemCount: cards.length + 1,
-          itemBuilder: (context, index) => Container(
-            margin: const EdgeInsets.all(8),
-            child: index < cards.length
-                ? RideCard(rideIndex: cards[index])
-                : Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Center(
-                      child: SizedBox(
-                        height: 300,
-                        child: Text(
-                          cards.length > 8
-                              ? "NO MORE RIDES"
-                              : cards.isEmpty
-                                  ? "NO RIDES"
-                                  : "",
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 134, 134, 134),
-                            fontSize: 20,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-          ),
-        );
-      },
-    );
   }
 }
