@@ -10,6 +10,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class home_page extends StatefulWidget {
   static const route_name = 'home_page';
+  static List route = [];
   static bool posted = false;
   const home_page({super.key});
 

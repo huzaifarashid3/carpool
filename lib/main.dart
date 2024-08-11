@@ -88,6 +88,7 @@ class Cards extends StatelessWidget {
             itemCount: rides.length,
             itemBuilder: (BuildContext context, int index) {
               Map<String, dynamic> ride = rides[index];
+              print('ROUTE FETCHED: ${ride['route']}');
               return lt.list_tile(
                 name: ride['name'],
                 owner_name: ride['owner_name'],
@@ -95,6 +96,7 @@ class Cards extends StatelessWidget {
                 going_fast: ride['going_fast'],
                 type: ride['type'],
                 capacity: ride['capacity'],
+                route: ride['route'],
               );
             },
           );

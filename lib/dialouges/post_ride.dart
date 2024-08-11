@@ -237,10 +237,6 @@ class _post_rideState extends State<post_ride> {
                 ElevatedButton(
                   onPressed: () {
                     addRide();
-                    home_page.posted = true;
-                    super.setState(() {
-                      home_page.posted = true;
-                    });
                     Navigator.of(context).pop();
                   },
                   child: const Text('Post Now !'),

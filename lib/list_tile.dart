@@ -7,15 +7,16 @@ class list_tile extends StatelessWidget {
   final String time, name, owner_name, type;
   final int capacity;
   final bool going_fast;
-
-  const list_tile(
+  final List route;
+  list_tile(
       {Key? key,
       required this.time,
       required this.name,
       required this.owner_name,
       required this.type,
       required this.going_fast,
-      required this.capacity});
+      required this.capacity,
+      required this.route});
 
   static const Color tile_colour1 = Color.fromARGB(255, 145, 255, 2);
   static const Color tile_colour2 = Color.fromARGB(255, 255, 213, 2);
@@ -110,7 +111,7 @@ class list_tile extends StatelessWidget {
                 SizedBox(
                   height: 30,
                   child: ListView.builder(
-                      itemCount: route2_stops.length,
+                      itemCount: route.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Row(
@@ -124,13 +125,13 @@ class list_tile extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Text(
-                                route2_stops[index],
+                                route[index],
                                 style: TextStyle(color: Colors.white),
                               ),
 
                               //backgroundColor: Colors.blue,
                             ),
-                            index == route2_stops.length - 1
+                            index == route.length - 1
                                 ? Container()
                                 : Icon(Icons.arrow_right_alt)
                           ],
@@ -223,7 +224,7 @@ class list_tile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
-                        margin: EdgeInsets.fromLTRB(184, 10, 0, 0),
+                        margin: EdgeInsets.fromLTRB(183, 10, 0, 0),
                         child: Text(
                           time,
                           style: TextStyle(color: Colors.white),
