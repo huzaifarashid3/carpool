@@ -8,94 +8,119 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-class RideCard extends StatelessWidget {
+class RideCard extends StatefulWidget {
   final int rideIndex;
+  final ScrollController controller;
   const RideCard({
     super.key,
     required this.rideIndex,
+    required this.controller,
   });
 
   @override
+  State<RideCard> createState() => _RideCardState();
+}
+
+class _RideCardState extends State<RideCard> {
+  @override
   Widget build(BuildContext context) {
     var rideState = context.read<RideState>();
-    final ride = rideState.rides[rideIndex];
+    final ride = rideState.rides[widget.rideIndex];
     const Color yellow = Color.fromARGB(221, 210, 194, 54);
     const Color red = Color.fromARGB(221, 210, 54, 54);
+    double height = 118;
 
-    return SizedBox(
-      height: 118,
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        color: ride.booked
-            ? const Color.fromARGB(255, 231, 227, 197)
-            : const Color.fromARGB(255, 238, 238, 238),
-        clipBehavior: Clip.antiAlias,
-        elevation: 2,
-        child: Slidable(
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              if (ride.booked)
-                SlidableAction(
-                  onPressed: (context) {
-                    rideState.unbook(rideIndex);
-                  },
-                  backgroundColor: red,
-                  foregroundColor: Colors.white,
-                  label: 'UNBOOK',
-                )
-              else
-                SlidableAction(
-                  // An action can be bigger than the others.
-                  onPressed: (context) {
-                    rideState.book(rideIndex);
-                  },
-                  backgroundColor: yellow,
-                  foregroundColor: Colors.white,
-                  label: 'BOOK',
-                ),
-            ],
-          ),
-          startActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (context) {
-                  rideState.unbook(rideIndex);
-                },
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                icon: Icons.call,
-              )
-            ],
-          ),
-          child: Row(
-            children: [
-              const SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    RouteCard(route: ride.route),
-                    const SizedBox(height: 15),
-                    SeatCard(occupied: ride.occupied, capacity: ride.capacity),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+      onTap: () => setState(() {
+        height == 118 ? height = 200 : height = 118;
+      }),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        child: SizedBox(
+          height: height.toDouble(),
+          child: Material(
+            borderRadius: BorderRadius.circular(10),
+            color: ride.booked
+                ? const Color.fromARGB(255, 231, 227, 197)
+                : const Color.fromARGB(255, 238, 238, 238),
+            clipBehavior: Clip.antiAlias,
+            elevation: 2,
+            child: Slidable(
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  if (ride.booked)
+                    SlidableAction(
+                      onPressed: (context) {
+                        rideState.unbook(widget.rideIndex);
+                      },
+                      backgroundColor: red,
+                      foregroundColor: Colors.white,
+                      label: 'UNBOOK',
+                    )
+                  else
+                    SlidableAction(
+                      // An action can be bigger than the others.
+                      onPressed: (context) {
+                        rideState.book(widget.rideIndex);
+                        widget.controller.hasClients
+                            ? widget.controller.animateTo(
+                                widget.controller.position.minScrollExtent,
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.easeIn,
+                              )
+                            : null;
+                      },
+                      backgroundColor: yellow,
+                      foregroundColor: Colors.white,
+                      label: 'BOOK',
+                    ),
+                ],
+              ),
+              startActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      rideState.unbook(widget.rideIndex);
+                    },
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    icon: Icons.call,
+                  )
+                ],
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        InfoCard(name: ride.name, contact: ride.contact),
-                        TimeCard(time: ride.departureTime),
+                        const SizedBox(height: 10),
+                        RouteCard(route: ride.route),
+                        const SizedBox(height: 15),
+                        SeatCard(
+                            occupied: ride.occupied, capacity: ride.capacity),
+                        const SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InfoCard(name: ride.name, contact: ride.contact),
+                            TimeCard(time: ride.departureTime),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 7),
+                  VehicleCard(
+                      vehicleType: ride.vehicleType,
+                      vehicleName: ride.vehicleName),
+                ],
               ),
-              const SizedBox(width: 7),
-              VehicleCard(
-                  vehicleType: ride.vehicleType, vehicleName: ride.vehicleName),
-            ],
+            ),
           ),
         ),
       ),

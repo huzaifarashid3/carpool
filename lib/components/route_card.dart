@@ -67,8 +67,7 @@ class _AnimatedTextState extends State<AnimatedText> {
         duration: const Duration(milliseconds: 100),
         child: Center(
             child: Text(
-                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} " +
-                    (condensed && n < widget.loc.length ? ".. " : ""))),
+                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} ${condensed && n < widget.loc.length ? ".. " : ""}")),
       ),
     );
   }

@@ -3,12 +3,11 @@ import 'package:carpool/ride_cards.dart';
 import 'package:carpool/top_bar.dart';
 import 'package:flutter/material.dart';
 
-ScrollController controller = ScrollController();
-
 class RidesPage extends StatelessWidget {
-  const RidesPage({super.key});
+  RidesPage({super.key});
   final name = 'Huzaifa Rashid';
   final contact = '0300-1234567';
+  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +33,37 @@ class RidesPage extends StatelessWidget {
         controller: controller,
         slivers: [
           TopBar(name: name, contact: contact),
-          const RideCards(),
+          RideCards(listController: controller),
         ],
       ),
-      floatingActionButton: const BottomBar(),
+      floatingActionButton: BottomBar(
+        controller: controller,
+      ),
     );
   }
 }
 
 class BottomBar extends StatelessWidget {
+  final ScrollController controller;
   const BottomBar({
     super.key,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(30, 0, 8, 2),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 0, 8, 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          const Expanded(
             child: DriverBar(),
           ),
-          SizedBox(width: 10),
-          SearchButton(),
+          const SizedBox(width: 10),
+          SearchButton(
+            controller: controller,
+          ),
         ],
       ),
     );
@@ -66,8 +71,10 @@ class BottomBar extends StatelessWidget {
 }
 
 class SearchButton extends StatefulWidget {
+  final ScrollController controller;
   const SearchButton({
     super.key,
+    required this.controller,
   });
 
   @override
@@ -99,10 +106,10 @@ class _SearchButtonState extends State<SearchButton> {
               : const Color.fromARGB(255, 66, 66, 66);
           icnColor = toggled ? Colors.black : Colors.white;
 
-          controller.animateTo(
-            controller.position.minScrollExtent,
-            duration: const Duration(seconds: 2),
-            curve: Curves.easeIn,
+          widget.controller.animateTo(
+            widget.controller.position.minScrollExtent,
+            duration: const Duration(seconds: 1),
+            curve: Curves.fastOutSlowIn,
           );
         });
       },

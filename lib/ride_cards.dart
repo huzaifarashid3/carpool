@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RideCards extends StatefulWidget {
-  const RideCards({super.key});
+  final ScrollController listController;
+  const RideCards({super.key, required this.listController});
 
   @override
   State<RideCards> createState() => _RideCardsState();
@@ -36,7 +37,10 @@ class _RideCardsState extends State<RideCards> {
           itemBuilder: (context, index) => Container(
             margin: const EdgeInsets.all(8),
             child: index < cards.length
-                ? RideCard(rideIndex: cards[index])
+                ? RideCard(
+                    rideIndex: cards[index],
+                    controller: widget.listController,
+                  )
                 : Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Center(

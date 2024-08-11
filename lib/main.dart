@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
         create: (context) => RideState(),
-        child: const RidesPage(),
+        child: RidesPage(),
       ),
     );
   }
