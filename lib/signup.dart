@@ -185,6 +185,14 @@ class signup extends StatelessWidget {
           'name': name, // John Doe
           'number': phone, // Stokes and Sons
           'password': password,
+          'route1name': '',
+          'route2name': '',
+          'route3name': '',
+          'route4name': '',
+          'route1stops': [],
+          'route2stops': [],
+          'route3stops': [],
+          'route4stops': [],
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));

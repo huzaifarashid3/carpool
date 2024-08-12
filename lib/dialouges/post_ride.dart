@@ -25,6 +25,7 @@ class _post_rideState extends State<post_ride> {
   String time_input = '';
   String departure_type_input = '';
   String after_time_selection_text = '';
+  String cant_post_ride_text = '';
 
   static String route1name = '';
   static String route2name = '';
@@ -237,11 +238,34 @@ class _post_rideState extends State<post_ride> {
             children: [
               Column(
                 children: [
+                  Text(
+                    cant_post_ride_text,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      addRide();
-                      Navigator.of(context).pop();
+                      print('POSTER ID: ${login.userLoginID}');
+
+                      FirebaseFirestore.instance
+                          .collection('Rides')
+                          .where('owner_id', isEqualTo: login.userLoginID)
+                          .get()
+                          .then((QuerySnapshot querySnapshot) {
+                        if (querySnapshot.docs.isNotEmpty) {
+                          print('Cannot add ride. User is already an owner.');
+                          setState(() {
+                            cant_post_ride_text = 'Your ride already exists .';
+                          });
+                        } else {
+                          print("RDIE ADDED");
+                          addRide();
+                          cant_post_ride_text = '';
+                          Navigator.of(context).pop();
+                        }
+                      }).catchError((error) {
+                        print('Error checking owner ID: $error');
+                      });
                     },
                     child: const Text('Post Now !'),
                     style: ButtonStyle(
@@ -254,6 +278,7 @@ class _post_rideState extends State<post_ride> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
+                      cant_post_ride_text = '';
                       Navigator.of(context).pop();
                     },
                     child: const Text('Cancel'),
@@ -365,5 +390,9 @@ class _post_rideState extends State<post_ride> {
     }).catchError((error) {
       print('Error reading route stops: $error');
     });
+  }
+
+  AlertDialog cant_post_ride_dialouge() {
+    return AlertDialog();
   }
 }

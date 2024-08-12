@@ -51,10 +51,20 @@ class list_tile extends StatelessWidget {
         endActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              // Implement your logic here
-              // You can use add_a_stop_controller.text
-              // create_route.route1_stops.add(add_a_stop_controller.text);
-              // create_route.rout
+              // BOOKING SEAT LOGIC
+
+              FirebaseFirestore.instance
+                  .collection('Rides')
+                  .where('owner_id', isEqualTo: rider_id)
+                  .get()
+                  .then((QuerySnapshot snapshot) {
+                if (snapshot.docs.isNotEmpty) {
+                  DocumentSnapshot rideDoc = snapshot.docs.first;
+                  if (capacity > 0) {
+                    rideDoc.reference.update({'capacity': capacity - 1});
+                  }
+                }
+              });
             },
             icon: Icons.collections,
             label: 'Book Seat',
@@ -269,10 +279,9 @@ class list_tile extends StatelessWidget {
         endActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              // Implement your logic here
-              // You can use add_a_stop_controller.text
-              // create_route.route1_stops.add(add_a_stop_controller.text);
-              // create_route.rout
+              print('Rider ID: $rider_id');
+              print('Rider number: $rider_number');
+              print('capacity: $capacity');
             },
             icon: Icons.collections,
             label: 'Book Seat',
