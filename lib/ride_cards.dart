@@ -23,7 +23,6 @@ class _RideCardsState extends State<RideCards> {
   @override
   Widget build(BuildContext context) {
     final RideState appState = context.watch<RideState>();
-    debugPrint("buidling all cards");
     return FutureBuilder(
       future: fetchedCards,
       builder: (context, snapshot) {

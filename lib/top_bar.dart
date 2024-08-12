@@ -17,7 +17,17 @@ class TopBar extends StatelessWidget {
       pinned: true,
       expandedHeight: 200,
       flexibleSpace: FlexibleSpaceBar(
-        background: UserCard(name: name, contact: contact),
+        background: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UserCard(name: name, contact: contact),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(Icons.car_crash),
+            ),
+          ],
+        ),
       ),
       title: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,6 +79,7 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // appState = 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
