@@ -279,9 +279,18 @@ class list_tile extends StatelessWidget {
         endActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              print('Rider ID: $rider_id');
-              print('Rider number: $rider_number');
-              print('capacity: $capacity');
+              FirebaseFirestore.instance
+                  .collection('Rides')
+                  .where('owner_id', isEqualTo: rider_id)
+                  .get()
+                  .then((QuerySnapshot snapshot) {
+                if (snapshot.docs.isNotEmpty) {
+                  DocumentSnapshot rideDoc = snapshot.docs.first;
+                  if (capacity > 0) {
+                    rideDoc.reference.update({'capacity': capacity - 1});
+                  }
+                }
+              });
             },
             icon: Icons.collections,
             label: 'Book Seat',

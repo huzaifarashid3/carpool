@@ -3,6 +3,7 @@
 import 'dart:io';
 
 // import 'package:carpool/user.dart';
+import 'package:carpool/notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/login.dart';
@@ -160,10 +161,11 @@ class signup extends StatelessWidget {
     );
   }
 
-  Future<void> addUser(name, phone, password) {
+  Future<void> addUser(name, phone, password) async {
     // Call the user's CollectionReference to add a new user
     CollectionReference users = FirebaseFirestore.instance.collection('User');
-
+    String tok = await notifications().getToken();
+    //tok = tok ?? ''; // Set tok to an empty string if it is null
     return users
         .add({
           'name': name, // John Doe
@@ -177,6 +179,7 @@ class signup extends StatelessWidget {
           'route2stops': [],
           'route3stops': [],
           'route4stops': [],
+          'token': tok,
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));

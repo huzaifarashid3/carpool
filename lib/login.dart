@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carpool/home_page.dart';
+import 'package:carpool/notifications.dart';
 import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,8 @@ class login extends StatelessWidget {
           passwordController.text,
         );
         if (isLoggedIn) {
+          Future<String> tok = notifications().getToken();
+          print('Token: $tok');
           Navigator.pushNamed(context, home_page.route_name);
         } else {
           //dialouge to be created
