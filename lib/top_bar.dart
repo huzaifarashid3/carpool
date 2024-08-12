@@ -27,22 +27,6 @@ class TopBar extends StatelessWidget {
             style: TextStyle(color: Color.fromARGB(255, 116, 116, 116)),
           ),
           SwipeText(),
-          // GradientAnimationText(
-          //   text: Text('SWIPE TO BOOK',
-          //       style: TextStyle(
-          //         color: Color.fromARGB(255, 116, 116, 116),
-          //         letterSpacing: 4,
-          //       )),
-          //   reverse: true,
-          //   colors: [
-          //     Color.fromARGB(255, 134, 134, 134),
-          //     Color.fromARGB(255, 177, 177, 177),
-          //     Color.fromARGB(255, 199, 199, 199),
-          //     Color.fromARGB(255, 202, 201, 201),
-          //     Color.fromARGB(255, 221, 220, 220),
-          //   ],
-          //   duration: Duration(seconds: 5),
-          // )
         ],
       ),
       elevation: 0,
@@ -85,31 +69,55 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SizedBox(height: 100),
-        Row(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 80),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
+                  child: Text("Welcome, $name",
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 116, 116, 116),
+                        fontSize: 20,
+                      )),
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'edit',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                  // child: Icon(
+                  //   Icons.edit,
+                  //   color: Colors.grey,
+                  //   size: 18,
+                  // )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-              child: Text("Welcome, $name",
+              child: Text("CONTACT: $contact",
                   style: const TextStyle(
                     color: Color.fromARGB(255, 116, 116, 116),
                     fontSize: 20,
                   )),
             ),
           ],
-        ),
-        const SizedBox(height: 5),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-          child: Text("CONTACT: $contact",
-              style: const TextStyle(
-                color: Color.fromARGB(255, 116, 116, 116),
-                fontSize: 20,
-              )),
         ),
       ],
     );
