@@ -2,6 +2,8 @@ import 'package:carpool/Models/ride_model.dart';
 import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
+  final car = const Image(image: AssetImage('assets/car.png'));
+
   List<Ride> rides = List.generate(
     20,
     (i) => Ride(

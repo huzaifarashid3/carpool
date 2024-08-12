@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class User {
   String name;
   String contact;
-  List<List<String>>? routes;
-  String? vehicleName;
-  String? vehicleType;
   User({required this.name, required this.contact});
 }

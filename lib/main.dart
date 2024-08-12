@@ -1,6 +1,7 @@
+import 'package:carpool/Models/user_model.dart';
+import 'package:carpool/Models/user_state.dart';
 import 'package:carpool/rides_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:carpool/Models/ride_state.dart';
 
@@ -22,9 +23,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
-      home: ChangeNotifierProvider(
-        create: (context) => RideState(),
-        child: RidesPage(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => RideState()),
+          ChangeNotifierProvider(create: (context) => UserState()),
+        ],
+        child: SafeArea(child: RidesPage()),
       ),
     );
   }

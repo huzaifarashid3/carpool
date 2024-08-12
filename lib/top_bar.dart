@@ -1,33 +1,20 @@
+import 'package:carpool/Models/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({
     super.key,
-    required this.name,
-    required this.contact,
   });
-
-  final String name;
-  final String contact;
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
-      expandedHeight: 200,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UserCard(name: name, contact: contact),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
-              child: Icon(Icons.car_crash),
-            ),
-          ],
-        ),
+      expandedHeight: 180,
+      flexibleSpace: const FlexibleSpaceBar(
+        background: UserCard(),
       ),
       title: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,68 +54,123 @@ class SwipeText extends StatelessWidget {
   }
 }
 
-class UserCard extends StatelessWidget {
-  const UserCard({
-    super.key,
-    required this.name,
-    required this.contact,
-  });
+class UserCard extends StatefulWidget {
+  const UserCard({super.key});
 
-  final String name;
-  final String contact;
+  @override
+  State<UserCard> createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
+  final nameController = TextEditingController();
+  final contactController = TextEditingController();
+  bool isEditing = false;
+
+  Future<void> saveUser() async {
+    final appState = context.read<UserState>();
+    appState.updateUser(nameController.text, contactController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // appState = 
+    final appState = context.watch<UserState>();
+    if (appState.isUserLoggedIn) {
+      nameController.text = appState.name!;
+      contactController.text = appState.contact!;
+    } else {
+      isEditing = true;
+    }
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            const SizedBox(height: 70),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-                  child: Text("Welcome, $name",
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 116, 116, 116),
-                        fontSize: 20,
-                      )),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'edit',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
+                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <InlineSpan>[
+                        // first part
+                        WidgetSpan(
+                            child:
+                                Text(isEditing ? "Name:      " : "Welcome, ")),
+                        // flexible text field
+                        WidgetSpan(
+                            child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(minWidth: 128),
+                                child: IntrinsicWidth(
+                                  child: TextField(
+                                      controller: nameController,
+                                      enabled: isEditing,
+                                      maxLines: null,
+                                      decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(0))),
+                                ))),
+                      ],
                     ),
                   ),
-                  // child: Icon(
-                  //   Icons.edit,
-                  //   color: Colors.grey,
-                  //   size: 18,
-                  // )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <InlineSpan>[
+                        // first part
+                        const WidgetSpan(child: Text("Contact:   ")),
+                        // flexible text field
+                        WidgetSpan(
+                            child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints(minWidth: 128),
+                                child: IntrinsicWidth(
+                                  child: TextField(
+                                      controller: contactController,
+                                      enabled: isEditing,
+                                      maxLines: null,
+                                      keyboardType: TextInputType.phone,
+                                      decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(0))),
+                                ))),
+                      ],
+                    ),
+                  ),
                 ),
               ],
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-              child: Text("CONTACT: $contact",
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 116, 116, 116),
-                    fontSize: 20,
-                  )),
-            ),
+            )
+            // else
+            // UserCard(name: widget.name, contact: widget.contact),
           ],
+        ),
+        SizedBox(
+          height: 30,
+          child: OutlinedButton(
+            onPressed: () {
+              saveUser();
+              setState(() {
+                isEditing = !isEditing;
+              });
+            },
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.grey),
+
+              shape: const CircleBorder(),
+              // borderRadius: BorderRadius.circular(40),
+            ),
+            child: Icon(
+              isEditing ? Icons.check : Icons.edit_outlined,
+              color: Colors.grey,
+              size: 16,
+            ),
+          ),
         ),
       ],
     );

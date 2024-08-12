@@ -18,7 +18,7 @@ class TimeCard extends StatelessWidget {
           style: const TextStyle(
             color: Colors.white,
             fontSize: 13,
-            fontWeight: FontWeight.w100,
+            // fontWeight: FontWeight.w100,
           ),
         ),
       ),

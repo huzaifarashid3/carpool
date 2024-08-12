@@ -65,18 +65,21 @@ class _DriverBarState extends State<DriverBar> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: Colors.grey[800],
-      onPressed: () {
-        _showModalBottomSheet(context);
-      },
-      child: rideStarted
-          ? const SeatCard(
-              occupied: 3,
-              capacity: 3,
-            )
-          : const Text('ADD RIDE',
-              style: TextStyle(color: Colors.white, letterSpacing: 2)),
+    return Visibility(
+      visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+      child: FloatingActionButton(
+        backgroundColor: Colors.grey[800],
+        onPressed: () {
+          _showModalBottomSheet(context);
+        },
+        child: rideStarted
+            ? const SeatCard(
+                occupied: 3,
+                capacity: 3,
+              )
+            : const Text('ADD RIDE',
+                style: TextStyle(color: Colors.white, letterSpacing: 2)),
+      ),
     );
   }
 }

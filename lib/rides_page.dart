@@ -32,10 +32,11 @@ class RidesPage extends StatelessWidget {
       body: CustomScrollView(
         controller: controller,
         slivers: [
-          TopBar(name: name, contact: contact),
+          const TopBar(),
           RideCards(listController: controller),
         ],
       ),
+      // body: Container(child: context.read<RideState>().car),
       floatingActionButton: BottomBar(
         controller: controller,
       ),
@@ -96,26 +97,30 @@ class _SearchButtonState extends State<SearchButton> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: bgColor,
-      onPressed: () {
-        setState(() {
-          toggled = !toggled;
-          bgColor = toggled
-              ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(255, 66, 66, 66);
-          icnColor = toggled ? Colors.black : Colors.white;
+    return Visibility(
+      visible: MediaQuery.of(context).viewInsets.bottom ==
+          0.0, // this is to prevernt fab from showing when keyboard is open
+      child: FloatingActionButton(
+        backgroundColor: bgColor,
+        onPressed: () {
+          setState(() {
+            toggled = !toggled;
+            bgColor = toggled
+                ? const Color.fromARGB(255, 255, 255, 255)
+                : const Color.fromARGB(255, 66, 66, 66);
+            icnColor = toggled ? Colors.black : Colors.white;
 
-          widget.controller.animateTo(
-            widget.controller.position.minScrollExtent,
-            duration: const Duration(seconds: 1),
-            curve: Curves.fastOutSlowIn,
-          );
-        });
-      },
-      child: Icon(
-        Icons.search,
-        color: icnColor,
+            widget.controller.animateTo(
+              widget.controller.position.minScrollExtent,
+              duration: const Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+            );
+          });
+        },
+        child: Icon(
+          Icons.search,
+          color: icnColor,
+        ),
       ),
     );
   }
