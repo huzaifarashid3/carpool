@@ -63,8 +63,13 @@ class Cards extends StatelessWidget {
         .toList();
   }
 
-  List<Map<String, dynamic>> filterRides(List<Map<String, dynamic>> rides) {
-    return rides.where((ride) => ride['going_fast'] == true).toList();
+  Future<List<Map<String, dynamic>>> filter_Rides(going_fast) async {
+    CollectionReference ridesCollection =
+        FirebaseFirestore.instance.collection('Rides');
+    QuerySnapshot snapshot = await ridesCollection.get();
+    List<Map<String, dynamic>> rides =
+        snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    return rides.where((ride) => ride['going_fast'] == going_fast).toList();
   }
 
   @override

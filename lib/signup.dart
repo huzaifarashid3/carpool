@@ -130,22 +130,6 @@ class signup extends StatelessWidget {
                   child: const Text('Upload Image'),
                 ),
               ),
-
-              // ...
-
-              // ...
-
-              // Container(
-              //   color: Colors.white,
-              //   margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
-              //   width: 300,
-              //   child: TextFormField(
-              //     decoration: const InputDecoration(
-              //       hintText: 'Confirm Password',
-              //       border: OutlineInputBorder(),
-              //     ),
-              //   ),
-              // ),
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: ElevatedButton(

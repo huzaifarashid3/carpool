@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/create_route.dart';
 import 'package:carpool/dialouges/post_ride.dart';
@@ -12,13 +14,29 @@ class home_page extends StatefulWidget {
   static const route_name = 'home_page';
   static List route = [];
   static bool posted = false;
-  const home_page({super.key});
+  home_page({super.key});
 
   @override
   State<home_page> createState() => _home_pageState();
 }
 
 class _home_pageState extends State<home_page> {
+  String route_dropdown_text = 'Choose a Route';
+  String departure_type_dropdown_text = 'Choose Departure Type';
+  String capacity_dropdown_text = 'Seats Available';
+  String vehicle_type_dropdown_text = 'Vehicle Type:';
+  String time_text = 'Choose Departure Time';
+  String user_name = '';
+  String time_input = '';
+  String departure_type_input = '';
+  String after_time_selection_text = '';
+  String cant_post_ride_text = '';
+  late String selected_route = '';
+  String selected_time = '';
+  String selected_vehicle_type = '';
+  late bool selected_departure_type;
+  late int selected_capacity;
+
   static String? userLoginID = login.userLoginID;
 
   @override
@@ -38,110 +56,228 @@ class _home_pageState extends State<home_page> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Filter Options'),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            const Text('Time: '),
-                            const SizedBox(width: 10),
-                            InkWell(
-                              onTap: () {
-                                // Show time picker
-                                showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now(),
-                                ).then((selectedTime) {
-                                  if (selectedTime != null) {
-                                    // Implement your logic when time is selected
-                                    // You can use selectedTime.hour and selectedTime.minute
-                                  }
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                  horizontal: 20,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
+                  return SingleChildScrollView(
+                    child: AlertDialog(
+                      shape: Border.all(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                      title: const Text('Apply Filters !'),
+                      icon: const Icon(Icons.filter_list),
+                      shadowColor: Colors.black,
+                      content: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 300,
+                        width: 400,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(after_time_selection_text),
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Text(
-                                  'Select Time',
-                                  style: TextStyle(
-                                    fontSize: 16,
+                                  TextButton(
+                                    onPressed: () async {
+                                      TimeOfDay? selectedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (selectedTime != null) {
+                                        setState(() {
+                                          time_text =
+                                              selectedTime.format(context);
+                                          after_time_selection_text =
+                                              'Departure Time:';
+                                          var selected_time =
+                                              selectedTime.format(context);
+                                        });
+                                      }
+                                    },
+                                    child: Text(time_text),
                                   ),
-                                ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Location',
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Text('Choose a template'),
+                                  const SizedBox(
+                                    width: 8,
+                                    height: 80,
+                                  ),
+                                  DropdownButton(
+                                    hint: Text(departure_type_dropdown_text),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'Going Fast',
+                                        child: Text('Going Fast'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'Leaving Fast',
+                                        child: Text('Leaving Fast'),
+                                      ),
+                                    ],
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        departure_type_dropdown_text =
+                                            newValue!;
+                                        selected_departure_type =
+                                            newValue == 'Going Fast'
+                                                ? true
+                                                : false;
+                                      });
+                                      if (selected_departure_type) {
+                                        // Fetch rides from the database where going_fast is true
+                                        // You can use a database query or API call here
+                                        // Example:
+                                        // final rides = await fetchRides(goingFast: true);
+                                        // Do something with the fetched rides
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 8,
+                                    height: 80,
+                                  ),
+                                  DropdownButton(
+                                    hint: Text(vehicle_type_dropdown_text),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: 'car',
+                                        child: Text('Car'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'bike',
+                                        child: Text('Bike'),
+                                      ),
+                                    ],
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        vehicle_type_dropdown_text =
+                                            'Vehicle Type: ' + newValue!;
+                                        selected_vehicle_type = newValue;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 8,
+                                    height: 80,
+                                  ),
+                                  DropdownButton(
+                                    hint: Text(capacity_dropdown_text),
+                                    items: const [
+                                      DropdownMenuItem(
+                                        value: '1',
+                                        child: Text('1'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: '2',
+                                        child: Text('2'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: '3',
+                                        child: Text('3'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: '4',
+                                        child: Text('4'),
+                                      ),
+                                    ],
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        capacity_dropdown_text =
+                                            'Seats Available: ' + newValue!;
+                                        selected_capacity = int.parse(newValue);
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        DropdownButtonFormField<String>(
-                          decoration: const InputDecoration(
-                            labelText: 'Vehicle Type',
-                          ),
-                          value: 'car',
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'car',
-                              child: Text('Car'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'bike',
-                              child: Text('Bike'),
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                // Text(
+                                //   cant_post_ride_text,
+                                //   style: const TextStyle(color: Colors.red),
+                                // ),
+                                const SizedBox(height: 10),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    print(
+                                        "departure type: $selected_departure_type");
+                                    print(
+                                        "vehicle type: $selected_vehicle_type");
+                                    print("capacity: $selected_capacity");
+                                    print("time: $selected_time");
+
+                                    // Fetch rides from the database based on the selected filters
+
+                                    //  Cards.call_filtered_future_builder(
+                                    //   selected_departure_type,
+                                    //   selected_vehicle_type,
+                                    //   selected_capacity,
+                                    //   selected_time,
+                                    // );
+
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color?>(
+                                            Colors.green),
+                                    foregroundColor:
+                                        WidgetStateProperty.all<Color?>(
+                                            Colors.white),
+                                  ),
+                                  child: const Text('Apply'),
+                                ),
+                                const SizedBox(height: 10),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // cant_post_ride_text = '';
+                                    Navigator.of(context).pop();
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color?>(
+                                            Colors.red),
+                                    foregroundColor:
+                                        WidgetStateProperty.all<Color?>(
+                                            Colors.white),
+                                  ),
+                                  child: const Text('Cancel'),
+                                ),
+                              ],
                             ),
                           ],
-                          onChanged: (value) {
-                            // Implement your logic when vehicle type is changed
-                          },
-                        ),
-                        DropdownButtonFormField<String>(
-                          decoration: const InputDecoration(
-                            labelText: 'Going Fast or Leaving Fast',
-                          ),
-                          value: 'going_fast',
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'going_fast',
-                              child: Text('Going Fast'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'leaving_fast',
-                              child: Text('Leaving Fast'),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            // Implement your logic when going fast or leaving fast is changed
-                          },
                         ),
                       ],
                     ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          // Implement your filter logic here
-
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Apply'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                    ],
                   );
                 },
               );
@@ -158,6 +294,8 @@ class _home_pageState extends State<home_page> {
         ),
         centerTitle: true,
       ),
+
+      //BODYY
       body: Cards(noOfRides: noOfRides),
       bottomNavigationBar: BottomAppBar(
         color: const Color.fromARGB(190, 3, 255, 142),
