@@ -66,7 +66,7 @@ class _RideCardState extends State<RideCard> {
                           ? widget.controller.animateTo(
                               widget.controller.position.minScrollExtent,
                               duration: const Duration(seconds: 1),
-                              curve: Curves.easeIn,
+                              curve: Curves.fastOutSlowIn,
                             )
                           : null;
                     },

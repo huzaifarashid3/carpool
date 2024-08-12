@@ -58,7 +58,16 @@ class RideState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchCards() async {
+  List<int> get allRides {
+    List<int> allRides = [];
+    for (int i = 0; i < rides.length; i++) {
+      allRides.add(i);
+    }
+    return allRides;
+  }
+
+  Future<List<int>> fetchCards() async {
     await Future.delayed(const Duration(seconds: 2));
+    return allRides;
   }
 }

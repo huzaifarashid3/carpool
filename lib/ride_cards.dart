@@ -13,7 +13,7 @@ class RideCards extends StatefulWidget {
 }
 
 class _RideCardsState extends State<RideCards> {
-  late Future<void> fetchedCards;
+  late Future<List<int>> fetchedCards;
   @override
   void initState() {
     super.initState();
@@ -22,48 +22,66 @@ class _RideCardsState extends State<RideCards> {
 
   @override
   Widget build(BuildContext context) {
-    RideState cardsState = context.watch<RideState>();
-    final unbookedCards = cardsState.unbookedRides;
-    final bookedCards = cardsState.bookedRides;
-    final cards = [...bookedCards, ...unbookedCards];
+    final RideState appState = context.watch<RideState>();
+    debugPrint("buidling all cards");
     return FutureBuilder(
       future: fetchedCards,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingCards();
         }
-        return SliverList.builder(
-          itemCount: cards.length + 1,
-          itemBuilder: (context, index) => Container(
-            margin: const EdgeInsets.all(8),
-            child: index < cards.length
-                ? RideCard(
-                    rideIndex: cards[index],
-                    controller: widget.listController,
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Center(
-                      child: SizedBox(
-                        height: 300,
-                        child: Text(
-                          cards.length > 8
-                              ? "NO MORE RIDES"
-                              : cards.isEmpty
-                                  ? "NO RIDES"
-                                  : "",
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 134, 134, 134),
-                            fontSize: 20,
-                            letterSpacing: 2,
-                          ),
-                        ),
+        // this calcuation should be done in a future .... will cause jank
+        final List<int> bookedCards = appState.bookedRides;
+        final List<int> unbookedCards = appState.unbookedRides;
+        final List<int> cards = [...bookedCards, ...unbookedCards];
+        return LoadedCards(cards: cards, widget: widget);
+      },
+    );
+  }
+}
+
+class LoadedCards extends StatelessWidget {
+  const LoadedCards({
+    super.key,
+    required this.cards,
+    required this.widget,
+  });
+
+  final List<int> cards;
+  final RideCards widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList.builder(
+      itemCount: cards.length + 1,
+      itemBuilder: (context, index) => Container(
+        margin: const EdgeInsets.all(8),
+        child: index < cards.length
+            ? RideCard(
+                rideIndex: cards[index],
+                controller: widget.listController,
+              )
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: SizedBox(
+                    height: 300,
+                    child: Text(
+                      cards.length > 8
+                          ? "NO MORE RIDES"
+                          : cards.isEmpty
+                              ? "NO RIDES"
+                              : "",
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 134, 134, 134),
+                        fontSize: 20,
+                        letterSpacing: 2,
                       ),
                     ),
                   ),
-          ),
-        );
-      },
+                ),
+              ),
+      ),
     );
   }
 }
