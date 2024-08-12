@@ -13,27 +13,35 @@ class RideCards extends StatefulWidget {
 }
 
 class _RideCardsState extends State<RideCards> {
-  late Future<List<int>> fetchedCards;
+  // late Future<List<int>> fetchedCards;
   @override
   void initState() {
     super.initState();
-    fetchedCards = context.read<RideState>().fetchCards();
+    context.read<RideState>().fetch();
+    // fetchedCards = context.read<RideState>().fetchCards();
   }
 
   @override
   Widget build(BuildContext context) {
     final RideState appState = context.watch<RideState>();
     return FutureBuilder(
-      future: fetchedCards,
+      // future: fetchedCards,
+      // this approach directly uses the state of the provider
+      // the future is only to reflect the loading state
+      future: appState.fetchR,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingCards();
         }
         // this calcuation should be done in a future .... will cause jank
-        final List<int> bookedCards = appState.bookedRides;
-        final List<int> unbookedCards = appState.unbookedRides;
-        final List<int> cards = [...bookedCards, ...unbookedCards];
-        return LoadedCards(cards: cards, widget: widget);
+        // final List<int> bookedCards = appState.bookedRides;
+        // final List<int> unbookedCards = appState.unbookedRides;
+        // final List<int> cards = [...bookedCards, ...unbookedCards];
+
+        // ^ moved this to the async function in the provider
+
+        // getting the cards from the future with calculation already done
+        return LoadedCards(cards: appState.arrangedRides, widget: widget);
       },
     );
   }

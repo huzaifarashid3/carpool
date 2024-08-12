@@ -65,6 +65,19 @@ class _UserCardState extends State<UserCard> {
   final nameController = TextEditingController();
   final contactController = TextEditingController();
   bool isEditing = false;
+  final style = const TextStyle(
+    color: Color.fromARGB(255, 109, 109, 109),
+    letterSpacing: 2,
+    fontSize: 13,
+    // fontWeight: FontWeight.w100,
+  );
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    contactController.dispose();
+    super.dispose();
+  }
 
   Future<void> saveUser() async {
     final appState = context.read<UserState>();
@@ -82,73 +95,80 @@ class _UserCardState extends State<UserCard> {
     }
     return Row(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 70),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                  child: RichText(
-                    text: TextSpan(
-                      children: <InlineSpan>[
-                        // first part
-                        WidgetSpan(
-                            child:
-                                Text(isEditing ? "Name:      " : "Welcome, ")),
-                        // flexible text field
-                        WidgetSpan(
-                            child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(minWidth: 128),
-                                child: IntrinsicWidth(
-                                  child: TextField(
-                                      controller: nameController,
-                                      enabled: isEditing,
-                                      maxLines: null,
-                                      decoration: const InputDecoration(
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.all(0))),
-                                ))),
-                      ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 70),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                    child: RichText(
+                      text: TextSpan(
+                        children: <InlineSpan>[
+                          // first part
+                          WidgetSpan(
+                            child: Text(
+                              isEditing ? "NAME:        " : "WELCOME,  ",
+                              style: style,
+                            ),
+                          ),
+                          // flexible text field
+                          WidgetSpan(
+                              child: ConstrainedBox(
+                                  constraints:
+                                      const BoxConstraints(minWidth: 128),
+                                  child: IntrinsicWidth(
+                                    child: TextField(
+                                        controller: nameController,
+                                        enabled: isEditing,
+                                        maxLines: null,
+                                        decoration: const InputDecoration(
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(0))),
+                                  ))),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                  child: RichText(
-                    text: TextSpan(
-                      children: <InlineSpan>[
-                        // first part
-                        const WidgetSpan(child: Text("Contact:   ")),
-                        // flexible text field
-                        WidgetSpan(
-                            child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(minWidth: 128),
-                                child: IntrinsicWidth(
-                                  child: TextField(
-                                      controller: contactController,
-                                      enabled: isEditing,
-                                      maxLines: null,
-                                      keyboardType: TextInputType.phone,
-                                      decoration: const InputDecoration(
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.all(0))),
-                                ))),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                    child: RichText(
+                      text: TextSpan(
+                        children: <InlineSpan>[
+                          // first part
+                          WidgetSpan(
+                            child: Text("CONTACT:   ", style: style),
+                          ),
+                          // flexible text field
+                          WidgetSpan(
+                              child: ConstrainedBox(
+                                  constraints:
+                                      const BoxConstraints(minWidth: 128),
+                                  child: IntrinsicWidth(
+                                    child: TextField(
+                                        controller: contactController,
+                                        enabled: isEditing,
+                                        maxLines: null,
+                                        keyboardType: TextInputType.phone,
+                                        decoration: const InputDecoration(
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(0))),
+                                  ))),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-            // else
-            // UserCard(name: widget.name, contact: widget.contact),
-          ],
+                ],
+              )
+              // else
+              // UserCard(name: widget.name, contact: widget.contact),
+            ],
+          ),
         ),
         SizedBox(
           height: 30,

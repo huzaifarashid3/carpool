@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   final car = const Image(image: AssetImage('assets/car.png'));
-
+  late Future<List<int>> fetchR;
   List<Ride> rides = List.generate(
     20,
     (i) => Ride(
@@ -56,7 +56,12 @@ class RideState extends ChangeNotifier {
     return ubRides;
   }
 
+  void fetch() async {
+    fetchR = fetchCards();
+  }
+
   void refresh() {
+    fetch();
     notifyListeners();
   }
 
@@ -68,8 +73,11 @@ class RideState extends ChangeNotifier {
     return allRides;
   }
 
+  List<int> get arrangedRides => [...bookedRides, ...unbookedRides];
+
+// make the network call here
   Future<List<int>> fetchCards() async {
     await Future.delayed(const Duration(seconds: 2));
-    return allRides;
+    return arrangedRides;
   }
 }

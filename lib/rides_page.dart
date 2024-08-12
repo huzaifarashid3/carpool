@@ -1,7 +1,9 @@
+import 'package:carpool/Models/ride_state.dart';
 import 'package:carpool/driver_bar.dart';
 import 'package:carpool/ride_cards.dart';
 import 'package:carpool/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RidesPage extends StatelessWidget {
   RidesPage({super.key});
@@ -109,7 +111,7 @@ class _SearchButtonState extends State<SearchButton> {
                 ? const Color.fromARGB(255, 255, 255, 255)
                 : const Color.fromARGB(255, 66, 66, 66);
             icnColor = toggled ? Colors.black : Colors.white;
-
+            context.read<RideState>().refresh();
             widget.controller.animateTo(
               widget.controller.position.minScrollExtent,
               duration: const Duration(seconds: 1),
