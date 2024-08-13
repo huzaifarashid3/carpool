@@ -44,10 +44,11 @@ dependencies:
   shared_preferences: ^2.3.1
   flutter_slidable: ^3.1.1
   pull_to_refresh_flutter3: ^2.0.2
-  url_launcher: ^6.0.9
   firebase_messaging: ^15.0.4
   rxdart: ^0.28.0
-  
+  flutter_local_notifications: ^17.2.2
+  open_whatsapp: ^0.0.1
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

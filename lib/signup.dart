@@ -162,26 +162,31 @@ class signup extends StatelessWidget {
   }
 
   Future<void> addUser(name, phone, password) async {
-    // Call the user's CollectionReference to add a new user
-    CollectionReference users = FirebaseFirestore.instance.collection('User');
-    String tok = await notifications().getToken();
-    //tok = tok ?? ''; // Set tok to an empty string if it is null
-    return users
-        .add({
-          'name': name, // John Doe
-          'number': phone, // Stokes and Sons
-          'password': password,
-          'route1name': '',
-          'route2name': '',
-          'route3name': '',
-          'route4name': '',
-          'route1stops': [],
-          'route2stops': [],
-          'route3stops': [],
-          'route4stops': [],
-          'token': tok,
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+    try {
+      // Call the user's CollectionReference to add a new user
+      CollectionReference users = FirebaseFirestore.instance.collection('User');
+      String tok = await notifications().getToken();
+      print('Sign up usr token: $tok');
+      //tok = tok ?? ''; // Set tok to an empty string if it is null
+      await users
+          .add({
+            'name': name, // John Doe
+            'number': phone, // Stokes and Sons
+            'password': password,
+            'route1name': '',
+            'route2name': '',
+            'route3name': '',
+            'route4name': '',
+            'route1stops': [],
+            'route2stops': [],
+            'route3stops': [],
+            'route4stops': [],
+            'token': tok,
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 }

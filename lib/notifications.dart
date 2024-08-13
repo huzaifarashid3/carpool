@@ -1,5 +1,10 @@
+import 'dart:async';
+
+import 'package:carpool/bug_report.dart';
+import 'package:carpool/notification_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class notifications {
@@ -19,7 +24,10 @@ class notifications {
 
     if (kDebugMode) {
       print('Permission granted: ${settings.authorizationStatus}');
+
+      //initialize futher settings for push notifications
     }
+    initNotifications();
   }
 
   Future<String> getToken() async {
@@ -44,5 +52,25 @@ class notifications {
 
       _messageStreamController.sink.add(message);
     });
+  }
+
+  // Function to handle recieved messages
+  void handle_message(BuildContext context, RemoteMessage? message) {
+    if (message == null) {
+      return;
+    }
+    Navigator.of(context).pushNamed(bug_report.route_name);
+  }
+
+  //functiion to initialize the background settings
+  Future initNotifications() async {
+    // handle if the app was terminated and opened now
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then(handle_message as FutureOr Function(RemoteMessage? value));
+
+    //add event listeners when notification opens the app
+    FirebaseMessaging.onMessageOpenedApp
+        .listen(handle_message as void Function(RemoteMessage message)?);
   }
 }

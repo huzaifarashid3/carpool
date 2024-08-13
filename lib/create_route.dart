@@ -2,6 +2,7 @@
 
 import 'package:carpool/dialouges/add_route_stop.dart';
 import 'package:carpool/login.dart';
+import 'package:carpool/notification_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _create_routeState extends State<create_route> {
     super.initState();
     read_route_names();
     read_route_stops();
+    NotificationServices().firebaseInit(context);
   }
 
   @override

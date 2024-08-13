@@ -5,6 +5,8 @@ import 'package:carpool/create_route.dart';
 import 'package:carpool/dialouges/post_ride.dart';
 import 'package:carpool/login.dart';
 import 'package:carpool/main.dart';
+import 'package:carpool/notification_screen.dart';
+import 'package:carpool/notification_services.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/signup.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,17 @@ class _home_pageState extends State<home_page> {
   late int selected_capacity;
 
   static String? userLoginID = login.userLoginID;
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationServices().requestNotificationPermission();
+    NotificationServices().firebaseInit(context);
+    NotificationServices().getDeviceToken().then((value) {
+      print('New Device Tokem:');
+      print(value);
+    });
+  }
 
   @override
   int noOfRides = 1;
@@ -228,22 +241,8 @@ class _home_pageState extends State<home_page> {
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                   onPressed: () {
-                                    print(
-                                        "departure type: $selected_departure_type");
-                                    print(
-                                        "vehicle type: $selected_vehicle_type");
-                                    print("capacity: $selected_capacity");
-                                    print("time: $selected_time");
-
-                                    // Fetch rides from the database based on the selected filters
-
-                                    //  Cards.call_filtered_future_builder(
-                                    //   selected_departure_type,
-                                    //   selected_vehicle_type,
-                                    //   selected_capacity,
-                                    //   selected_time,
-                                    // );
-
+                                    Cards.test = true;
+                                    refresh();
                                     Navigator.of(context).pop();
                                   },
                                   style: ButtonStyle(
@@ -325,7 +324,8 @@ class _home_pageState extends State<home_page> {
                 child: const Icon(Icons.add)),
             IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(signup.route_name);
+                  Navigator.of(context)
+                      .pushNamed(notification_screen.route_name);
                 },
                 icon: const Icon(Icons.home)),
             Tooltip(
@@ -354,7 +354,7 @@ class _home_pageState extends State<home_page> {
     );
   }
 
-  // Future<void> showPostRideDialog(BuildContext context) async {
-  //   await
-  // }
+  void refresh() {
+    setState(() {});
+  }
 }

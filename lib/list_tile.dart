@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:open_whatsapp/open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class list_tile extends StatelessWidget {
@@ -440,14 +441,13 @@ class list_tile extends StatelessWidget {
     }
   }
 
-  void openWhatsApp(String phoneNumber, String message) async {
-    final whatsappUrl =
-        "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}";
-
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
+  Future<void> openWhatsApp(String phoneNumber, String message) async {
+    final url =
+        'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
-      throw 'Could not launch $whatsappUrl';
+      throw 'Could not launch $url';
     }
   }
 }
