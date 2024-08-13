@@ -57,9 +57,10 @@ class _home_pageState extends State<home_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 2, 57, 50),
+      backgroundColor: Color.fromRGBO(
+          237, 241, 243, 1), //Color.fromARGB(188, 255, 255, 255),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(190, 3, 255, 142),
+        backgroundColor: Color.fromRGBO(237, 241, 243, 1),
         leading: Tooltip(
           message: 'Filter',
           child: IconButton(
@@ -297,13 +298,15 @@ class _home_pageState extends State<home_page> {
       //BODYY
       body: Cards(noOfRides: noOfRides),
       bottomNavigationBar: BottomAppBar(
-        color: const Color.fromARGB(190, 3, 255, 142),
+        color: Color.fromARGB(255, 250, 251, 251),
         height: 70,
-        surfaceTintColor: Colors.red,
+        elevation: 10,
+
+        // surfaceTintColor: Color.fromARGB(190, 26, 203, 160),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            IconButton(
                 onPressed: () {
                   //POST A R
                   home_page.posted = false;
@@ -321,7 +324,7 @@ class _home_pageState extends State<home_page> {
                   //   noOfRides++;
                   // });
                 },
-                child: const Icon(Icons.add)),
+                icon: Icon(Icons.add)),
             IconButton(
                 onPressed: () {
                   Navigator.of(context)
