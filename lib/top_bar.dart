@@ -1,7 +1,11 @@
 import 'package:carpool/Models/user_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'ui_helpers/ui_helpers.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({
@@ -10,13 +14,13 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
+    return const SliverAppBar(
       pinned: true,
-      expandedHeight: 180,
-      flexibleSpace: const FlexibleSpaceBar(
+      expandedHeight: 200,
+      flexibleSpace: FlexibleSpaceBar(
         background: UserCard(),
       ),
-      title: const Row(
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -27,7 +31,29 @@ class TopBar extends StatelessWidget {
         ],
       ),
       elevation: 0,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromARGB(255, 238, 238, 238),
+    );
+  }
+}
+
+class CarAnimation extends StatelessWidget {
+  const CarAnimation({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 60),
+          child: Lottie.network(
+            'assets/car_animation.json',
+          ),
+        ),
+        const SizedBox(width: 20),
+      ],
     );
   }
 }
@@ -124,9 +150,17 @@ class _UserCardState extends State<UserCard> {
                                       const BoxConstraints(minWidth: 128),
                                   child: IntrinsicWidth(
                                     child: TextField(
+                                        inputFormatters: [
+                                          UpperCaseTextFormatter()
+                                        ],
                                         controller: nameController,
                                         enabled: isEditing,
                                         maxLines: null,
+                                        style: style.copyWith(
+                                          fontSize: 16,
+                                          letterSpacing: 2,
+                                          fontWeight: FontWeight.w300,
+                                        ),
                                         decoration: const InputDecoration(
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(0))),
@@ -151,11 +185,24 @@ class _UserCardState extends State<UserCard> {
                                       const BoxConstraints(minWidth: 128),
                                   child: IntrinsicWidth(
                                     child: TextField(
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
                                         controller: contactController,
                                         enabled: isEditing,
                                         maxLines: null,
+                                        style: style.copyWith(
+                                          fontSize: 16,
+                                          letterSpacing: 2,
+                                          fontWeight: FontWeight.w300,
+                                        ),
                                         keyboardType: TextInputType.phone,
                                         decoration: const InputDecoration(
+                                            hintText: '03XX1234567',
+                                            hintStyle: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 202, 202, 202),
+                                                fontSize: 16),
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(0))),
                                   ))),

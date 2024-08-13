@@ -20,6 +20,10 @@ class VehicleCard extends StatelessWidget {
               style: const TextStyle(
                   fontSize: 24, color: Color.fromARGB(255, 224, 224, 224)),
             ),
+            // SizedBox(
+            //   width: 40,
+            // child: Image.asset('lib/assets/car.png'),
+            // ),
             const SizedBox(height: 4),
             Text(
               vehicleName.substring(0, min(15, vehicleName.length)),

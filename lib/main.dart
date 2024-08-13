@@ -2,6 +2,7 @@ import 'package:carpool/Models/user_model.dart';
 import 'package:carpool/Models/user_state.dart';
 import 'package:carpool/rides_page.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:carpool/Models/ride_state.dart';
 
