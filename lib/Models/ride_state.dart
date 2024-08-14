@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:carpool/Models/ride_model.dart';
 import 'package:flutter/material.dart';
@@ -7,26 +8,30 @@ class RideState extends ChangeNotifier {
   final car = const Image(image: AssetImage('assets/car.png'));
   late Stream<List<int>> fetchR;
   List<Ride> rides = List.generate(
-    4,
-    (i) => Ride(
-      name: i % 2 == 0 ? 'Huzaifa Rashid' : 'Ismail Qayyum',
-      booked: i < 2,
-      contact: '03001234567',
-      going: i % 2 == 0,
-      capacity: 4,
-      occupied: 2,
-      route: [
-        'Lahore',
-        'Islamabad',
-        'Karachi',
-        "Quetta",
-        "Nathiagali",
-        "Murree"
-      ],
-      vehicleName: 'Toyota Corolla',
-      vehicleType: 'CAR',
-      departureTime: '12:00 PM',
-    ),
+    10,
+    (i) {
+      int capacity = Random().nextInt(4) + 1;
+      int occupied = Random().nextInt(capacity) + 1;
+      return Ride(
+        name: i % 2 == 0 ? 'Huzaifa Rashid' : 'Ismail Qayyum',
+        booked: i < 2,
+        contact: '03001234567',
+        going: Random().nextInt(4) < 2,
+        capacity: capacity,
+        occupied: occupied,
+        route: [
+          'Lahore',
+          'Islamabad',
+          'Karachi',
+          "Quetta",
+          "Nathiagali",
+          "Murree"
+        ],
+        vehicleName: 'Toyota Corolla',
+        vehicleType: 'CAR',
+        departureTime: '12:00 PM',
+      );
+    },
   );
 
   void book(int index) async {

@@ -18,14 +18,7 @@ class RouteCard extends StatelessWidget {
           itemBuilder: (context, i) => Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                  height: 20,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 229, 115, 115),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: AnimatedText(loc: route[i])),
+              AnimatedText(loc: route[i]),
               if (i < n - 1)
                 const ColoredBox(
                   color: Color.fromARGB(255, 117, 117, 117),
@@ -59,15 +52,22 @@ class _AnimatedTextState extends State<AnimatedText> {
   static const int n = 7;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => setState(() {
-        condensed = !condensed;
-      }),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 100),
-        child: Center(
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 100),
+      child: Material(
+        color: const Color.fromARGB(255, 229, 115, 115),
+        borderRadius: BorderRadius.circular(10),
+        child: GestureDetector(
+          // borderRadius: BorderRadius.circular(10),
+          onTap: () => setState(() {
+            condensed = !condensed;
+          }),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
             child: Text(
-                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} ${condensed && n < widget.loc.length ? ".. " : ""}")),
+                " ${widget.loc.substring(0, min(condensed ? n : 1000, widget.loc.length))} ${condensed && n < widget.loc.length ? ".. " : ""}"),
+          ),
+        ),
       ),
     );
   }

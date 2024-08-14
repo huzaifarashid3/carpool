@@ -14,33 +14,25 @@ class _NotifcationButtonState extends State<NotifcationButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox(
-        height: 30,
-        child: OutlinedButton(
-          onPressed: () {
-            if (!hasNotfication) NotficationDiaglog(context);
-            setState(() {
-              hasNotfication = !hasNotfication;
-            });
-          },
-          style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.grey),
-
-            shape: const CircleBorder(),
-            // borderRadius: BorderRadius.circular(40),
-          ),
-          child: Icon(
-            hasNotfication
-                ? Icons.notifications_on_rounded
-                : Icons.notifications_outlined,
-            color: hasNotfication
-                ? const Color.fromARGB(255, 205, 186, 14)
-                : Colors.grey,
-            size: 16,
-          ),
-        ),
+    return OutlinedButton(
+      onPressed: () {
+        if (!hasNotfication) NotficationDiaglog(context);
+        setState(() {
+          hasNotfication = !hasNotfication;
+        });
+      },
+      style: OutlinedButton.styleFrom(
+        side: const BorderSide(color: Colors.grey),
+        shape: const CircleBorder(),
+      ),
+      child: Icon(
+        hasNotfication
+            ? Icons.notifications_on_rounded
+            : Icons.notifications_outlined,
+        color: hasNotfication
+            ? const Color.fromARGB(255, 205, 186, 14)
+            : Colors.grey,
+        size: 16,
       ),
     );
   }

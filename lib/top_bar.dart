@@ -1,10 +1,7 @@
-import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/filter_buttons.dart';
-import 'package:carpool/notifcation_button.dart';
 import 'package:carpool/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TopBar extends StatefulWidget {
@@ -19,31 +16,39 @@ class TopBar extends StatefulWidget {
 class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
-    final uiState = context.watch<UiState>();
-    final bool isEditing = uiState.isEditing;
-    return SliverAppBar(
+    // final uiState = context.watch<UiState>();
+    // final bool isEditing = uiState.isEditing;
+    return const SliverAppBar(
       pinned: true,
-      expandedHeight: 210,
+      expandedHeight: 120,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 60),
-            const UserCard(),
-            const SizedBox(height: 40),
-            if (!isEditing)
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // SearchField(),
-                  FilterButtons(),
-                  NotifcationButton(),
-                ],
-              ),
+            SizedBox(height: 70),
+            // if (!isEditing)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: 12),
+                FilterButtons(),
+                Spacer(),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // SearchField(),
+                    // NotifcationButton(),
+                    ProfileButton(),
+                    SizedBox(width: 10),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
-      title: const Row(
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -54,7 +59,7 @@ class _TopBarState extends State<TopBar> {
         ],
       ),
       elevation: 0,
-      backgroundColor: const Color.fromARGB(255, 238, 238, 238),
+      backgroundColor: Color.fromARGB(255, 238, 238, 238),
     );
   }
 }
@@ -91,12 +96,14 @@ class CarAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 60),
           child: Lottie.network(
-            'assets/car_animation.json',
-          ),
+              'https://lottie.host/92898da8-7314-4538-9d72-c171302562dd/G1BOK2Carw.json'
+              // 'assets/car_animation.json',
+              ),
         ),
         const SizedBox(width: 20),
       ],

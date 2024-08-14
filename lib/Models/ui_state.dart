@@ -7,4 +7,9 @@ class UiState extends ChangeNotifier {
     isEditing = !isEditing;
     notifyListeners();
   }
+
+  int noOfBookedRides = 0;
+
+
+
 }

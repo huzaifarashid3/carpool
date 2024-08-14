@@ -30,20 +30,21 @@ class _RideCardState extends State<RideCard> {
     var rideState = context.read<RideState>();
     final ride = rideState.rides[widget.rideIndex];
 
-    return GestureDetector(
-      onTap: () => setState(() {
-        isExpanded = !isExpanded;
-      }),
-      child: AnimatedContainer(
-        height: isExpanded ? 150 : 118,
-        duration: const Duration(milliseconds: 100),
-        child: Material(
+    return AnimatedContainer(
+      height: isExpanded ? 150 : 118,
+      duration: const Duration(milliseconds: 200),
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color: ride.booked
+            ? const Color.fromARGB(255, 231, 227, 197)
+            : const Color.fromARGB(255, 238, 238, 238),
+        clipBehavior: Clip.antiAlias,
+        elevation: 2,
+        child: InkWell(
+          onTap: () => setState(() {
+            isExpanded = !isExpanded;
+          }),
           borderRadius: BorderRadius.circular(10),
-          color: ride.booked
-              ? const Color.fromARGB(255, 231, 227, 197)
-              : const Color.fromARGB(255, 238, 238, 238),
-          clipBehavior: Clip.antiAlias,
-          elevation: 2,
           child: Slidable(
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
@@ -115,8 +116,10 @@ class _RideCardState extends State<RideCard> {
                 ),
                 const SizedBox(width: 7),
                 VehicleCard(
-                    vehicleType: ride.vehicleType,
-                    vehicleName: ride.vehicleName),
+                  vehicleType: ride.vehicleType,
+                  vehicleName: ride.vehicleName,
+                  going: ride.going,
+                ),
               ],
             ),
           ),

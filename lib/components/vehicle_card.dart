@@ -1,10 +1,17 @@
 import 'dart:math';
+import 'package:carpool/Models/ride_model.dart';
+import 'package:carpool/Models/ride_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VehicleCard extends StatelessWidget {
   final String vehicleName, vehicleType;
+  final bool going;
   const VehicleCard(
-      {super.key, required this.vehicleType, required this.vehicleName});
+      {super.key,
+      required this.vehicleType,
+      required this.vehicleName,
+      required this.going});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +22,13 @@ class VehicleCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              vehicleType == "CAR" ? "🚙" : "🏍️",
-              style: const TextStyle(
-                  fontSize: 24, color: Color.fromARGB(255, 224, 224, 224)),
+            Transform.flip(
+              flipX: going,
+              child: Text(
+                vehicleType == "CAR" ? "🚙" : "🏍️",
+                style: const TextStyle(
+                    fontSize: 24, color: Color.fromARGB(255, 224, 224, 224)),
+              ),
             ),
             // SizedBox(
             //   width: 40,

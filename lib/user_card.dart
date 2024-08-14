@@ -147,30 +147,35 @@ class _UserCardState extends State<UserCard> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: SizedBox(
-            height: 30,
-            child: OutlinedButton(
-              onPressed: () {
-                if (isEditing) saveUser();
-                uiState.toggleEditing();
-              },
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.grey),
-
-                shape: const CircleBorder(),
-                // borderRadius: BorderRadius.circular(40),
-              ),
-              child: Icon(
-                isEditing ? Icons.check : Icons.person,
-                color: Colors.grey,
-                size: 16,
-              ),
-            ),
-          ),
-        ),
       ],
+    );
+  }
+}
+
+class ProfileButton extends StatelessWidget {
+  const ProfileButton({super.key});
+
+  // Future<void> saveUser() async {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      child: OutlinedButton(
+        onPressed: () {
+          // if (isEditing) saveUser();
+        },
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Colors.grey),
+
+          shape: const CircleBorder(),
+          // borderRadius: BorderRadius.circular(40),
+        ),
+        child: const Icon(
+          Icons.person,
+          color: Colors.grey,
+          size: 16,
+        ),
+      ),
     );
   }
 }
