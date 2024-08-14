@@ -74,11 +74,12 @@ class _UserCardState extends State<UserCard> {
                                   child: IntrinsicWidth(
                                     child: TextField(
                                         inputFormatters: [
-                                          UpperCaseTextFormatter()
+                                          UpperCaseTextFormatter(),
+                                          LengthLimitingTextInputFormatter(20),
                                         ],
                                         controller: nameController,
                                         enabled: isEditing,
-                                        maxLines: null,
+                                        maxLines: 1,
                                         style: style.copyWith(
                                           fontSize: 16,
                                           letterSpacing: 2,
@@ -109,7 +110,9 @@ class _UserCardState extends State<UserCard> {
                                   child: IntrinsicWidth(
                                     child: TextField(
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                          LengthLimitingTextInputFormatter(11),
                                         ],
                                         controller: contactController,
                                         enabled: isEditing,

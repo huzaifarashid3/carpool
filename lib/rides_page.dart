@@ -1,5 +1,4 @@
 import 'package:carpool/bottom_bar.dart';
-import 'package:carpool/driver_bar.dart';
 import 'package:carpool/ride_cards.dart';
 import 'package:carpool/top_bar.dart';
 import 'package:flutter/material.dart';

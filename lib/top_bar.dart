@@ -14,7 +14,7 @@ class TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SliverAppBar(
       pinned: true,
-      expandedHeight: 200,
+      expandedHeight: 210,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
