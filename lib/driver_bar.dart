@@ -33,7 +33,7 @@ class _DriverBarState extends State<DriverBar> {
                 children: [
                   const Text('ADD RIDE',
                       style: TextStyle(
-                        color: const Color.fromARGB(255, 116, 116, 116),
+                        color: Color.fromARGB(255, 116, 116, 116),
                         fontSize: 20,
                       )),
                   IconButton(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carpool/Models/ride_model.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +30,13 @@ class RideState extends ChangeNotifier {
 
   void book(int index) async {
     rides[index].book();
-    notifyListeners();
+    _controller.add(arrangedRides);
+    // notifyListeners();
   }
 
   void unbook(int index) async {
     rides[index].unbook();
-    notifyListeners();
+    _controller.add(arrangedRides);
   }
 
   List<int> get bookedRides {
@@ -73,18 +76,82 @@ class RideState extends ChangeNotifier {
     return allRides;
   }
 
+  // wrap this part in an isolate
   List<int> get arrangedRides => [...bookedRides, ...unbookedRides];
 
   Future<void> fetch() async {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  Future<List<int>> filterRides(String filter) async {
+    await Future.delayed(const Duration(seconds: 2));
+    List<int> filteredRides = [];
+    for (int i = 0; i < rides.length; i++) {
+      if (rides[i].route.contains(filter)) {
+        filteredRides.add(i);
+      }
+    }
+    return filteredRides;
+  }
+
 // make the network call here
-  Stream<List<int>> fetchCards() async* {
-    Future.delayed(const Duration(seconds: 5), () => allRides);
+
+  Stream<List<int>> tempStream() async* {
+    await Future.delayed(const Duration(seconds: 5));
     yield arrangedRides;
-    Future.delayed(const Duration(seconds: 5), () => allRides);
+    await Future.delayed(const Duration(seconds: 5));
     yield arrangedRides;
     // await Future.delayed(const Duration(seconds: 2));
   }
+
+  RideState() {
+    autoRefresh();
+  }
+
+  void autoRefresh() {
+    Timer.periodic(const Duration(seconds: 5), (t) {
+      // make the network call here
+      // if new data or data changed, then only cause rebuild
+      _controller.add(arrangedRides);
+    });
+  }
+
+  final _controller = StreamController<List<int>>();
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
+  }
+
+  Stream<List<int>> get fetchCards => _controller.stream;
+
+  // RideState() {
+  //   fetchCards = tempStream().listen((event) {
+  //     print("event");
+  //   });
+  // }
+
+  // Stream<List<int>> fetchCards() async* {
+  //   await Future.delayed(const Duration(seconds: 5));
+  //   yield arrangedRides;
+  //   await Future.delayed(const Duration(seconds: 5));
+  //   yield arrangedRides;
+  //   // await Future.delayed(const Duration(seconds: 2));
+  // }
 }
+
+
+// network flow
+// 1. fetch data from network
+// 2. parse data
+// 3. filter data
+// 4. arrange data
+// 5. display data
+
+
+// if the ui causes the data to change,
+// make the network call to update the data
+// if the data is updated, then only cause rebuild
+// else show some message that data is not updated
+// in meanwhile, show the old data and some indication that data is being updated

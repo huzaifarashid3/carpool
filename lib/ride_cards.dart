@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carpool/Models/ride_state.dart';
 import 'package:carpool/components/ride_card.dart';
 import 'package:flutter/material.dart';
@@ -17,28 +19,21 @@ class _RideCardsState extends State<RideCards> {
   @override
   void initState() {
     super.initState();
-    // context.read<RideState>().fetch();
-    fetchedCards = context.read<RideState>().fetchCards();
+    fetchedCards = context.read<RideState>().fetchCards;
   }
 
   @override
   Widget build(BuildContext context) {
-    final RideState appState = context.watch<RideState>();
+    // context.watch<RideState>();
     return StreamBuilder(
-      // future: fetchedCards,
-      // this approach directly uses the state of the provider
-      // the future is only to reflect the loading state
       stream: fetchedCards,
-      // future: appState.fetchR,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingCards();
         }
 
-        // this causes to get data directly thus caclcation done synchronously
-        // but if we use snapshot.data then it will be async
-        print("data");
-        return LoadedCards(cards: appState.arrangedRides, widget: widget);
+        // use snapshot.data to get the data from the stream
+        return LoadedCards(cards: snapshot.data!, widget: widget);
       },
     );
   }

@@ -5,16 +5,16 @@ class UserState with ChangeNotifier {
   String? name;
   String? contact;
 
-  bool get isUserLoggedIn => name != null && contact != null;
+  bool get isUserLoggedIn => name != null || contact != null;
 
   UserState({this.name, this.contact}) {
     loadUserFromLocalStorage();
   }
 
-  void updateUser(String pName, String pContact) {
+  void updateUser(String pName, String pContact) async {
     name = pName;
     contact = pContact;
-    saveUserToLocalStorage();
+    await saveUserToLocalStorage();
     notifyListeners();
   }
 
@@ -29,9 +29,11 @@ class UserState with ChangeNotifier {
   }
 
   Future<void> loadUserFromLocalStorage() async {
+    debugPrint('Loading user from local storage');
     final prefs = await SharedPreferences.getInstance();
     final pName = prefs.getString('name');
     final pContact = prefs.getString('contact');
+    print('Name: $pName, Contact: $pContact');
     if (name != null && contact != null) {
       name = pName;
       contact = pContact;
@@ -40,7 +42,7 @@ class UserState with ChangeNotifier {
   }
 
   Future<void> saveUserToLocalStorage() async {
-    print('Saving user to local storage');
+    debugPrint('Saving user to local storage');
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name!);
     prefs.setString('contact', contact!);

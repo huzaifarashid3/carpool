@@ -7,7 +7,7 @@ class TimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 65,
+      width: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: const Color.fromARGB(255, 66, 66, 66),
