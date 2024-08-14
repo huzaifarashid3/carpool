@@ -127,7 +127,7 @@ class _post_rideState extends State<post_ride> {
                         setState(() {
                           time_text = selectedTime.format(context);
                           after_time_selection_text = 'Departure Time:';
-                          selected_time = selectedTime.format(context);
+                          //selected_time = selectedTime.format(context);
                         });
                       }
                     },
@@ -245,7 +245,7 @@ class _post_rideState extends State<post_ride> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      print('POSTER ID: ${login.userLoginID}');
+                      //  print('POSTER ID: ${login.userLoginID}');
 
                       FirebaseFirestore.instance
                           .collection('Rides')

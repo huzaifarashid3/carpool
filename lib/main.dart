@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         signup.route_name: (_) => signup(),
         login.route_name: (_) => login(),
         profile.route_name: (_) => profile(),
-        home_page.route_name: (_) => home_page(),
+        //  home_page.route_name: (_) => home_page(),
         create_route.route_name: (_) => create_route(),
         notification_screen.route_name: (_) => notification_screen(),
       },
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Cards extends StatelessWidget {
-  static bool test = false;
+  static bool filter_ride = false;
 
   //---------------------------------------------
   //Parameters for filtering rides
@@ -88,10 +88,7 @@ class Cards extends StatelessWidget {
         .toList();
   }
 
-  Future<List<Map<String, dynamic>>> filter_Rides(
-      {bool? going_fast = null,
-      int? capacity = null,
-      String? type = null}) async {
+  Future<List<Map<String, dynamic>>> filter_Rides() async {
     CollectionReference ridesCollection =
         FirebaseFirestore.instance.collection('Rides');
     QuerySnapshot snapshot = await ridesCollection.get();
@@ -99,15 +96,15 @@ class Cards extends StatelessWidget {
         snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
     return rides.where((ride) {
       bool flag = true;
-      if (going_fast != null) {
+      if (filtered_going_fast != null) {
         flag = (ride['going_fast'] == filtered_going_fast) && flag;
       }
-      if (type != null) {
-        flag = (ride['type'] == filtered_type) && flag;
-      }
-      if (capacity != null) {
-        flag = (ride['capacity'] == filtered_capacity) && flag;
-      }
+      // if (filtered_type != null) {
+      //   flag = (ride['type'] == filtered_type) && flag;
+      // }
+      // if (filtered_capacity != null) {
+      //   flag = (ride['capacity'] == filtered_capacity) && flag;
+      // }
 
       return flag;
     }).toList();
@@ -120,7 +117,7 @@ class Cards extends StatelessWidget {
 
   Widget call_future_builder() {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchRides(),
+      future: filter_ride == true ? filter_Rides() : fetchRides(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

@@ -20,15 +20,15 @@ class login extends StatelessWidget {
 
   // Remove the initState method
 
-  Future<void> _loadNumber(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
+  // Future<void> _loadNumber(BuildContext context) async {
+  //   final prefs = await SharedPreferences.getInstance();
 
-    String? localNumber = prefs.getString('number') ?? '';
-    String? localPassword = prefs.getString('password') ?? '';
-    if (await checkCredentials(localNumber, localPassword)) {
-      Navigator.pushNamed(context, home_page.route_name);
-    }
-  }
+  //   String? localNumber = prefs.getString('number') ?? '';
+  //   String? localPassword = prefs.getString('password') ?? '';
+  //   if (await checkCredentials(localNumber, localPassword)) {
+  //     Navigator.pushNamed(context, home_page.route_name);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

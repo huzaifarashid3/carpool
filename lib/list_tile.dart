@@ -26,9 +26,11 @@ class list_tile extends StatefulWidget {
       required this.rider_id,
       required this.rider_number});
 
-  static const Color tile_colour1 = Color.fromARGB(200, 224, 95, 89);
-  //Color.fromARGB(255, 145, 255, 2);
-  static const Color tile_colour2 = Color.fromARGB(190, 26, 203, 160);
+  static const Color tile_colour1 =
+      Color.fromARGB(195, 255, 255, 255); // Color.fromARGB(200, 224, 95, 89);
+
+  static const Color tile_colour2 =
+      Color.fromARGB(195, 255, 255, 255); //.fromARGB(190, 26, 203, 160);
   static const Color seat_filled_colour = Color.fromARGB(255, 9, 140, 150);
   static const Color vacant_seat_colour = Color.fromARGB(255, 148, 147, 149);
 
@@ -42,16 +44,6 @@ class _list_tileState extends State<list_tile> {
   Color name_color_tile2 = Colors.black;
 
   //
-  @override
-  void initState() {
-    super.initState();
-    NotificationServices().requestNotificationPermission();
-    NotificationServices().firebaseInit(context);
-    NotificationServices().getDeviceToken().then((value) {
-      print('New Device Tokem:');
-      print(value);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +52,7 @@ class _list_tileState extends State<list_tile> {
       return Padding(
         padding: const EdgeInsets.all(10.0),
         child: Material(
+          shadowColor: Colors.black,
           color: list_tile.tile_colour1,
           borderRadius: BorderRadius.circular(15),
           elevation: 5,

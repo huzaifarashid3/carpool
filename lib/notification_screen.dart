@@ -1,15 +1,42 @@
+// ignore_for_file: non_constant_identifier_names, camel_case_types
+
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/dialouges/post_ride.dart';
 import 'package:carpool/home_page.dart';
 import 'package:carpool/main.dart';
+import 'package:carpool/notification_services.dart';
 import 'package:carpool/profile.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
-class notification_screen extends StatelessWidget {
+class notification_screen extends StatefulWidget {
   static const route_name = 'notification_screen';
-  const notification_screen({super.key});
+  static const Color backgorund_color =
+      const Color.fromARGB(255, 193, 191, 191);
+
+  notification_screen({super.key});
+
+  @override
+  State<notification_screen> createState() => _notification_screenState();
+}
+
+class _notification_screenState extends State<notification_screen> {
+  static bool isSwitched = false;
+  bool gf = false, lf = false;
+  bool filter_ride = false;
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationServices().requestNotificationPermission();
+    NotificationServices().firebaseInit(context);
+    NotificationServices().getDeviceToken().then((value) {
+      // print('New Device Tokem:');
+      // print(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +47,48 @@ class notification_screen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: notification_screen.backgorund_color,
           automaticallyImplyLeading: false,
-          title: const Text('Fast Carpool',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Mv Boli',
-              )),
+          title: Row(
+            children: [
+              const Expanded(
+                child: Text('Fast Carpool',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    )),
+              ),
+              isSwitched == true
+                  ? Row(
+                      children: [
+                        const Text('Filter: '),
+                        SizedBox(
+                          width: 35,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Switch(
+                              value: isSwitched,
+                              onChanged: (value) {
+                                setState(() {
+                                  Cards.filtered_going_fast = null;
+                                  Cards.filter_ride = true;
+                                  isSwitched = false;
+                                });
+                              },
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+            ],
+          ),
           //     elevation: 5,
           // centerTitle: true,
         ),
+        backgroundColor: notification_screen.backgorund_color,
         body: Stack(
           children: [
             TabBarView(
@@ -40,52 +100,11 @@ class notification_screen extends StatelessWidget {
             ),
           ],
         ),
+
+        //FLOATING ACTION BUTTON
         floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: ExpandableFab(
-          // duration: const Duration(milliseconds: 500),
-          // distance: 200.0,
-          // type: ExpandableFabType.up,
-          // pos: ExpandableFabPos.left,
-          // childrenOffset: const Offset(0, 20),
-          // childrenAnimation: ExpandableFabAnimation.none,
-          // fanAngle: 40,
-          // openButtonBuilder: RotateFloatingActionButtonBuilder(
-          //   child: const Icon(Icons.abc),
-          //   fabSize: ExpandableFabSize.large,
-          //   foregroundColor: Colors.amber,
-          //   backgroundColor: Colors.green,
-          //   shape: const CircleBorder(),
-          //   angle: 3.14 * 2,
-          // ),
-          // closeButtonBuilder: FloatingActionButtonBuilder(
-          //   size: 56,
-          //   builder: (BuildContext context, void Function()? onPressed,
-          //       Animation<double> progress) {
-          //     return IconButton(
-          //       onPressed: onPressed,
-          //       icon: const Icon(
-          //         Icons.check_circle_outline,
-          //         size: 40,
-          //       ),
-          //     );
-          //   },
-          // ),
-          overlayStyle: ExpandableFabOverlayStyle(
-            color: Colors.black.withOpacity(0.5),
-            blur: 5,
-          ),
-          // onOpen: () {
-          //   debugPrint('onOpen');
-          // },
-          // afterOpen: () {
-          //   debugPrint('afterOpen');
-          // },
-          // onClose: () {
-          //   debugPrint('onClose');
-          // },
-          // afterClose: () {
-          //   debugPrint('afterClose');
-          // },
+          distance: 80.0,
           children: [
             FloatingActionButton.small(
               // shape: const CircleBorder(),
@@ -100,7 +119,72 @@ class notification_screen extends StatelessWidget {
               // shape: const CircleBorder(),
               heroTag: null,
               child: const Icon(Icons.filter_list),
-              onPressed: () {},
+              onPressed: () {
+                // setState(() {
+                // Cards.filtered_going_fast = true;
+                // Cards.filter_ride = true;
+                // isSwitched = true;
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      print('nigga');
+                      return FittedBox(
+                        fit: BoxFit.contain,
+                        child: AlertDialog(
+                          title: const Text('Filter Rides'),
+                          content: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text('Going Fast'),
+                                  Switch(
+                                    value: gf,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gf = !gf;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Text('Leaving Fast'),
+                                  Switch(
+                                    value: lf,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        lf = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (gf == true && lf == true) {
+                                    Cards.filtered_going_fast = null;
+                                    isSwitched = false;
+                                  } else {
+                                    Cards.filtered_going_fast = gf;
+                                    isSwitched = true;
+                                  }
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Apply'),
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+
+                ///  });
+              },
             ),
           ],
         ),
