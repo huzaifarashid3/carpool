@@ -120,13 +120,7 @@ class Cards extends StatelessWidget {
 
   Widget call_future_builder() {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: test == true
-          ? filter_Rides(
-              type: 'bike',
-              capacity: 0,
-              going_fast: false,
-            )
-          : fetchRides(),
+      future: fetchRides(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

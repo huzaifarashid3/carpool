@@ -9,16 +9,6 @@ class bug_report extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Report a bug',
-          style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87),
-        ),
-        backgroundColor: Color.fromARGB(190, 3, 255, 142),
-      ),
       body: Column(
         children: [
           Container(

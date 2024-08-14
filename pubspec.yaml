@@ -49,6 +49,7 @@ dependencies:
   flutter_local_notifications: ^17.2.2
   open_whatsapp: ^0.0.1
   url_launcher: ^6.3.0
+  flutter_expandable_fab: ^2.2.0
 
 dev_dependencies:
   flutter_test:

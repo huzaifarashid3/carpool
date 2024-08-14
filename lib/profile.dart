@@ -12,15 +12,15 @@ class profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Profile'),
+      // ),
       body: Column(
         children: [
           ListTile(
             title:
                 Text('Create route templates', style: TextStyle(fontSize: 20)),
-            tileColor: Color.fromARGB(255, 223, 222, 222),
+            // tileColor: Color.fromARGB(255, 223, 222, 222),
             textColor: const Color.fromARGB(255, 0, 0, 0),
             // shape: RoundedRectangleBorder(
             //   borderRadius: BorderRadius.circular(15)
@@ -29,18 +29,18 @@ class profile extends StatelessWidget {
               Navigator.of(context).pushNamed(create_route.route_name);
             },
           ),
-          ListTile(
-            title:
-                Text('Create route templates', style: TextStyle(fontSize: 20)),
-            tileColor: Color.fromARGB(255, 223, 222, 222),
-            textColor: Color.fromARGB(255, 0, 0, 0),
-            // shape: RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.circular(15)
-            // ),
-            onTap: () {
-              //print('hello');
-            },
-          ),
+          // ListTile(
+          //   title:
+          //       Text('Create route templates', style: TextStyle(fontSize: 20)),
+          //   tileColor: Color.fromARGB(255, 223, 222, 222),
+          //   textColor: Color.fromARGB(255, 0, 0, 0),
+          //   // shape: RoundedRectangleBorder(
+          //   //   borderRadius: BorderRadius.circular(15)
+          //   // ),
+          //   onTap: () {
+          //     //print('hello');
+          //   },
+          // ),
         ],
       ),
       // backgroundColor:Color.fromARGB(255, 161, 160, 160),

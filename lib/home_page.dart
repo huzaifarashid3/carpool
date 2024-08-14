@@ -14,7 +14,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class home_page extends StatefulWidget {
   static const route_name = 'home_page';
-  static List route = [];
+  // static List route = [];
   static bool posted = false;
   home_page({super.key});
 
@@ -59,241 +59,241 @@ class _home_pageState extends State<home_page> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(
           237, 241, 243, 1), //Color.fromARGB(188, 255, 255, 255),
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(237, 241, 243, 1),
-        leading: Tooltip(
-          message: 'Filter',
-          child: IconButton(
-            onPressed: () {
-              // Show filter options for time and location
-              // Implement your logic here
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return SingleChildScrollView(
-                    child: AlertDialog(
-                      shape: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      title: const Text('Apply Filters !'),
-                      icon: const Icon(Icons.filter_list),
-                      shadowColor: Colors.black,
-                      content: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: 300,
-                        width: 400,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(after_time_selection_text),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      TimeOfDay? selectedTime =
-                                          await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay.now(),
-                                      );
-                                      if (selectedTime != null) {
-                                        setState(() {
-                                          time_text =
-                                              selectedTime.format(context);
-                                          after_time_selection_text =
-                                              'Departure Time:';
-                                          var selected_time =
-                                              selectedTime.format(context);
-                                        });
-                                      }
-                                    },
-                                    child: Text(time_text),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // Text('Choose a template'),
-                                  const SizedBox(
-                                    width: 8,
-                                    height: 80,
-                                  ),
-                                  DropdownButton(
-                                    hint: Text(departure_type_dropdown_text),
-                                    items: const [
-                                      DropdownMenuItem(
-                                        value: 'Going Fast',
-                                        child: Text('Going Fast'),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: 'Leaving Fast',
-                                        child: Text('Leaving Fast'),
-                                      ),
-                                    ],
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        departure_type_dropdown_text =
-                                            newValue!;
-                                        selected_departure_type =
-                                            newValue == 'Going Fast'
-                                                ? true
-                                                : false;
-                                      });
-                                      if (selected_departure_type) {
-                                        // Fetch rides from the database where going_fast is true
-                                        // You can use a database query or API call here
-                                        // Example:
-                                        // final rides = await fetchRides(goingFast: true);
-                                        // Do something with the fetched rides
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(
-                                    width: 8,
-                                    height: 80,
-                                  ),
-                                  DropdownButton(
-                                    hint: Text(vehicle_type_dropdown_text),
-                                    items: const [
-                                      DropdownMenuItem(
-                                        value: 'car',
-                                        child: Text('Car'),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: 'bike',
-                                        child: Text('Bike'),
-                                      ),
-                                    ],
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        vehicle_type_dropdown_text =
-                                            'Vehicle Type: ' + newValue!;
-                                        selected_vehicle_type = newValue;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(
-                                    width: 8,
-                                    height: 80,
-                                  ),
-                                  DropdownButton(
-                                    hint: Text(capacity_dropdown_text),
-                                    items: const [
-                                      DropdownMenuItem(
-                                        value: '1',
-                                        child: Text('1'),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: '2',
-                                        child: Text('2'),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: '3',
-                                        child: Text('3'),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: '4',
-                                        child: Text('4'),
-                                      ),
-                                    ],
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        capacity_dropdown_text =
-                                            'Seats Available: ' + newValue!;
-                                        selected_capacity = int.parse(newValue);
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                // Text(
-                                //   cant_post_ride_text,
-                                //   style: const TextStyle(color: Colors.red),
-                                // ),
-                                const SizedBox(height: 10),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Cards.test = true;
-                                    refresh();
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color?>(
-                                            Colors.green),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color?>(
-                                            Colors.white),
-                                  ),
-                                  child: const Text('Apply'),
-                                ),
-                                const SizedBox(height: 10),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // cant_post_ride_text = '';
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color?>(
-                                            Colors.red),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color?>(
-                                            Colors.white),
-                                  ),
-                                  child: const Text('Cancel'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            icon: const Icon(Icons.filter_list),
-          ),
-        ),
-        title: const Text(
-          'Fast Carpool',
-          style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87),
-        ),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromRGBO(237, 241, 243, 1),
+      //   leading: Tooltip(
+      //     message: 'Filter',
+      //     child: IconButton(
+      //       onPressed: () {
+      //         // Show filter options for time and location
+      //         // Implement your logic here
+      //         showDialog(
+      //           context: context,
+      //           builder: (BuildContext context) {
+      //             return SingleChildScrollView(
+      //               child: AlertDialog(
+      //                 shape: Border.all(
+      //                   color: Colors.black,
+      //                   width: 1,
+      //                 ),
+      //                 title: const Text('Apply Filters !'),
+      //                 icon: const Icon(Icons.filter_list),
+      //                 shadowColor: Colors.black,
+      //                 content: Container(
+      //                   decoration: BoxDecoration(
+      //                     color: Colors.white,
+      //                     borderRadius: BorderRadius.circular(10),
+      //                   ),
+      //                   height: 300,
+      //                   width: 400,
+      //                   child: SingleChildScrollView(
+      //                     child: Column(
+      //                       mainAxisAlignment: MainAxisAlignment.center,
+      //                       children: [
+      //                         Row(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           children: [
+      //                             Text(after_time_selection_text),
+      //                             const SizedBox(
+      //                               width: 10,
+      //                             ),
+      //                             TextButton(
+      //                               onPressed: () async {
+      //                                 TimeOfDay? selectedTime =
+      //                                     await showTimePicker(
+      //                                   context: context,
+      //                                   initialTime: TimeOfDay.now(),
+      //                                 );
+      //                                 if (selectedTime != null) {
+      //                                   setState(() {
+      //                                     time_text =
+      //                                         selectedTime.format(context);
+      //                                     after_time_selection_text =
+      //                                         'Departure Time:';
+      //                                     var selected_time =
+      //                                         selectedTime.format(context);
+      //                                   });
+      //                                 }
+      //                               },
+      //                               child: Text(time_text),
+      //                             ),
+      //                           ],
+      //                         ),
+      //                         Row(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           children: [
+      //                             // Text('Choose a template'),
+      //                             const SizedBox(
+      //                               width: 8,
+      //                               height: 80,
+      //                             ),
+      //                             DropdownButton(
+      //                               hint: Text(departure_type_dropdown_text),
+      //                               items: const [
+      //                                 DropdownMenuItem(
+      //                                   value: 'Going Fast',
+      //                                   child: Text('Going Fast'),
+      //                                 ),
+      //                                 DropdownMenuItem(
+      //                                   value: 'Leaving Fast',
+      //                                   child: Text('Leaving Fast'),
+      //                                 ),
+      //                               ],
+      //                               onChanged: (String? newValue) {
+      //                                 setState(() {
+      //                                   departure_type_dropdown_text =
+      //                                       newValue!;
+      //                                   selected_departure_type =
+      //                                       newValue == 'Going Fast'
+      //                                           ? true
+      //                                           : false;
+      //                                 });
+      //                                 if (selected_departure_type) {
+      //                                   // Fetch rides from the database where going_fast is true
+      //                                   // You can use a database query or API call here
+      //                                   // Example:
+      //                                   // final rides = await fetchRides(goingFast: true);
+      //                                   // Do something with the fetched rides
+      //                                 }
+      //                               },
+      //                             ),
+      //                           ],
+      //                         ),
+      //                         Row(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           children: [
+      //                             const SizedBox(
+      //                               width: 8,
+      //                               height: 80,
+      //                             ),
+      //                             DropdownButton(
+      //                               hint: Text(vehicle_type_dropdown_text),
+      //                               items: const [
+      //                                 DropdownMenuItem(
+      //                                   value: 'car',
+      //                                   child: Text('Car'),
+      //                                 ),
+      //                                 DropdownMenuItem(
+      //                                   value: 'bike',
+      //                                   child: Text('Bike'),
+      //                                 ),
+      //                               ],
+      //                               onChanged: (String? newValue) {
+      //                                 setState(() {
+      //                                   vehicle_type_dropdown_text =
+      //                                       'Vehicle Type: ' + newValue!;
+      //                                   selected_vehicle_type = newValue;
+      //                                 });
+      //                               },
+      //                             ),
+      //                           ],
+      //                         ),
+      //                         Row(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           children: [
+      //                             const SizedBox(
+      //                               width: 8,
+      //                               height: 80,
+      //                             ),
+      //                             DropdownButton(
+      //                               hint: Text(capacity_dropdown_text),
+      //                               items: const [
+      //                                 DropdownMenuItem(
+      //                                   value: '1',
+      //                                   child: Text('1'),
+      //                                 ),
+      //                                 DropdownMenuItem(
+      //                                   value: '2',
+      //                                   child: Text('2'),
+      //                                 ),
+      //                                 DropdownMenuItem(
+      //                                   value: '3',
+      //                                   child: Text('3'),
+      //                                 ),
+      //                                 DropdownMenuItem(
+      //                                   value: '4',
+      //                                   child: Text('4'),
+      //                                 ),
+      //                               ],
+      //                               onChanged: (String? newValue) {
+      //                                 setState(() {
+      //                                   capacity_dropdown_text =
+      //                                       'Seats Available: ' + newValue!;
+      //                                   selected_capacity = int.parse(newValue);
+      //                                 });
+      //                               },
+      //                             ),
+      //                           ],
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 actions: [
+      //                   Row(
+      //                     mainAxisAlignment: MainAxisAlignment.center,
+      //                     children: [
+      //                       Column(
+      //                         children: [
+      //                           // Text(
+      //                           //   cant_post_ride_text,
+      //                           //   style: const TextStyle(color: Colors.red),
+      //                           // ),
+      //                           const SizedBox(height: 10),
+      //                           ElevatedButton(
+      //                             onPressed: () {
+      //                               Cards.test = true;
+      //                               refresh();
+      //                               Navigator.of(context).pop();
+      //                             },
+      //                             style: ButtonStyle(
+      //                               backgroundColor:
+      //                                   WidgetStateProperty.all<Color?>(
+      //                                       Colors.green),
+      //                               foregroundColor:
+      //                                   WidgetStateProperty.all<Color?>(
+      //                                       Colors.white),
+      //                             ),
+      //                             child: const Text('Apply'),
+      //                           ),
+      //                           const SizedBox(height: 10),
+      //                           ElevatedButton(
+      //                             onPressed: () {
+      //                               // cant_post_ride_text = '';
+      //                               Navigator.of(context).pop();
+      //                             },
+      //                             style: ButtonStyle(
+      //                               backgroundColor:
+      //                                   WidgetStateProperty.all<Color?>(
+      //                                       Colors.red),
+      //                               foregroundColor:
+      //                                   WidgetStateProperty.all<Color?>(
+      //                                       Colors.white),
+      //                             ),
+      //                             child: const Text('Cancel'),
+      //                           ),
+      //                         ],
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ],
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       },
+      //       icon: const Icon(Icons.filter_list),
+      //     ),
+      //   ),
+      //   title: const Text(
+      //     'Fast Carpool',
+      //     style: TextStyle(
+      //         fontSize: 20.0,
+      //         fontWeight: FontWeight.bold,
+      //         color: Colors.black87),
+      //   ),
+      //   centerTitle: true,
+      // ),
 
       //BODYY
       body: Cards(noOfRides: noOfRides),
