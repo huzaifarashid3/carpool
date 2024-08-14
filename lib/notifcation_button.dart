@@ -20,7 +20,7 @@ class _NotifcationButtonState extends State<NotifcationButton> {
         height: 30,
         child: OutlinedButton(
           onPressed: () {
-            NotficationDiaglog(context);
+            if (!hasNotfication) NotficationDiaglog(context);
             setState(() {
               hasNotfication = !hasNotfication;
             });
@@ -50,8 +50,7 @@ class _NotifcationButtonState extends State<NotifcationButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Notification'),
-          content: const Text('You have a new notification!'),
+          title: const Text('placeholder'),
           actions: [
             TextButton(
               onPressed: () {

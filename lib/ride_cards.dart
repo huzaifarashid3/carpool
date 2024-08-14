@@ -57,6 +57,7 @@ class LoadedCards extends StatelessWidget {
         margin: const EdgeInsets.all(8),
         child: index < cards.length
             ? RideCard(
+                key: ValueKey(cards[index]),
                 rideIndex: cards[index],
                 controller: widget.listController,
               )
