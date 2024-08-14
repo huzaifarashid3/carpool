@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class Ride {
-  bool booked = false;
+  bool booked = false, going;
   int capacity, occupied = 0;
   String name, contact, vehicleName, vehicleType, departureTime;
   List<String> route;
@@ -11,6 +11,7 @@ class Ride {
       required this.booked,
       required this.contact,
       required this.capacity,
+      required this.going,
       required this.occupied,
       required this.route,
       required this.vehicleName,

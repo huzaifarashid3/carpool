@@ -7,11 +7,12 @@ class RideState extends ChangeNotifier {
   final car = const Image(image: AssetImage('assets/car.png'));
   late Stream<List<int>> fetchR;
   List<Ride> rides = List.generate(
-    20,
+    4,
     (i) => Ride(
-      name: 'Huzaifa Rashid',
+      name: i % 2 == 0 ? 'Huzaifa Rashid' : 'Ismail Qayyum',
       booked: i < 2,
       contact: '03001234567',
+      going: i % 2 == 0,
       capacity: 4,
       occupied: 2,
       route: [
@@ -83,15 +84,17 @@ class RideState extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 2));
   }
 
-  Future<List<int>> filterRides(String filter) async {
-    await Future.delayed(const Duration(seconds: 2));
-    List<int> filteredRides = [];
-    for (int i = 0; i < rides.length; i++) {
-      if (rides[i].route.contains(filter)) {
-        filteredRides.add(i);
-      }
-    }
-    return filteredRides;
+  Future<void> filterRides({bool? going, bool? leaving}) async {
+    // await Future.delayed(const Duration(seconds: 2));
+    List<int> filteredRides = rides
+        .asMap()
+        .entries
+        .where((element) =>
+            (going == null || element.value.going == going) &&
+            (leaving == null || element.value.going != leaving))
+        .map((e) => e.key)
+        .toList();
+    _controller.add(filteredRides);
   }
 
 // make the network call here
@@ -105,7 +108,8 @@ class RideState extends ChangeNotifier {
   }
 
   RideState() {
-    autoRefresh();
+    // autoRefresh();
+    _controller.add(arrangedRides);
   }
 
   void autoRefresh() {

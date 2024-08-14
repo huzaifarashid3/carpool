@@ -1,4 +1,4 @@
-
+import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/Models/user_state.dart';
 import 'package:carpool/rides_page.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => RideState()),
           ChangeNotifierProvider(create: (context) => UserState()),
+          ChangeNotifierProvider(create: (context) => UiState()),
         ],
         child: SafeArea(child: RidesPage()),
       ),

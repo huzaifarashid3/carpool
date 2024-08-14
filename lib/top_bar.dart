@@ -1,38 +1,49 @@
+import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/filter_buttons.dart';
 import 'package:carpool/notifcation_button.dart';
 import 'package:carpool/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class TopBar extends StatelessWidget {
+class TopBar extends StatefulWidget {
   const TopBar({
     super.key,
   });
 
   @override
+  State<TopBar> createState() => _TopBarState();
+}
+
+class _TopBarState extends State<TopBar> {
+  @override
   Widget build(BuildContext context) {
-    return const SliverAppBar(
+    final uiState = context.watch<UiState>();
+    final bool isEditing = uiState.isEditing;
+    return SliverAppBar(
       pinned: true,
       expandedHeight: 210,
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 60),
-            UserCard(),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FilterButtons(),
-                NotifcationButton(),
-              ],
-            ),
+            const SizedBox(height: 60),
+            const UserCard(),
+            const SizedBox(height: 40),
+            if (!isEditing)
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // SearchField(),
+                  FilterButtons(),
+                  NotifcationButton(),
+                ],
+              ),
           ],
         ),
       ),
-      title: Row(
+      title: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -43,7 +54,30 @@ class TopBar extends StatelessWidget {
         ],
       ),
       elevation: 0,
-      backgroundColor: Color.fromARGB(255, 238, 238, 238),
+      backgroundColor: const Color.fromARGB(255, 238, 238, 238),
+    );
+  }
+}
+
+class SearchField extends StatelessWidget {
+  const SearchField({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SizedBox(
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Search for rides',
+            prefixIcon: const Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

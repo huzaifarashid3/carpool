@@ -1,3 +1,4 @@
+import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/Models/user_state.dart';
 import 'package:carpool/ui_helpers/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class UserCard extends StatefulWidget {
-  const UserCard({super.key});
+  const UserCard({
+    super.key,
+  });
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -14,7 +17,6 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   final nameController = TextEditingController();
   final contactController = TextEditingController();
-  bool isEditing = false;
   final style = const TextStyle(
     color: Color.fromARGB(255, 109, 109, 109),
     letterSpacing: 2,
@@ -36,12 +38,14 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = context.watch<UserState>();
-    if (appState.isUserLoggedIn) {
-      nameController.text = appState.name ?? "";
-      contactController.text = appState.contact ?? "";
-    } else {
-      isEditing = true;
+    // print("child building");
+    final userState = context.watch<UserState>();
+    final uiState = context.watch<UiState>();
+    final bool isEditing = uiState.isEditing;
+    final bool isUserLoggedIn = userState.isUserLoggedIn;
+    if (isUserLoggedIn) {
+      nameController.text = userState.name ?? "";
+      contactController.text = userState.contact ?? "";
     }
     return Row(
       children: [
@@ -149,10 +153,8 @@ class _UserCardState extends State<UserCard> {
             height: 30,
             child: OutlinedButton(
               onPressed: () {
-                saveUser();
-                setState(() {
-                  isEditing = !isEditing;
-                });
+                if (isEditing) saveUser();
+                uiState.toggleEditing();
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.grey),
