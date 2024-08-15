@@ -4,8 +4,14 @@ import 'package:carpool/rides_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carpool/Models/ride_state.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => UserState()),
           ChangeNotifierProvider(create: (context) => UiState()),
         ],
-        child: SafeArea(child: RidesPage()),
+        child: const SafeArea(child: RidesPage()),
       ),
     );
   }

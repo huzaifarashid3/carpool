@@ -1,4 +1,5 @@
 import 'package:carpool/Models/ride_state.dart';
+import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/components/info_card.dart';
 import 'package:carpool/components/route_card.dart';
 import 'package:carpool/components/seat_card.dart';
@@ -10,11 +11,9 @@ import 'package:provider/provider.dart';
 
 class RideCard extends StatefulWidget {
   final int rideIndex;
-  final ScrollController controller;
   const RideCard({
     super.key,
     required this.rideIndex,
-    required this.controller,
   });
 
   @override
@@ -29,6 +28,7 @@ class _RideCardState extends State<RideCard> {
   Widget build(BuildContext context) {
     var rideState = context.read<RideState>();
     final ride = rideState.rides[widget.rideIndex];
+    final scrollController = context.read<UiState>().scrollController;
 
     return AnimatedContainer(
       height: isExpanded ? 150 : 118,
@@ -63,9 +63,9 @@ class _RideCardState extends State<RideCard> {
                     // An action can be bigger than the others.
                     onPressed: (context) {
                       rideState.book(widget.rideIndex);
-                      widget.controller.hasClients
-                          ? widget.controller.animateTo(
-                              widget.controller.position.minScrollExtent,
+                      scrollController.hasClients
+                          ? scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
                               duration: const Duration(seconds: 1),
                               curve: Curves.fastOutSlowIn,
                             )

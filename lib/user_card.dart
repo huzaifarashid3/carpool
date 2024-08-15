@@ -47,113 +47,114 @@ class _UserCardState extends State<UserCard> {
       nameController.text = userState.name ?? "";
       contactController.text = userState.contact ?? "";
     }
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <InlineSpan>[
-                          // first part
-                          WidgetSpan(
-                            child: Text(
-                              isEditing ? "NAME:        " : "WELCOME,  ",
-                              style: style,
-                            ),
-                          ),
-                          // flexible text field
-                          WidgetSpan(
-                              child: ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(minWidth: 128),
-                                  child: IntrinsicWidth(
-                                    child: TextField(
-                                        inputFormatters: [
-                                          UpperCaseTextFormatter(),
-                                          LengthLimitingTextInputFormatter(20),
-                                        ],
-                                        controller: nameController,
-                                        enabled: isEditing,
-                                        maxLines: 1,
-                                        style: style.copyWith(
-                                          fontSize: 16,
-                                          letterSpacing: 2,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                        decoration: const InputDecoration(
-                                            isDense: true,
-                                            contentPadding: EdgeInsets.all(0))),
-                                  ))),
-                        ],
-                      ),
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+            child: RichText(
+              text: TextSpan(
+                children: <InlineSpan>[
+                  // first part
+                  WidgetSpan(
+                    child: Text(
+                      isEditing ? "NAME:        " : "WELCOME,  ",
+                      style: style,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <InlineSpan>[
-                          // first part
-                          WidgetSpan(
-                            child: Text("CONTACT:   ", style: style),
-                          ),
-                          // flexible text field
-                          WidgetSpan(
-                              child: ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(minWidth: 128),
-                                  child: IntrinsicWidth(
-                                    child: TextField(
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
-                                          LengthLimitingTextInputFormatter(11),
-                                        ],
-                                        controller: contactController,
-                                        enabled: isEditing,
-                                        maxLines: null,
-                                        style: style.copyWith(
-                                          fontSize: 16,
-                                          letterSpacing: 2,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                        keyboardType: TextInputType.phone,
-                                        decoration: const InputDecoration(
-                                            hintText: '03XX1234567',
-                                            hintStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 202, 202, 202),
-                                                fontSize: 16),
-                                            isDense: true,
-                                            contentPadding: EdgeInsets.all(0))),
-                                  ))),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // flexible text field
+                  WidgetSpan(
+                      child: ConstrainedBox(
+                          constraints: const BoxConstraints(minWidth: 128),
+                          child: IntrinsicWidth(
+                            child: TextField(
+                                inputFormatters: [
+                                  UpperCaseTextFormatter(),
+                                  LengthLimitingTextInputFormatter(20),
+                                ],
+                                controller: nameController,
+                                enabled: isEditing,
+                                maxLines: 1,
+                                style: style.copyWith(
+                                  fontSize: 16,
+                                  letterSpacing: 2,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                decoration: const InputDecoration(
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(0))),
+                          ))),
                 ],
-              )
-              // else
-              // UserCard(name: widget.name, contact: widget.contact),
-            ],
+              ),
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+            child: RichText(
+              text: TextSpan(
+                children: <InlineSpan>[
+                  // first part
+                  WidgetSpan(
+                    child: Text("CONTACT:   ", style: style),
+                  ),
+                  // flexible text field
+                  WidgetSpan(
+                      child: ConstrainedBox(
+                          constraints: const BoxConstraints(minWidth: 128),
+                          child: IntrinsicWidth(
+                            child: TextField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(11),
+                                ],
+                                controller: contactController,
+                                enabled: isEditing,
+                                maxLines: null,
+                                style: style.copyWith(
+                                  fontSize: 16,
+                                  letterSpacing: 2,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                keyboardType: TextInputType.phone,
+                                decoration: const InputDecoration(
+                                    hintText: '03XX1234567',
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 202, 202, 202),
+                                        fontSize: 16),
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(0))),
+                          ))),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({super.key});
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      // isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      // builder: (BuildContext context) => const UserCard(),
+      builder: (BuildContext context) => const Placeholder(),
+    );
+  }
 
   // Future<void> saveUser() async {
   @override
@@ -163,6 +164,7 @@ class ProfileButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {
           // if (isEditing) saveUser();
+          _showModalBottomSheet(context);
         },
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Colors.grey),

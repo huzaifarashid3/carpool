@@ -2,11 +2,17 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:carpool/Models/ride_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
+  RideState() {
+    // autoRefresh();
+    _controller.add(arrangedRides);
+  }
+  final _controller = StreamController<List<int>>();
   final car = const Image(image: AssetImage('assets/car.png'));
-  late Stream<List<int>> fetchR;
+
   List<Ride> rides = List.generate(
     10,
     (i) {
@@ -89,8 +95,15 @@ class RideState extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  // Isolate implementation
   Future<void> filterRides({bool? going, bool? leaving}) async {
-    // await Future.delayed(const Duration(seconds: 2));
+    await compute(_filterRides, {'going': going, 'leaving': leaving});
+  }
+
+  void _filterRides(Map<String, bool?> filters) {
+    bool? going = filters['going'];
+    bool? leaving = filters['leaving'];
+
     List<int> filteredRides = rides
         .asMap()
         .entries
@@ -102,6 +115,22 @@ class RideState extends ChangeNotifier {
     _controller.add(filteredRides);
   }
 
+  // main isolate implementation
+
+  // Future<void> filterRides({bool? going, bool? leaving}) async {
+  //   {
+  //     List<int> filteredRides = rides
+  //         .asMap()
+  //         .entries
+  //         .where((element) =>
+  //             (going == null || element.value.going == going) &&
+  //             (leaving == null || element.value.going != leaving))
+  //         .map((e) => e.key)
+  //         .toList();
+  //     _controller.add(filteredRides);
+  //   }
+  // }
+
 // make the network call here
 
   Stream<List<int>> tempStream() async* {
@@ -112,11 +141,6 @@ class RideState extends ChangeNotifier {
     // await Future.delayed(const Duration(seconds: 2));
   }
 
-  RideState() {
-    // autoRefresh();
-    _controller.add(arrangedRides);
-  }
-
   void autoRefresh() {
     Timer.periodic(const Duration(seconds: 5), (t) {
       // make the network call here
@@ -124,8 +148,6 @@ class RideState extends ChangeNotifier {
       _controller.add(arrangedRides);
     });
   }
-
-  final _controller = StreamController<List<int>>();
 
   @override
   void dispose() {
@@ -148,8 +170,6 @@ class RideState extends ChangeNotifier {
   //   yield arrangedRides;
   //   // await Future.delayed(const Duration(seconds: 2));
   // }
-}
-
 
 // network flow
 // 1. fetch data from network
@@ -158,9 +178,9 @@ class RideState extends ChangeNotifier {
 // 4. arrange data
 // 5. display data
 
-
 // if the ui causes the data to change,
 // make the network call to update the data
 // if the data is updated, then only cause rebuild
 // else show some message that data is not updated
 // in meanwhile, show the old data and some indication that data is being updated
+}

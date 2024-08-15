@@ -1,16 +1,21 @@
+import 'package:carpool/Models/ui_state.dart';
 import 'package:carpool/bottom_bar.dart';
 import 'package:carpool/ride_cards.dart';
 import 'package:carpool/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RidesPage extends StatelessWidget {
-  RidesPage({super.key});
+  const RidesPage({super.key});
+
   final name = 'Huzaifa Rashid';
+
   final contact = '0300-1234567';
-  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController =
+        context.read<UiState>().scrollController;
     // Future.delayed(const Duration(seconds: 10), () {
     //   controller.animateTo(
     //     controller.position.minScrollExtent,
@@ -19,7 +24,7 @@ class RidesPage extends StatelessWidget {
     //   );
     // });
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color.fromARGB(252, 245, 245, 245),
       // this ways allows for any type of scrollable widget to be in body
       // but i am unable to scroll to top of the page
       // body: NestedScrollView(
@@ -30,25 +35,21 @@ class RidesPage extends StatelessWidget {
       // ),
       // floatingActionButton: const BottomBar(),
       body: CustomScrollView(
-        controller: controller,
-        slivers: [
-          const TopBar(),
-          RideCards(listController: controller),
+        controller: scrollController,
+        slivers: const [
+          TopBar(),
+          RideCards(),
         ],
       ),
       // body: Container(child: context.read<RideState>().car),
-      floatingActionButton: BottomBar(
-        controller: controller,
-      ),
+      floatingActionButton: const BottomBar(),
     );
   }
 }
 
 class SearchButton extends StatefulWidget {
-  final ScrollController controller;
   const SearchButton({
     super.key,
-    required this.controller,
   });
 
   @override
@@ -70,6 +71,8 @@ class _SearchButtonState extends State<SearchButton> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController =
+        context.read<UiState>().scrollController;
     return Visibility(
       visible: MediaQuery.of(context).viewInsets.bottom ==
           0.0, // this is to prevernt fab from showing when keyboard is open
@@ -82,8 +85,8 @@ class _SearchButtonState extends State<SearchButton> {
                 ? const Color.fromARGB(255, 255, 255, 255)
                 : const Color.fromARGB(255, 66, 66, 66);
             icnColor = toggled ? Colors.black : Colors.white;
-            widget.controller.animateTo(
-              widget.controller.position.minScrollExtent,
+            scrollController.animateTo(
+              scrollController.position.minScrollExtent,
               duration: const Duration(seconds: 1),
               curve: Curves.fastOutSlowIn,
             );

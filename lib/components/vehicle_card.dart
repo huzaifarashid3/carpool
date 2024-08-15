@@ -1,8 +1,5 @@
 import 'dart:math';
-import 'package:carpool/Models/ride_model.dart';
-import 'package:carpool/Models/ride_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class VehicleCard extends StatelessWidget {
   final String vehicleName, vehicleType;

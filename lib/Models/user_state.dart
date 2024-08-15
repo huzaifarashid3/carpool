@@ -33,7 +33,7 @@ class UserState with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final pName = prefs.getString('name');
     final pContact = prefs.getString('contact');
-    print('Name: $pName, Contact: $pContact');
+    debugPrint('Name: $pName, Contact: $pContact');
     if (name != null && contact != null) {
       name = pName;
       contact = pContact;

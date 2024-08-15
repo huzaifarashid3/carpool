@@ -1,19 +1,13 @@
 import 'package:carpool/filter_buttons.dart';
 import 'package:carpool/user_card.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-class TopBar extends StatefulWidget {
+class TopBar extends StatelessWidget {
   const TopBar({
     super.key,
   });
 
-  @override
-  State<TopBar> createState() => _TopBarState();
-}
-
-class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     // final uiState = context.watch<UiState>();
@@ -83,30 +77,6 @@ class SearchField extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CarAnimation extends StatelessWidget {
-  const CarAnimation({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 60),
-          child: Lottie.network(
-              'https://lottie.host/92898da8-7314-4538-9d72-c171302562dd/G1BOK2Carw.json'
-              // 'assets/car_animation.json',
-              ),
-        ),
-        const SizedBox(width: 20),
-      ],
     );
   }
 }

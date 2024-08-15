@@ -16,7 +16,7 @@ class _NotifcationButtonState extends State<NotifcationButton> {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        if (!hasNotfication) NotficationDiaglog(context);
+        if (!hasNotfication) notficationDiaglog(context);
         setState(() {
           hasNotfication = !hasNotfication;
         });
@@ -37,7 +37,7 @@ class _NotifcationButtonState extends State<NotifcationButton> {
     );
   }
 
-  Future<dynamic> NotficationDiaglog(BuildContext context) {
+  Future<dynamic> notficationDiaglog(BuildContext context) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
