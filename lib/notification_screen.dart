@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, camel_case_types
+// ignore_for_file: non_constant_identifier_names, camel_case_types, sort_child_properties_last
 
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/dialouges/post_ride.dart';
@@ -26,7 +26,7 @@ class _notification_screenState extends State<notification_screen> {
   static bool isSwitched = false;
   bool gf = false, lf = false;
   bool filter_ride = false;
-
+  String filter_dropdown_text = 'Select Departure type';
   @override
   void initState() {
     super.initState();
@@ -41,6 +41,7 @@ class _notification_screenState extends State<notification_screen> {
   @override
   Widget build(BuildContext context) {
     //final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+    // print('nigga');
     var noOfRides = 0;
     return DefaultTabController(
       initialIndex: 0,
@@ -120,68 +121,77 @@ class _notification_screenState extends State<notification_screen> {
               heroTag: null,
               child: const Icon(Icons.filter_list),
               onPressed: () {
-                // setState(() {
-                // Cards.filtered_going_fast = true;
-                // Cards.filter_ride = true;
-                // isSwitched = true;
                 showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      print('nigga');
-                      return FittedBox(
-                        fit: BoxFit.contain,
-                        child: AlertDialog(
-                          title: const Text('Filter Rides'),
-                          content: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Text('Going Fast'),
-                                  Switch(
-                                    value: gf,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        gf = !gf;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Leaving Fast'),
-                                  Switch(
-                                    value: lf,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        lf = value;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (gf == true && lf == true) {
-                                    Cards.filtered_going_fast = null;
-                                    isSwitched = false;
-                                  } else {
-                                    Cards.filtered_going_fast = gf;
-                                    isSwitched = true;
-                                  }
-                                });
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Apply'),
-                            ),
-                          ],
+                  context: context,
+                  builder: (BuildContext context) {
+                    return FittedBox(
+                      fit: BoxFit.contain,
+                      child: AlertDialog(
+                        title: const Text('Filter Rides'),
+                        content: StatefulBuilder(
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(
+                                  width: 8,
+                                  height: 80,
+                                ),
+                                DropdownButton(
+                                  hint: Text(filter_dropdown_text),
+                                  items: const [
+                                    DropdownMenuItem(
+                                      child: Text('Going Fast'),
+                                      value: 'Going Fast',
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Leaving Fast'),
+                                      value: 'Leaving Fast',
+                                    ),
+                                  ],
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      if (newValue == 'Going Fast') {
+                                        Cards.filtered_going_fast = true;
+                                        gf = true;
+                                        Cards.filter_ride = true;
+                                        isSwitched = true;
+                                        filter_dropdown_text = 'Going Fast';
+                                      } else if (newValue == 'Leaving Fast') {
+                                        Cards.filtered_going_fast = false;
+                                        Cards.filter_ride = true;
+                                        gf = false;
+                                        isSwitched = true;
+                                        filter_dropdown_text =
+                                            newValue.toString();
+                                      } else {
+                                        Cards.filtered_going_fast = null;
+                                        Cards.filter_ride = true;
+                                        isSwitched = false;
+                                        filter_dropdown_text = '';
+                                      }
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                      );
-                    });
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {});
+
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Apply'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
 
                 ///  });
               },
