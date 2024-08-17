@@ -127,7 +127,7 @@ class _post_rideState extends State<post_ride> {
                         setState(() {
                           time_text = selectedTime.format(context);
                           after_time_selection_text = 'Departure Time:';
-                          //selected_time = selectedTime.format(context);
+                          selected_time = selectedTime.format(context);
                         });
                       }
                     },
@@ -158,6 +158,7 @@ class _post_rideState extends State<post_ride> {
                     onChanged: (String? newValue) {
                       setState(() {
                         departure_type_dropdown_text = newValue!;
+                        selected_departure_type = newValue;
                       });
                     },
                   ),

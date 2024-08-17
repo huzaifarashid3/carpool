@@ -6,23 +6,24 @@ import 'package:carpool/home_page.dart';
 import 'package:carpool/main.dart';
 import 'package:carpool/notification_services.dart';
 import 'package:carpool/profile.dart';
+import 'package:carpool/requests.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
-class notification_screen extends StatefulWidget {
-  static const route_name = 'notification_screen';
+class screens extends StatefulWidget {
+  static const route_name = 'screens';
   static const Color backgorund_color =
       const Color.fromARGB(255, 193, 191, 191);
 
-  notification_screen({super.key});
+  screens({super.key});
 
   @override
-  State<notification_screen> createState() => _notification_screenState();
+  State<screens> createState() => _screensState();
 }
 
-class _notification_screenState extends State<notification_screen> {
+class _screensState extends State<screens> {
   static bool isSwitched = false;
   bool gf = false, lf = false;
   bool filter_ride = false;
@@ -40,15 +41,13 @@ class _notification_screenState extends State<notification_screen> {
 
   @override
   Widget build(BuildContext context) {
-    //final message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
-    // print('nigga');
     var noOfRides = 0;
     return DefaultTabController(
       initialIndex: 0,
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: notification_screen.backgorund_color,
+          backgroundColor: screens.backgorund_color,
           automaticallyImplyLeading: false,
           title: Row(
             children: [
@@ -89,13 +88,14 @@ class _notification_screenState extends State<notification_screen> {
           //     elevation: 5,
           // centerTitle: true,
         ),
-        backgroundColor: notification_screen.backgorund_color,
+        backgroundColor: screens.backgorund_color,
         body: Stack(
           children: [
             TabBarView(
               children: <Widget>[
                 Cards(noOfRides: noOfRides),
-                const bug_report(),
+                const requests(),
+                //  const bug_report(),
                 const profile(),
               ],
             ),
@@ -205,9 +205,13 @@ class _notification_screenState extends State<notification_screen> {
               text: 'Home',
             ),
             Tab(
-              icon: Icon(Icons.bug_report),
-              text: 'Bug Report',
+              icon: Icon(Icons.request_page),
+              text: 'Requests',
             ),
+            // Tab(
+            //   icon: Icon(Icons.bug_report),
+            //   text: 'Bug Report',
+            // ),
             Tab(
               icon: Icon(Icons.person),
               text: 'Profile',

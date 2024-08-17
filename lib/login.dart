@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carpool/home_page.dart';
-import 'package:carpool/notification_screen.dart';
+import 'package:carpool/screens.dart';
 import 'package:carpool/notifications.dart';
+import 'package:carpool/screens.dart';
 import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -105,8 +106,8 @@ class login extends StatelessWidget {
         if (isLoggedIn) {
           Future<String> tok = notifications().getToken();
           print('Token: $tok');
-          notification_screen();
-          Navigator.pushNamed(context, notification_screen.route_name);
+          screens();
+          Navigator.pushNamed(context, screens.route_name);
         } else {
           //dialouge to be created
           print('Invalid phone number or password');

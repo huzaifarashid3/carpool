@@ -6,10 +6,10 @@ import 'package:carpool/bug_report.dart';
 import 'package:carpool/create_route.dart';
 import 'package:carpool/home_page.dart';
 import 'package:carpool/login.dart';
-import 'package:carpool/notification_screen.dart';
 import 'package:carpool/notifications.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/list_tile.dart' as lt;
+import 'package:carpool/screens.dart';
 import 'package:carpool/signup.dart';
 //import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         profile.route_name: (_) => profile(),
         //  home_page.route_name: (_) => home_page(),
         create_route.route_name: (_) => create_route(),
-        notification_screen.route_name: (_) => notification_screen(),
+        screens.route_name: (_) => screens(),
       },
     );
   }

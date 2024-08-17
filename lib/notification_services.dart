@@ -102,4 +102,10 @@ class NotificationServices {
           notificationDetails);
     });
   }
+
+  void handleMessage(BuildContext context, RemoteMessage message) {
+    if (kDebugMode) {
+      print('Handling a background message ${message.notification!.title}');
+    }
+  }
 }
