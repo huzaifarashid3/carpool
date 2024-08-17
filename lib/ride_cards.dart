@@ -34,7 +34,7 @@ class _RideCardsState extends State<RideCards> {
         }
 
         // use snapshot.data to get the data from the stream
-        return LoadedCards(cards: snapshot.data!, widget: widget);
+        return LoadedCards(cards: snapshot.data!);
       },
     );
   }
@@ -44,11 +44,9 @@ class LoadedCards extends StatelessWidget {
   const LoadedCards({
     super.key,
     required this.cards,
-    required this.widget,
   });
 
   final List<int> cards;
-  final RideCards widget;
 
   @override
   Widget build(BuildContext context) {

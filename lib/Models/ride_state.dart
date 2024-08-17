@@ -7,13 +7,32 @@ import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   RideState() {
-    // autoRefresh();
-    _controller.add(arrangedRides);
+    _controller.add(dataPipeline(allRides, going: null, leaving: null));
+    autoRefresh();
   }
-  final _controller = StreamController<List<int>>();
-  final car = const Image(image: AssetImage('assets/car.png'));
 
-  List<Ride> rides = List.generate(
+  final _controller = StreamController<List<int>>();
+
+  Stream<List<int>> get fetchCards => _controller.stream;
+
+  bool? going;
+  bool? leaving;
+
+  void refresh() {
+    _controller.add(dataPipeline(allRides, going: going, leaving: leaving));
+  }
+
+  void setGoing(bool? value) {
+    going = value;
+    refresh();
+  }
+
+  void setLeaving(bool? value) {
+    leaving = value;
+    refresh();
+  }
+
+  List<Ride> RIDES = List.generate(
     10,
     (i) {
       int capacity = Random().nextInt(4) + 1;
@@ -41,111 +60,51 @@ class RideState extends ChangeNotifier {
   );
 
   void book(int index) async {
-    rides[index].book();
-    _controller.add(arrangedRides);
-    // notifyListeners();
+    RIDES[index].book();
+    refresh();
   }
 
   void unbook(int index) async {
-    rides[index].unbook();
-    _controller.add(arrangedRides);
+    RIDES[index].unbook();
+    refresh();
   }
 
-  List<int> get bookedRides {
-    List<int> bRides = [];
-    for (int i = 0; i < rides.length; i++) {
-      if (rides[i].booked) {
-        bRides.add(i);
-      }
-    }
-    return bRides;
+  List<int> bookedRides(ridesIndices) {
+    return ridesIndices.where((element) => RIDES[element].booked).toList();
   }
 
-  List<int> get unbookedRides {
-    List<int> ubRides = [];
-    for (int i = 0; i < rides.length; i++) {
-      if (!rides[i].booked) {
-        ubRides.add(i);
-      }
-    }
-    return ubRides;
-  }
-
-  // void fetch() async {
-  //   fetchR = fetchCards();
-  // }
-
-  void refresh() {
-    // fetch();
-    notifyListeners();
+  List<int> unbookedRides(ridesIndices) {
+    return ridesIndices.where((element) => !RIDES[element].booked).toList();
   }
 
   List<int> get allRides {
-    List<int> allRides = [];
-    for (int i = 0; i < rides.length; i++) {
-      allRides.add(i);
-    }
-    return allRides;
+    return List.generate(RIDES.length, (i) => i);
   }
 
-  // wrap this part in an isolate
-  List<int> get arrangedRides => [...bookedRides, ...unbookedRides];
-
-  Future<void> fetch() async {
-    await Future.delayed(const Duration(seconds: 2));
-  }
-
-  // Isolate implementation
-  Future<void> filterRides({bool? going, bool? leaving}) async {
-    await compute(_filterRides, {'going': going, 'leaving': leaving});
-  }
-
-  void _filterRides(Map<String, bool?> filters) {
-    bool? going = filters['going'];
-    bool? leaving = filters['leaving'];
-
-    List<int> filteredRides = rides
-        .asMap()
-        .entries
-        .where((element) =>
-            (going == null || element.value.going == going) &&
-            (leaving == null || element.value.going != leaving))
-        .map((e) => e.key)
-        .toList();
-    _controller.add(filteredRides);
+  List<int> arrangeRides(ridesIndices) {
+    return [...bookedRides(ridesIndices), ...unbookedRides(ridesIndices)];
   }
 
   // main isolate implementation
+  List<int> filterRides(ridesIndices, {bool? going, bool? leaving}) {
+    {
+      return ridesIndices
+          .where((i) =>
+              (going == null || RIDES[i].going == going) &&
+              (leaving == null || RIDES[i].going != leaving))
+          .toList();
+    }
+  }
 
-  // Future<void> filterRides({bool? going, bool? leaving}) async {
-  //   {
-  //     List<int> filteredRides = rides
-  //         .asMap()
-  //         .entries
-  //         .where((element) =>
-  //             (going == null || element.value.going == going) &&
-  //             (leaving == null || element.value.going != leaving))
-  //         .map((e) => e.key)
-  //         .toList();
-  //     _controller.add(filteredRides);
-  //   }
-  // }
-
-// make the network call here
-
-  Stream<List<int>> tempStream() async* {
-    await Future.delayed(const Duration(seconds: 5));
-    yield arrangedRides;
-    await Future.delayed(const Duration(seconds: 5));
-    yield arrangedRides;
-    // await Future.delayed(const Duration(seconds: 2));
+  List<int> dataPipeline(ridesIndices, {bool? going, bool? leaving}) {
+    return arrangeRides(
+        filterRides(ridesIndices, going: going, leaving: leaving));
   }
 
   void autoRefresh() {
     Timer.periodic(const Duration(seconds: 5), (t) {
-      // make the network call here
-      // if new data or data changed, then only cause rebuild
-      _controller.add(arrangedRides);
+      _controller.add(dataPipeline(allRides, going: going, leaving: leaving));
+      print("refreshing");
     });
   }
 
@@ -155,7 +114,34 @@ class RideState extends ChangeNotifier {
     super.dispose();
   }
 
-  Stream<List<int>> get fetchCards => _controller.stream;
+  // Isolate implementation
+  // Future<void> filterRides({List<int>  bool? going, bool? leaving}) async {
+  //   await compute(_filterRides, {'going': going, 'leaving': leaving});
+  // }
+
+  // void _filterRides(Map<String, bool?> filters) {
+  //   bool? going = filters['going'];
+  //   bool? leaving = filters['leaving'];
+
+  //   List<int> filteredRides = RIDES
+  //       .asMap()
+  //       .entries
+  //       .where((element) =>
+  //           (going == null || element.value.going == going) &&
+  //           (leaving == null || element.value.going != leaving))
+  //       .map((e) => e.key)
+  //       .toList();
+  //   _controller.add(filteredRides);
+  // }
+// make the network call here
+
+  // Stream<List<int>> tempStream() async* {
+  //   await Future.delayed(const Duration(seconds: 5));
+  //   yield arrangedRides;
+  //   await Future.delayed(const Duration(seconds: 5));
+  //   yield arrangedRides;
+  //   // await Future.delayed(const Duration(seconds: 2));
+  // }
 
   // RideState() {
   //   fetchCards = tempStream().listen((event) {

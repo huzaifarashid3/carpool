@@ -13,6 +13,7 @@ class _FilterButtonsState extends State<FilterButtons> {
   final List<bool> _selections = [false, false];
   @override
   Widget build(BuildContext context) {
+    final rideState = context.read<RideState>();
     return SizedBox(
       height: 30,
       child: ToggleButtons(
@@ -26,9 +27,11 @@ class _FilterButtonsState extends State<FilterButtons> {
               if (index == 0) _selections[1] = false;
               if (index == 1) _selections[0] = false;
             });
-            context.read<RideState>().filterRides(
-                leaving: _selections[0] == false ? null : true,
-                going: _selections[1] == false ? null : true);
+            // context.read<RideState>().filterRides(
+            //     leaving: _selections[0] == false ? null : true,
+            //     going: _selections[1] == false ? null : true);
+            rideState.setLeaving(_selections[0] == false ? null : true);
+            rideState.setGoing(_selections[1] == false ? null : true);
           },
           children: const [
             SizedBox(

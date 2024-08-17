@@ -27,7 +27,7 @@ class _RideCardState extends State<RideCard> {
   @override
   Widget build(BuildContext context) {
     var rideState = context.read<RideState>();
-    final ride = rideState.rides[widget.rideIndex];
+    final ride = rideState.RIDES[widget.rideIndex];
     final scrollController = context.read<UiState>().scrollController;
 
     return AnimatedContainer(
@@ -42,7 +42,7 @@ class _RideCardState extends State<RideCard> {
         elevation: 2,
         child: InkWell(
           onTap: () => setState(() {
-            isExpanded = !isExpanded;
+          isExpanded = !isExpanded;
           }),
           borderRadius: BorderRadius.circular(10),
           child: Slidable(
