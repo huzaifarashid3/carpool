@@ -47,16 +47,20 @@ class _screensState extends State<screens> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: screens.backgorund_color,
+          backgroundColor: Colors.black,
           automaticallyImplyLeading: false,
           title: Row(
             children: [
               const Expanded(
-                child: Text('Fast Carpool',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                    )),
+                child: Text(
+                  'F A S T   C A R P O O L',
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               isSwitched == true
                   ? Row(
@@ -88,7 +92,7 @@ class _screensState extends State<screens> {
           //     elevation: 5,
           // centerTitle: true,
         ),
-        backgroundColor: screens.backgorund_color,
+        backgroundColor: Colors.black,
         body: Stack(
           children: [
             TabBarView(
@@ -201,20 +205,29 @@ class _screensState extends State<screens> {
         bottomNavigationBar: const TabBar(
           tabs: <Widget>[
             Tab(
-              icon: Icon(Icons.home),
-              text: 'Home',
+              icon: Icon(
+                Icons.home,
+                color: Colors.white,
+              ),
+              //text: 'Home',
             ),
             Tab(
-              icon: Icon(Icons.request_page),
-              text: 'Requests',
+              icon: Icon(
+                Icons.request_page,
+                color: Colors.white,
+              ),
+              //text: 'Requests',
             ),
             // Tab(
             //   icon: Icon(Icons.bug_report),
             //   text: 'Bug Report',
             // ),
             Tab(
-              icon: Icon(Icons.person),
-              text: 'Profile',
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              //text: 'Profile',
             ),
           ],
         ),
