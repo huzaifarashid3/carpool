@@ -93,7 +93,7 @@ class LoadingCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
-      itemCount: 5,
+      itemCount: 20,
       itemBuilder: (context, index) => Shimmer.fromColors(
         baseColor: Colors.grey.shade300,
         highlightColor: Colors.grey.shade100,

@@ -12,6 +12,11 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool flip = going;
+    // just a temporary fix for original orientation of bike begin opposite
+    if (vehicleType == "BIKE") {
+      flip = !going;
+    }
     return ColoredBox(
       color: const Color.fromARGB(255, 66, 66, 66),
       child: SizedBox(
@@ -20,17 +25,17 @@ class VehicleCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Transform.flip(
-              flipX: going,
-              child: Text(
-                vehicleType == "CAR" ? "🚙" : "🏍️",
-                style: const TextStyle(
-                    fontSize: 24, color: Color.fromARGB(255, 224, 224, 224)),
+              flipX: flip,
+              // flutter issue color takes all space for colorFitltered widget
+              // the images are not nice
+              child: Image.asset(
+                vehicleType == "CAR"
+                    ? 'assets/images/car.png'
+                    : 'assets/images/bike.png',
+                width: 45,
+                height: 45,
               ),
             ),
-            // SizedBox(
-            //   width: 40,
-            // child: Image.asset('lib/assets/car.png'),
-            // ),
             const SizedBox(height: 4),
             Text(
               vehicleName.substring(0, min(15, vehicleName.length)),

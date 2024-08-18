@@ -36,6 +36,15 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => UiState()),
         ],
         child: const SafeArea(child: RidesPage()),
+        // child: FittedBox(
+        //   child: SizedBox(
+        //     width: 40,
+        //     height: 20,
+        //     child: Image.asset(
+        //       'assets/images/car.png',
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

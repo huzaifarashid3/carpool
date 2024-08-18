@@ -25,6 +25,7 @@ class RideState extends ChangeNotifier {
 
   void setGoing(bool? value) {
     going = value;
+
     refresh();
   }
 
@@ -35,11 +36,13 @@ class RideState extends ChangeNotifier {
 
   void book(int index) async {
     allRides[index].book();
+    firestore.updateRide(allRides[index]);
     refresh();
   }
 
   void unbook(int index) async {
     allRides[index].unbook();
+    firestore.updateRide(allRides[index]);
     refresh();
   }
 

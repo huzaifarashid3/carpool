@@ -6,9 +6,11 @@ class Ride {
   int capacity, occupied = 0;
   String name, contact, vehicleName, vehicleType, departureTime;
   List<String> route;
+  String id;
 
   Ride(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.booked,
       required this.contact,
       required this.capacity,
@@ -35,8 +37,9 @@ class Ride {
     occupied = max(occupied - 1, 0);
   }
 
-  factory Ride.fromJson(Map<String, dynamic> json) {
+  factory Ride.fromJson(String id, Map<String, dynamic> json) {
     return Ride(
+      id: id,
       name: json['name'],
       booked: json['booked'],
       contact: json['contact'],

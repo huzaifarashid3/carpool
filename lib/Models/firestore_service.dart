@@ -24,18 +24,24 @@ class FirestoreService {
   // reads
   Future<List<Ride>> fetchRides() async {
     QuerySnapshot snapshot = await ref.get();
-    try {
-      final rides = snapshot.docs
-          .map((doc) => Ride.fromJson(doc.data() as Map<String, dynamic>));
-      List<Ride> ridesList = [];
-      for (final ride in rides) {
-        print(ride.name);
-        ridesList.add(ride);
-      }
-      return ridesList;
-    } catch (e) {
-      print(e);
-      return [];
-    }
+    return snapshot.docs
+        .map((doc) => Ride.fromJson(doc.id, doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
+  // update
+  Future<void> updateRide(Ride ride) async {
+    await ref.doc(ride.id).update({
+      'name': ride.name,
+      'booked': ride.booked,
+      'contact': ride.contact,
+      'going': ride.going,
+      'capacity': ride.capacity,
+      'occupied': ride.occupied,
+      'route': ride.route,
+      'vehicleName': ride.vehicleName,
+      'vehicleType': ride.vehicleType,
+      'departureTime': ride.departureTime,
+    });
   }
 }
