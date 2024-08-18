@@ -15,6 +15,8 @@ class TopBar extends StatelessWidget {
     return const SliverAppBar(
       pinned: true,
       expandedHeight: 120,
+      stretch: true,
+      // onStretchTrigger: () async => context.read<RideState>().refresh(),
       flexibleSpace: FlexibleSpaceBar(
         background: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

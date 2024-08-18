@@ -23,41 +23,51 @@ class _DriverBarState extends State<DriverBar> {
       ),
       builder: (BuildContext context) => SizedBox(
         height: 400,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('ADD RIDE',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 116, 116, 116),
-                        fontSize: 20,
-                      )),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        rideStarted = !rideStarted;
-                      });
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('ADD RIDE',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 116, 116, 116),
+                          fontSize: 20,
+                        )),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          rideStarted = !rideStarted;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  rideStarted = !rideStarted;
-                  Navigator.pop(context);
-                });
-              },
-              child: const Text("add"),
-            )
-          ],
+              const CapacityInput(),
+              // const RouteInput(),
+              const VehicleInput(),
+              const SizedBox(
+                height: 40,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    rideStarted = !rideStarted;
+                    Navigator.pop(context);
+                  });
+                },
+                child: const Text("add"),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -80,6 +90,58 @@ class _DriverBarState extends State<DriverBar> {
             : const Text('ADD RIDE',
                 style: TextStyle(color: Colors.white, letterSpacing: 2)),
       ),
+    );
+  }
+}
+
+class CapacityInput extends StatelessWidget {
+  const CapacityInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        Text('capacity: '),
+        SizedBox(
+          width: 50,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RouteInput extends StatelessWidget {
+  const RouteInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class VehicleInput extends StatelessWidget {
+  const VehicleInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        Text('vehicle: '),
+        SizedBox(
+          width: 50,
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
