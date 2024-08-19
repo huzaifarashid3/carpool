@@ -1,8 +1,6 @@
 // ignore_for_file: sort_child_properties_last, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, camel_case_types, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'package:carpool/create_route.dart';
-import 'package:carpool/home_page.dart';
-import 'package:carpool/list_tile.dart';
 import 'package:carpool/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -394,6 +392,6 @@ class _post_rideState extends State<post_ride> {
   }
 
   AlertDialog cant_post_ride_dialouge() {
-    return AlertDialog();
+    return const AlertDialog();
   }
 }

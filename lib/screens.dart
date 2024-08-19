@@ -1,23 +1,19 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types, sort_child_properties_last
 
-import 'package:carpool/bug_report.dart';
 import 'package:carpool/dialouges/post_ride.dart';
-import 'package:carpool/home_page.dart';
 import 'package:carpool/main.dart';
 import 'package:carpool/notification_services.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/requests.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 class screens extends StatefulWidget {
   static const route_name = 'screens';
   static const Color backgorund_color =
-      const Color.fromARGB(255, 193, 191, 191);
+      Color.fromARGB(255, 193, 191, 191);
 
-  screens({super.key});
+  const screens({super.key});
 
   @override
   State<screens> createState() => _screensState();

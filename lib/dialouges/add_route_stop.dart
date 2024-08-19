@@ -1,16 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:carpool/create_route.dart';
 import 'package:flutter/material.dart';
 
 class add_route_stop extends StatelessWidget {
   final int number;
 
-  const add_route_stop({required this.number});
+  const add_route_stop({super.key, required this.number});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController add_a_stop_controller = TextEditingController();
+    TextEditingController addAStopController = TextEditingController();
     return AlertDialog(
       title: const Text('Add a Stop'),
       content: Column(
@@ -19,7 +18,7 @@ class add_route_stop extends StatelessWidget {
           //const Text('Enter the stop name: '),
           const SizedBox(height: 10),
           TextField(
-            controller: add_a_stop_controller,
+            controller: addAStopController,
             decoration: InputDecoration(
               hintText: 'Stop Name',
             ),
@@ -28,7 +27,7 @@ class add_route_stop extends StatelessWidget {
           ElevatedButton(
             //Add Stop Button
             onPressed: () {
-              if (add_a_stop_controller.text.isNotEmpty) {
+              if (addAStopController.text.isNotEmpty) {
                 // Implement your logic here
                 // You can use add_a_stop_controller.text
                 // create_route.route1_stops.add(add_a_stop_controller.text);

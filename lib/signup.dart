@@ -61,16 +61,16 @@ class signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(234, 255, 254, 254),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Sign Up',
-          style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87),
-        ),
-        backgroundColor: const Color.fromARGB(190, 3, 255, 142),
+        // title: const Text(
+        //   'Sign Up',
+        //   style: TextStyle(
+        //       fontSize: 20.0,
+        //       fontWeight: FontWeight.bold,
+        //       color: Colors.black87),
+        // ),
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -120,17 +120,17 @@ class signup extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.white,
-                margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
-                width: 300,
-                child: ElevatedButton(
-                  onPressed: () {
-                    pick_image_from_gallery();
-                  },
-                  child: const Text('Upload Image'),
-                ),
-              ),
+              // Container(
+              //   color: Colors.white,
+              //   margin: const EdgeInsets.fromLTRB(50, 20, 50, 30),
+              //   width: 300,
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //       pick_image_from_gallery();
+              //     },
+              //     child: const Text('Upload Image'),
+              //   ),
+              // ),
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: ElevatedButton(
@@ -145,15 +145,15 @@ class signup extends StatelessWidget {
                   child: const Text('Signup'),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(login.route_name);
-                  },
-                  child: const Text('Login'),
-                ),
-              )
+              // Container(
+              //   padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //       Navigator.of(context).pushNamed(login.route_name);
+              //     },
+              //     child: const Text('Login'),
+              //   ),
+              // )
             ],
           ),
         ),

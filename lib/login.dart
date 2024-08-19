@@ -1,19 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:carpool/home_page.dart';
 import 'package:carpool/screens.dart';
 import 'package:carpool/notifications.dart';
-import 'package:carpool/screens.dart';
-import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatelessWidget {
   // ignore: constant_identifier_names
   static String? userLoginID, userNumber;
   static const route_name = 'login';
-  login({Key? key});
+  login({super.key, Key? otherKey});
 
   TextEditingController phoneController = TextEditingController();
 
@@ -34,6 +30,10 @@ class login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,20 +72,30 @@ class login extends StatelessWidget {
             Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      WidgetStateProperty.all<Color?>(Colors.white),
+                  elevation: WidgetStateProperty.all<double?>(3.0),
+                ),
                 onPressed: () {
                   // TODO: Implement login functionality
                   verifyLogin(context);
                 },
-                child: Text('Login'),
+                child: Text('Login',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      // fontWeight: FontWeight.bold,
+                    )),
               ),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'signup');
-              },
-              child: Text('Signup'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, 'signup');
+            //   },
+            //   child: Text('Signup'),
+            // ),
           ],
         ),
       ),
@@ -131,8 +141,8 @@ class login extends StatelessWidget {
           userLoginID = doc.id;
           userNumber = data['number'];
 
-          print('UserLoginID: ${userLoginID}');
-          print('Number : ${userNumber}');
+          print('UserLoginID: $userLoginID');
+          print('Number : $userNumber');
           return true;
         }
       }

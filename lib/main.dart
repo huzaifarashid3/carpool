@@ -1,24 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, avoid_init_to_null
 
-import 'dart:math';
 
 import 'package:carpool/bug_report.dart';
 import 'package:carpool/create_route.dart';
-import 'package:carpool/home_page.dart';
 import 'package:carpool/login.dart';
-import 'package:carpool/notifications.dart';
 import 'package:carpool/profile.dart';
 import 'package:carpool/list_tile.dart' as lt;
 import 'package:carpool/screens.dart';
 import 'package:carpool/signup.dart';
+import 'package:carpool/starting_screen.dart';
 //import 'package:carpool/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 // core Flutter primitives
-import 'package:flutter/foundation.dart';
-import 'firebase_options.dart';
 // FlutterFire's Firebase Cloud Messaging plugin
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -46,7 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: login(),
+      home: starting_screen(),
       routes: {
         bug_report.route_name: (_) => bug_report(),
         signup.route_name: (_) => signup(),

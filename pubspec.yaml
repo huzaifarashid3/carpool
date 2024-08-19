@@ -50,6 +50,7 @@ dependencies:
   open_whatsapp: ^0.0.1
   url_launcher: ^6.3.0
   flutter_expandable_fab: ^2.2.0
+  rive: ^0.13.12
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/img2.jpeg
+    - assets/rivs/demo.riv
+    - assets/rivs/rivebot.riv
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

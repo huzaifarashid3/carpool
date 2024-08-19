@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:carpool/bug_report.dart';
-import 'package:carpool/screens.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

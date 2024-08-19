@@ -1,10 +1,8 @@
 // ignore_for_file: sort_child_properties_last, prefer_const_constructors, non_constant_identifier_names, constant_identifier_names, deprecated_member_use
 
-import 'package:carpool/notification_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:open_whatsapp/open_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class list_tile extends StatefulWidget {
@@ -14,7 +12,7 @@ class list_tile extends StatefulWidget {
   final List route;
   final String rider_id;
   final String rider_number;
-  list_tile(
+  const list_tile(
       {Key? key,
       required this.time,
       required this.name,

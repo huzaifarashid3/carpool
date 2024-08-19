@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class create_route extends StatefulWidget {
-  create_route({super.key});
+  const create_route({super.key});
   static const route_name = 'create_route';
   @override
   State<create_route> createState() => _create_routeState();
