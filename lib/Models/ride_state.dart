@@ -7,13 +7,24 @@ import 'package:flutter/material.dart';
 
 class RideState extends ChangeNotifier {
   RideState() {
-    refresh();
-    autoRefresh();
+    // refresh();
+    // autoRefresh();
+
+    // init firbase messaging
+    firestore.initNotification();
+
+    // explore stream chaining
+    firestoreStreamSubscription = firestore.getRides().listen((data) {
+      allRides = data;
+      _controller
+          .add(dataPipeline(allRidesIndices, going: going, leaving: leaving));
+    });
   }
 
   final firestore = FirestoreService();
   final _controller = StreamController<List<int>>();
   Stream<List<int>> get fetchCards => _controller.stream;
+  late StreamSubscription<List<Ride>> firestoreStreamSubscription;
   List<Ride> allRides = [];
 
   bool? going;
@@ -25,7 +36,6 @@ class RideState extends ChangeNotifier {
 
   void setGoing(bool? value) {
     going = value;
-
     refresh();
   }
 
@@ -35,13 +45,19 @@ class RideState extends ChangeNotifier {
   }
 
   void book(int index) async {
-    allRides[index].book();
-    firestore.updateRide(allRides[index]);
+    // allRides[index].book();
+    Ride temp = allRides[index];
+    temp.book();
+    temp.occupySeat();
+    firestore.updateRide(temp);
     refresh();
   }
 
   void unbook(int index) async {
-    allRides[index].unbook();
+    // allRides[index].unbook();
+    Ride temp = allRides[index];
+    temp.unbook();
+    temp.vacateSeat();
     firestore.updateRide(allRides[index]);
     refresh();
   }
@@ -94,11 +110,14 @@ class RideState extends ChangeNotifier {
   @override
   void dispose() {
     _controller.close();
+    firestoreStreamSubscription.cancel();
     super.dispose();
   }
 }
 
-
+// firestore Stream
+// dataPipeline stream
+// controller stream
 
 
 

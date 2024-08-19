@@ -1,4 +1,6 @@
+import 'package:carpool/components/vehicle_card.dart';
 import 'package:flutter/material.dart';
+import 'package:hsv_color_pickers/hsv_color_pickers.dart';
 import 'components/seat_card.dart';
 
 class DriverBar extends StatefulWidget {
@@ -57,6 +59,8 @@ class _DriverBarState extends State<DriverBar> {
               const SizedBox(
                 height: 40,
               ),
+              const ChooseCar(),
+              // slider for change color
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -139,6 +143,54 @@ class VehicleInput extends StatelessWidget {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ChooseCar extends StatefulWidget {
+  const ChooseCar({super.key});
+
+  @override
+  State<ChooseCar> createState() => _ChooseCarState();
+}
+
+double hueColor = 0.0;
+
+class _ChooseCarState extends State<ChooseCar> {
+  @override
+  Widget build(BuildContext context) {
+    HSLColor color = HSLColor.fromAHSL(1.0, hueColor, 0.6, 0.8);
+    return Row(
+      children: [
+        ColorFiltered(
+          // reduce saturation
+          colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.modulate),
+          child: HuePicker(
+            initialColor: HSVColor.fromColor(color.toColor()),
+            onChanged: (color) {
+              setState(() {
+                // color = color.toColor() as HSVColor;
+                hueColor = color.hue;
+              });
+            },
+            trackHeight: 6,
+            thumbShape: const HueSliderThumbShape(
+              color: Colors.white,
+              // borderColor: Colors.black,
+              filled: false,
+              showBorder: true,
+            ),
+          ),
+        ),
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(color.toColor(), BlendMode.modulate),
+          child: Image.asset(
+            'assets/images/bike.png',
+            width: 80,
+            height: 80,
           ),
         ),
       ],

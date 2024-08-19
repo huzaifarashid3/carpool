@@ -21,21 +21,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Carpool',
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
-        useMaterial3: true,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => RideState()),
-          ChangeNotifierProvider(create: (context) => UserState()),
-          ChangeNotifierProvider(create: (context) => UiState()),
-        ],
-        child: const SafeArea(child: RidesPage()),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => RideState()),
+        ChangeNotifierProvider(create: (context) => UserState()),
+        ChangeNotifierProvider(create: (context) => UiState()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Carpool',
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+          useMaterial3: true,
+        ),
+        home: const SafeArea(child: RidesPage()),
         // child: FittedBox(
         //   child: SizedBox(
         //     width: 40,
