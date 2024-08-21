@@ -1,4 +1,3 @@
-import 'package:carpool/components/vehicle_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hsv_color_pickers/hsv_color_pickers.dart';
 import 'components/seat_card.dart';
