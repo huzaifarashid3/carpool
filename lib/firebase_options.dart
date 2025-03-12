@@ -23,20 +23,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -55,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '695547418942',
     projectId: 'carpool-25880',
     authDomain: 'carpool-25880.firebaseapp.com',
-    storageBucket: 'carpool-25880.appspot.com',
+    storageBucket: 'carpool-25880.firebasestorage.app',
     measurementId: 'G-D6RK86YCBJ',
   );
 
@@ -64,6 +55,35 @@ class DefaultFirebaseOptions {
     appId: '1:695547418942:android:c822352910d01a83c5346f',
     messagingSenderId: '695547418942',
     projectId: 'carpool-25880',
-    storageBucket: 'carpool-25880.appspot.com',
+    storageBucket: 'carpool-25880.firebasestorage.app',
   );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDO3QZPPwbZT47WPF_j5s1-3xWvS_3iy3I',
+    appId: '1:695547418942:ios:a71283cf387f7342c5346f',
+    messagingSenderId: '695547418942',
+    projectId: 'carpool-25880',
+    storageBucket: 'carpool-25880.firebasestorage.app',
+    iosBundleId: 'com.example.carpool',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDO3QZPPwbZT47WPF_j5s1-3xWvS_3iy3I',
+    appId: '1:695547418942:ios:a71283cf387f7342c5346f',
+    messagingSenderId: '695547418942',
+    projectId: 'carpool-25880',
+    storageBucket: 'carpool-25880.firebasestorage.app',
+    iosBundleId: 'com.example.carpool',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCPuvm6T5fwwNYue2-2Xf78oBOc5MNJk24',
+    appId: '1:695547418942:web:0e566f48efea5420c5346f',
+    messagingSenderId: '695547418942',
+    projectId: 'carpool-25880',
+    authDomain: 'carpool-25880.firebaseapp.com',
+    storageBucket: 'carpool-25880.firebasestorage.app',
+    measurementId: 'G-WVCZCB3BSH',
+  );
+
 }
