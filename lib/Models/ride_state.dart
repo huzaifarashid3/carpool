@@ -10,9 +10,6 @@ class RideState extends ChangeNotifier {
     // refresh();
     // autoRefresh();
 
-    // init firbase messaging
-    firestore.initNotification();
-
     // explore stream chaining
     firestoreStreamSubscription = firestore.getRides().listen((data) {
       allRides = data;

@@ -1,13 +1,10 @@
 import 'package:carpool/Models/ride_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   // get
   final CollectionReference ref =
       FirebaseFirestore.instance.collection('Rides');
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   // create
   Future<void> addRide(Ride ride) async {
@@ -56,22 +53,4 @@ class FirestoreService {
   }
 
   // notifcations
-  Future<void> initNotification() async {
-    // await _firebaseMessaging.requestPermission();
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    print('User granted permission: ${settings.authorizationStatus}');
-    final fcmToken = await _firebaseMessaging.getToken();
-    debugPrint(fcmToken);
-  }
-
-  // handle notifications
 }

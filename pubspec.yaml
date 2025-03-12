@@ -46,8 +46,6 @@ dependencies:
   cloud_firestore: ^4.14.0
   input_quantity: ^2.4.0
   hsv_color_pickers: ^0.3.0
-  firebase_messaging: ^14.7.10
-  cloud_functions: ^4.6.0
 
 dev_dependencies:
   flutter_test:
